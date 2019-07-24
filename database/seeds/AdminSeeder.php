@@ -1,10 +1,6 @@
 <?php
 
 use Illuminate\Database\Seeder;
-use App\City;
-use App\Role;
-use App\User;
-use App\Permission;
 
 class AdminSeeder extends Seeder
 {
@@ -15,24 +11,18 @@ class AdminSeeder extends Seeder
    */
   public function run()
   {
-    $user = User::whereUsername('admin')->first();
-    if (!$user) {
-      $user = User::create([
-        'username' => 'admin',
-        'first_name' => 'Administrador',
-        'last_name' => 'Administrador',
-        'password' => Hash::make('admin'),
-        'position' => 'Administrador',
-        'status' => 'active',
-        'city_id' => City::first()->id
-      ]);
-    }
+    $role = App\Role::firstOrCreate([
+      'name' => 'admin',
+      'display_name' => 'Administrador',
+      'description' => 'Rol administrador',
+    ]);
 
-    $role = Role::whereName('Administrador')->first();
+    $user = App\User::firstOrCreate([
+      'name' => 'Administrador',
+      'username' => 'admin',
+      'password' => bcrypt('admin'),
+    ]);
 
-    $user->roles()->sync($role);
-
-    $permisions = Permission::get()->toArray();
-    $role->attachPermissions($permisions);
+    $user->attachRole($role);
   }
 }

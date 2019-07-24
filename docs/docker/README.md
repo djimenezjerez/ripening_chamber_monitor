@@ -32,13 +32,13 @@ cd laradock
 * Up the compose with nginx server
 
 ```sh
-docker-compose up -d --build nginx php-fpm
+docker-compose up -d --build nginx php-fpm postgres mosquitto pgadmin
 ```
 
 * Instead you can use apache2 server
 
 ```sh
-docker-compose up -d --build apache2 php-fpm
+docker-compose up -d --build apache2 php-fpm postgres mosquitto pgadmin
 ```
 
 * To tail the logs

@@ -8,6 +8,7 @@ use App\Http\Requests\AuthForm;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use App\User;
+use App\UserAction;
 use Ldap;
 
 /** @resource Authenticate
@@ -36,7 +37,7 @@ class AuthController extends Controller
 
     $user = User::whereUsername($request['username'])->first();
     if ($user) {
-      if ($user->status != 'active') {
+      if (!$user->enabled) {
         return response()->json([
           'message' => 'No autorizado',
           'errors' => [
@@ -46,43 +47,18 @@ class AuthController extends Controller
       }
     }
 
-    if (!env("LDAP_AUTHENTICATION")) {
-      $token = auth('api')->attempt(request(['username', 'password']));
+    $token = auth('api')->attempt(request(['username', 'password']));
 
-      if ($token) {
-        return $this->respondWithToken($token);
-      }
+    if ($token) {
+      return $this->respondWithToken($token);
     } else {
-      $ldap = new Ldap();
-
-      if ($ldap->connection && $ldap->verify_open_port()) {
-        if ($ldap->bind($request['username'], $request['password'])) {
-          $user = User::where('username', $request['username'])->where('status', 'active')->first();
-          if ($user) {
-            if (!Hash::check($request['password'], $user->password)) {
-              $user->password = Hash::make($request['password']);
-              $user->save();
-            }
-            $token = auth('api')->login($user);
-            $ldap->unbind();
-            return $this->respondWithToken($token);
-          }
-        }
-        return response()->json([
-          'message' => 'No autorizado',
-          'errors' => [
-            'type' => ['Usuario o contraseña incorrectos'],
-          ],
-        ], 401);
-      }
+      return response()->json([
+        'message' => 'No autorizado',
+        'errors' => [
+          'type' => ['Usuario o contraseña incorrectos'],
+        ],
+      ], 401);
     }
-
-    return response()->json([
-      'message' => 'No autorizado',
-      'errors' => [
-        'type' => ['Usuario o contraseña incorrectos'],
-      ],
-    ], 401);
   }
 
   /**
@@ -135,10 +111,11 @@ class AuthController extends Controller
     $role = $user->roles[0]->name;
     $permissions = array_unique(array_merge($user->roles[0]->permissions->pluck('name')->toArray(), $user->permissions->pluck('name')->toArray()));
 
-    if ($user) {
-      $ip = request()->ip();
-      \Log::info("Usuario $username autenticado desde la dirección $ip");
-    }
+    $ip = request()->ip();
+    UserAction::create([
+      'user_id' => $user->id,
+      'action' => "Usuario $username autenticado desde la dirección $ip"
+    ]);
 
     return response()->json([
       'token' => $token,

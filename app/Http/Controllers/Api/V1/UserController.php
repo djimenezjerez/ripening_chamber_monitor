@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api\V1;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
-use Illuminate\Http\Requests\UserForm;
+use App\Http\Requests\UserForm;
 use Illuminate\Http\Request;
 use App\User;
 
@@ -28,8 +28,8 @@ class UserController extends Controller
         });
       }
     }
-    if ($request->has('status')) {
-      $users = $users->whereStatus($request->input('status'));
+    if ($request->has('enabled')) {
+      $users = $users->whereEnabled(json_decode($request->input('enabled'), true));
     }
     if ($request->has('sortBy')) {
       if ($request->sortBy != 'null') {
@@ -37,7 +37,6 @@ class UserController extends Controller
       }
     }
     return $users->paginate($request->input('per_page') ?? 10);
-    // return response()->json(['sql' => $users->toSql()]);
   }
 
   /**

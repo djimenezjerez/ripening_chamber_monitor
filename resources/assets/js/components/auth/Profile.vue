@@ -24,7 +24,7 @@
           {{ $store.getters.name }}
         </v-flex>
       </v-card-title>
-      <v-card-text v-if="!$store.getters.ldapAuth || this.$store.getters.user == 'admin'">
+      <v-card-text>
         <span class="info--text">Cambiar Contraseña</span>
         <v-flex xs3>
           <v-form>
@@ -64,7 +64,7 @@
           </v-form>
         </v-flex>
       </v-card-text>
-      <v-card-actions v-if="!$store.getters.ldapAuth || this.$store.getters.user == 'admin'">
+      <v-card-actions>
         <v-flex xs3>
           <v-btn
             @click="changePassword(auth)"
@@ -72,7 +72,9 @@
             large
             block
             color="success"
-          > Cambiar Contraseña </v-btn>
+            :disabled="disableButton"
+            v-text="disableButton ? 'LAS CONTRASEÑAS NO COINCIDEN' : 'CAMBIAR CONTRASEÑA'"
+          ></v-btn>
         </v-flex>
       </v-card-actions>
     </v-card>
@@ -87,30 +89,35 @@ export default {
       auth: {
         oldPassword: "",
         newPassword: "",
-        confirmPassword: ""
+        confirmPassword: null
       }
-    };
+    }
+  },
+  computed: {
+    disableButton: function() {
+      return (this.auth.newPassword !== this.auth.confirmPassword || this.auth.newPassword == null || this.auth.newPassword == '')
+    }
   },
   methods: {
     focusPassword(key) {
-      this.$refs[key].focus();
+      this.$refs[key].focus()
     },
     async changePassword(auth) {
       try {
         if (await this.$validator.validateAll()) {
-          if (this.auth.newPassword != this.auth.confirmPassword) {
-            this.auth.newPassword = "";
-            this.auth.confirmPassword = "";
-            this.focusPassword("newPassword");
-            this.toastr.error("Las contraseñas no coinciden");
+          if (this.auth.newPassword !== this.auth.confirmPassword) {
+            this.auth.newPassword = ""
+            this.auth.confirmPassword = ""
+            this.focusPassword("newPassword")
+            this.toastr.error("Las contraseñas no coinciden")
           } else {
             await axios.patch(
               `/user/${this.$store.getters.id}`,
               this.auth
-            );
-            this.toastr.success("Contraseña actualizada correctamente");
-            this.$store.dispatch("logout");
-            this.$router.push("login");
+            )
+            this.toastr.success("Contraseña actualizada correctamente")
+            this.$store.dispatch("logout")
+            this.$router.push("login")
           }
         }
       } catch (e) {
@@ -118,10 +125,10 @@ export default {
           oldPassword: "",
           newPassword: "",
           confirmPassword: ""
-        };
-        this.focusPassword("oldPassword");
+        }
+        this.focusPassword("oldPassword")
       }
     }
   }
-};
+}
 </script>

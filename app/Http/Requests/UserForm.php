@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use App\User;
 
 class UserForm extends FormRequest
@@ -14,6 +16,18 @@ class UserForm extends FormRequest
    */
   public function authorize()
   {
+    if (in_array($this->method(), ['PUT', 'PATCH'])) {
+      $user = User::find($this->route()->parameters()['user']);
+      $authenticated = Auth::user();
+
+      if ($user) {
+        if ($authenticated->can('update-user') || $user->id==$authenticated->id) {
+          return true;
+        }
+      }
+      return false;
+    }
+
     return true;
   }
 
@@ -47,19 +61,16 @@ class UserForm extends FormRequest
     $this->sanitize();
 
     $rules = [
-      'city_id' => 'exists:cities,id',
-      'first_name' => 'alpha|min:3',
-      'last_name' => 'alpha|min:3',
-      'phone' => 'integer|min:7|max:8',
-      'username' => 'string|min:3|unique:users,username',
-      'password' => 'string|min:3',
-      'position' => 'nullable|string',
-      'gender' => 'nullable|in:M,F'
+      'password' => 'string|min:4',
+      'username' => 'string|min:4|unique:users,username',
+      'name' => 'string|min:4',
+      'phone' => 'nullable|integer|min:7|max:8',
+      'charge' => 'nullable|string'
     ];
 
     switch ($this->method()) {
       case 'POST': {
-          foreach (array_slice($rules, 0, 6) as $key => $rule) {
+          foreach (array_slice($rules, 0, 3) as $key => $rule) {
             $rules[$key] = implode('|', ['required', $rule]);
           }
           return $rules;
@@ -75,13 +86,9 @@ class UserForm extends FormRequest
   {
     return [
       'required' => 'El campo es requerido',
-      'alpha' => 'El campo solo puede contener letras',
       'string' => 'El campo solo puede contener letras y números',
-      'exists' => 'El registro no existe',
       'unique' => 'El registro ya existe',
-      'in' => 'Opción inválida',
-      'first_name.min' => 'El nombre debe contener al menos 3 caracteres',
-      'last_name.min' => 'El apellido debe contener al menos 3 caracteres',
+      'name.min' => 'El nombre debe contener al menos 4 caracteres',
       'username.min' => 'El nombre de usuario debe contener al menos 3 caracteres',
       'password.min' => 'La contraseña debe contener al menos 3 caracteres',
       'phone.min' => 'El teléfono debe contener al menos 7 caracteres',
@@ -93,11 +100,10 @@ class UserForm extends FormRequest
   {
     $input = $this->all();
 
-    if (array_key_exists('gender', $input)) $input['gender'] = mb_strtoupper($input['gender']);
+    if (array_key_exists('name', $input)) $input['name'] = mb_strtoupper($input['name']);
     if (array_key_exists('username', $input)) $input['username'] = mb_strtolower($input['username']);
-    if (array_key_exists('first_name', $input)) $input['first_name'] = mb_strtoupper($input['first_name']);
-    if (array_key_exists('last_name', $input)) $input['last_name'] = mb_strtoupper($input['last_name']);
-    if (array_key_exists('position', $input)) $input['position'] = mb_strtoupper($input['position']);
+    if (array_key_exists('charge', $input)) $input['charge'] = mb_strtoupper($input['charge']);
+    if (array_key_exists('newPassword', $input)) $input['password'] = Hash::make($input['newPassword']);
 
     $this->replace($input);
   }

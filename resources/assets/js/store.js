@@ -6,7 +6,6 @@ export default {
     user: localStorage.getItem('user') || null,
     role: localStorage.getItem('role') || null,
     permissions: localStorage.getItem('permissions') || null,
-    ldapAuth: JSON.parse(process.env.MIX_LDAP_AUTHENTICATION),
     dateNow: moment().format('Y-MM-DD'),
     token: {
       type: localStorage.getItem('token_type') || null,
@@ -14,9 +13,6 @@ export default {
     }
   },
   getters: {
-    ldapAuth(state) {
-      return state.ldapAuth
-    },
     id(state) {
       return JSON.parse(state.id)
     },

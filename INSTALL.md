@@ -1,13 +1,11 @@
-# PLATAFORMA VIRTUAL DE TRÁMITES
+# RIPENING CHAMBER MONITOR
 
 ## Requirements
 
-* (Optional) LDAP server to authenticate users
-* PHP 7.1.22 (with `LDAP, GD, PGSQL, PDO_PGSQL, MBSTRING, MYSQL, XML, ZIP` modules enabled)
+* PHP 7.3 (with `GD, PGSQL, PDO_PGSQL, MBSTRING, XML, ZIP` modules enabled)
 * Node.js 10.16.0
-* NPM 6.9.0 or Yarn 1.16.0
-* PostgreSQL 10.4
-* Platform Database based [on this project](https://github.com/MUTUAL-DE-SERVICIOS-AL-POLICIA/PVT-BE)
+* NPM 6.9.0 or Yarn 1.17.3
+* PostgreSQL 11.4
 
 ## Install
 
@@ -28,8 +26,8 @@ fc-match "Roboto Mono"
 * Clone the project
 
 ```sh
-git clone https://github.com/MUTUAL-DE-SERVICIOS-AL-POLICIA/PVT.git
-cd PVT
+git clone https://github.com/djimenezjerez/ripening_chamber_monitor.git
+cd ripening_chamber_monitor
 git fetch --tags
 latestVersion=$(git describe --tags `git rev-list --tags --max-count=1`)
 git checkout $latestVersion
@@ -40,7 +38,6 @@ git checkout $latestVersion
 ```sh
 composer run-script post-root-package-install
 composer install
-yarn
 ```
 
 * Edit `.env` file with database credentials and established manteinance modes

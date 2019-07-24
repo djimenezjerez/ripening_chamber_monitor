@@ -16,7 +16,8 @@ class DateController extends Controller
   public function show()
   {
     return response()->json([
-      'now' => Carbon::now()->format('Y-m-d'),
+      'date' => Carbon::now()->format('Y-m-d'),
+      'time' => Carbon::now()->format('H:m:s'),
     ]);
   }
 }

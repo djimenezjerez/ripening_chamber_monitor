@@ -1,6 +1,6 @@
-# PLATAFORMA VIRTUAL DE TRÁMITES - MÓDULO DE PRÉSTAMOS
+# MONITOR DE CÁMARAS DE MADURACIÓN
 
-Sistema de administración y gestión de préstamos.
+Sistema de monitoreo de parámetros ambientales en cámaras de maduración.
 
 ### Documentación
 

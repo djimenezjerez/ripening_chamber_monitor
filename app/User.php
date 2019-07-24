@@ -22,14 +22,14 @@ class User extends Authenticatable implements JWTSubject
    *
    * @var array
    */
-  protected $fillable = ['city_id', 'first_name', 'last_name', 'phone', 'username', 'password', 'status', 'position', 'gender', 'is_commission'];
+  protected $fillable = ['name', 'username', 'password', 'phone', 'charge', 'enabled'];
 
   /**
    * The attributes that should be hidden for arrays.
    *
    * @var array
    */
-  protected $hidden = ['password', 'remember_token'];
+  protected $hidden = ['password'];
 
   /**
    * Get the identifier that will be stored in the subject claim of the JWT.
@@ -51,11 +51,6 @@ class User extends Authenticatable implements JWTSubject
     return [];
   }
 
-  public function city()
-  {
-    return $this->belongsTo(City::class);
-  }
-
   public function roles()
   {
     return $this->belongsToMany(Role::class);
@@ -63,6 +58,11 @@ class User extends Authenticatable implements JWTSubject
 
   public function permissions()
   {
-    return $this->belongsToMany(Permission::class, 'user_permissions');
+    return $this->belongsToMany(Permission::class, 'permission_user');
+  }
+
+  public function actions()
+  {
+    return $this->hasMany(UserAction::class);
   }
 }

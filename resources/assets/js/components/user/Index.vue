@@ -1,20 +1,13 @@
 <template>
   <v-container fluid>
     <v-toolbar>
-      <v-toolbar-title v-if="$store.getters.ldapAuth">
-        <v-select
-          :items="['Usuarios', 'LDAP']"
-          v-model="viewType"
-          class="title font-weight-medium"
-        ></v-select>
-      </v-toolbar-title>
-      <v-toolbar-title v-else>Usuarios</v-toolbar-title>
+      <v-toolbar-title>Usuarios</v-toolbar-title>
       <v-spacer></v-spacer>
       <template v-if="viewType == 'Usuarios'">
-        <v-btn  @click="status = 'active'" :class="this.status == 'active' ? 'primary' : 'normal'" class="mr-0">
+        <v-btn  @click="enabled = true" :class="this.enabled ? 'primary' : 'normal'" class="mr-0">
           <div class="font-weight-regular subheading pa-2 white--text">ACTIVOS</div>
         </v-btn>
-        <v-btn  @click="status = 'inactive'" :class="this.status == 'inactive' ? 'primary' : 'normal'" class="mr-3">
+        <v-btn  @click="enabled = false" :class="!this.enabled ? 'primary' : 'normal'" class="mr-3">
           <div class="font-weight-regular subheading pa-2 white--text">INACTIVOS</div>
         </v-btn>
       </template>
@@ -37,36 +30,33 @@
     </v-toolbar>
     <v-card>
       <v-card-text>
-        <LdapUsers v-if="viewType == 'LDAP'" :bus="bus"/>
-        <DatabaseUsers v-else :bus="bus"/>
+        <DatabaseUsers :bus="bus"/>
       </v-card-text>
     </v-card>
   </v-container>
 </template>
 <script>
+import _ from 'lodash'
 import Vue from 'vue'
 import DatabaseUsers from './DatabaseUsers'
-import LdapUsers from './LdapUsers'
-import _ from 'lodash'
 
 export default {
   name: "userIndex",
   components: {
-    DatabaseUsers,
-    LdapUsers
+    DatabaseUsers
   },
   data: () => ({
     viewType: 'Usuarios',
     search: '',
     bus: new Vue(),
-    status: 'active'
+    enabled: 'active'
   }),
   watch: {
     search: _.debounce(function () {
       this.bus.$emit('search', this.search)
     }, 1000),
-    status: function() {
-      this.bus.$emit('status', this.status)
+    enabled: function() {
+      this.bus.$emit('enabled', this.enabled)
     }
   }
 }

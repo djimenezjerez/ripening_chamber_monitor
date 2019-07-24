@@ -8,10 +8,10 @@
     :rows-per-page-items="[10,20,30]"
   >
     <template v-slot:items="props">
-      <td class="text-xs-left">{{ props.item.username }}</td>
-      <td class="text-xs-left">{{ props.item.first_name }}</td>
-      <td class="text-xs-left">{{ props.item.last_name }}</td>
-      <td class="text-xs-left">{{ props.item.position }}</td>
+      <td class="text-xs-center">{{ props.item.name }}</td>
+      <td class="text-xs-center">{{ props.item.username }}</td>
+      <td class="text-xs-center">{{ props.item.charge }}</td>
+      <td class="text-xs-center">{{ props.item.phone }}</td>
     </template>
   </v-data-table>
 </template>
@@ -23,7 +23,7 @@ export default {
   data: () => ({
     loading: true,
     search: '',
-    status: 'active',
+    enabled: true,
     pagination: {
       page: 1,
       rowsPerPage: 10,
@@ -33,10 +33,10 @@ export default {
     users: [],
     totalUsers: 0,
     headers: [
-      { text: 'Usuario', value: 'username', sortable: false },
-      { text: 'Nombre', value: 'first_name', sortable: false },
-      { text: 'Apellido', value: 'last_name', sortable: false },
-      { text: 'Cargo', value: 'position', sortable: false }
+      { text: 'Nombre', value: 'name', align: 'center', sortable: true },
+      { text: 'Usuario', value: 'username', align: 'center', sortable: true },
+      { text: 'Cargo', value: 'charge', align: 'center', sortable: true },
+      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true }
     ]
   }),
   watch: {
@@ -50,7 +50,7 @@ export default {
         this.getUsers()
       }
     },
-    status: function(newVal, oldVal) {
+    enabled: function(newVal, oldVal) {
       if (newVal != oldVal) {
         this.getUsers()
       }
@@ -60,8 +60,8 @@ export default {
     this.bus.$on('search', val => {
       this.search = val
     })
-    this.bus.$on('status', val => {
-      this.status = val
+    this.bus.$on('enabled', val => {
+      this.enabled = val
     })
     this.getUsers()
   },
@@ -74,7 +74,7 @@ export default {
             per_page: this.pagination.rowsPerPage,
             sortBy: this.pagination.sortBy,
             direction: this.pagination.descending ? 'desc' : 'asc',
-            status: this.status,
+            enabled: this.enabled,
             search: this.search
           }
         })

@@ -130,12 +130,12 @@ export default {
       if (process.env.NODE_ENV == 'production') {
         return {
           color: `error white--text`,
-          text: `PLATAFORMA VIRTUAL DE TRÁMITES (VERSIÓN DE PRUEBA)`
+          text: `MONITOREO DE CÁMARAS DE MADURACIÓN (VERSIÓN DE PRUEBA)`
         }
       } else {
         return {
           color: `primary white--text`,
-          text: `PLATAFORMA VIRTUAL DE TRÁMITES`
+          text: `MONITOREO DE CÁMARAS DE MADURACIÓN`
         }
       }
     }

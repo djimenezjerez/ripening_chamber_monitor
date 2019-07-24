@@ -9,7 +9,7 @@
             contain
           ></v-img>
           <v-card-title primary-title class="justify-center">
-            <div class="display-1 font-weight-thin text-md-center">PLATAFORMA VIRTUAL DE TRÁMITES</div>
+            <div class="display-1 font-weight-thin text-md-center">MONITOREO DE CÁMARAS DE MADURACIÓN</div>
           </v-card-title>
           <v-form>
             <v-text-field

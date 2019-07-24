@@ -167,12 +167,12 @@ return [
         /**
          * Permission - User intermediate table.
          */
-        'permission_user' => 'user_permissions',
+        'permission_user' => 'permission_user',
 
         /**
          * Permission - Role intermediate table.
          */
-        'permission_role' => 'role_permissions',
+        'permission_role' => 'permission_role',
 
     ],
 

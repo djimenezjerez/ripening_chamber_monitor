@@ -13,5 +13,5 @@ php artisan clear-compiled
 
 # Update notification
 if type "notify-send" > /dev/null; then
-  notify-send 'PVT MODULE' 'Updated'
+  notify-send 'ARDUINO MODULE' 'Updated'
 fi

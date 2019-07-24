@@ -13,7 +13,7 @@ return [
   |
   */
 
-  'default' => env('DB_CONNECTION', 'platform'),
+  'default' => env('DB_CONNECTION', 'arduino'),
 
   /*
   |--------------------------------------------------------------------------
@@ -32,11 +32,11 @@ return [
   */
 
   'connections' => [
-    'platform' => [
+    'arduino' => [
       'driver' => 'pgsql',
       'host' => env('DB_HOST', '127.0.0.1'),
       'port' => env('DB_PORT', '5432'),
-      'database' => env('DB_DATABASE', 'db'),
+      'database' => env('DB_DATABASE', 'monitor'),
       'username' => env('DB_USERNAME', 'admin'),
       'password' => env('DB_PASSWORD', 'admin'),
       'charset' => 'utf8',

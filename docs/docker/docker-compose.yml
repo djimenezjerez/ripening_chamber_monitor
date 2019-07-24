@@ -659,6 +659,7 @@ services:
       networks:
         - frontend
         - backend
+      restart: always
 
 ### ElasticSearch ########################################
     elasticsearch:
@@ -733,6 +734,7 @@ services:
       networks:
         - frontend
         - backend
+      restart: always
 
 ### MailDev ##############################################
     maildev:
@@ -743,6 +745,7 @@ services:
       networks:
         - frontend
         - backend
+      restart: always
 
 ### Selenium ###############################################
     selenium:
@@ -1304,6 +1307,7 @@ services:
       command: ["sh", "-c", "echo ${MAILU_INIT_ADMIN_USERNAME}@${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} ;python manage.py advertise ; python manage.py db upgrade ; python manage.py admin ${MAILU_INIT_ADMIN_USERNAME} ${MAILU_DOMAIN} ${MAILU_INIT_ADMIN_PASSWORD} || true;sed -i -- \"s/= Off/= On/g\" /webmail/_data_/_default_/configs/config.ini || true;if grep -Fq \"registration_link_url\" /webmail/_data_/_default_/configs/config.ini;then echo Already set!;else echo \"\" >> /webmail/_data_/_default_/configs/config.ini; echo \"[login]\" >> /webmail/_data_/_default_/configs/config.ini;echo \"registration_link_url = '${MAILU_WEBSITE}${MAILU_WEB_ADMIN}/ui/user/signup'\" >> /webmail/_data_/_default_/configs/config.ini;fi"]
       networks:
         - backend
+      restart: always
     mailu-front:
       image: mailu/nginx:${MAILU_VERSION}
       environment:
@@ -1330,6 +1334,7 @@ services:
         backend:
           aliases:
             - front
+      restart: always
     mailu-imap:
       image: mailu/dovecot:${MAILU_VERSION}
       environment:
@@ -1348,6 +1353,7 @@ services:
         backend:
           aliases:
             - imap
+      restart: always
     mailu-smtp:
       image: mailu/postfix:${MAILU_VERSION}
       environment:
@@ -1366,6 +1372,7 @@ services:
         backend:
           aliases:
             - smtp
+      restart: always
     mailu-antispam:
       image: mailu/rspamd:${MAILU_VERSION}
       volumes:
@@ -1378,6 +1385,7 @@ services:
         backend:
           aliases:
             - antispam
+      restart: always
     mailu-antivirus:
       image: mailu/clamav:${MAILU_VERSION}
       volumes:
@@ -1386,6 +1394,7 @@ services:
         backend:
           aliases:
             - antivirus
+      restart: always
     mailu-webdav:
       image: mailu/${MAILU_WEBDAV}:${MAILU_VERSION}
       volumes:
@@ -1394,6 +1403,7 @@ services:
         backend:
           aliases:
             - webdav
+      restart: always
     mailu-admin:
       image: mailu/admin:${MAILU_VERSION}
       environment:
@@ -1427,6 +1437,7 @@ services:
         backend:
           aliases:
             - admin
+      restart: always
     mailu-webmail:
       image: "mailu/${MAILU_WEBMAIL}:${MAILU_VERSION}"
       volumes:
@@ -1435,6 +1446,7 @@ services:
         backend:
           aliases:
             - webmail
+      restart: always
     mailu-fetchmail:
       image: mailu/fetchmail:${MAILU_VERSION}
       environment:
@@ -1445,6 +1457,7 @@ services:
         backend:
           aliases:
             - fetchmail
+      restart: always
 
 ### TRAEFIK #########################################
     traefik:
@@ -1475,6 +1488,7 @@ services:
       networks:
         - frontend
         - backend
+      restart: always
 
 ### COUCHDB ###################################################
     couchdb:

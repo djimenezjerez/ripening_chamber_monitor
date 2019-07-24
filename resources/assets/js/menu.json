@@ -8,19 +8,19 @@
   }, {
     "title": "Acceso",
     "icon": "vpn_key",
-    "permission": "Administrador",
+    "permission": "read-user",
     "group": [
       {
         "href": "userIndex",
         "title": "Usuarios",
         "icon": "group_add",
-        "permission": "Administrador",
+        "permission": "read-user",
         "params": {}
       }, {
         "href": "roleIndex",
         "title": "Roles",
         "icon": "security",
-        "permission": "Administrador",
+        "permission": "read-role",
         "params": {}
       }
     ]
