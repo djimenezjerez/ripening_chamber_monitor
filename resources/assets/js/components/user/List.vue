@@ -8,21 +8,30 @@
     :rows-per-page-items="[10,20,30]"
   >
     <template v-slot:items="props">
-      <td class="text-xs-left">{{ props.item.uid }}</td>
-      <td class="text-xs-left">{{ props.item.givenName }}</td>
-      <td class="text-xs-left">{{ props.item.sn }}</td>
-      <td class="text-xs-left">{{ props.item.title }}</td>
+      <td class="text-xs-center">{{ props.item.name }}</td>
+      <td class="text-xs-center">{{ props.item.username }}</td>
+      <td class="text-xs-center">{{ props.item.charge }}</td>
+      <td class="text-xs-center">{{ props.item.phone }}</td>
+      <td class="text-xs-center">
+        <v-btn icon text @click.native="bus.$emit('edit', props.item)">
+          <v-tooltip top>
+            <v-icon color="info" slot="activator">edit</v-icon>
+            <span>Editar</span>
+          </v-tooltip>
+        </v-btn>
+      </td>
     </template>
   </v-data-table>
 </template>
 
 <script>
 export default {
-  name: 'ldapUsers',
+  name: 'List',
   props: ['bus'],
   data: () => ({
     loading: true,
     search: '',
+    enabled: true,
     pagination: {
       page: 1,
       rowsPerPage: 10,
@@ -32,10 +41,11 @@ export default {
     users: [],
     totalUsers: 0,
     headers: [
-      { text: 'Usuario', value: 'uid', sortable: true },
-      { text: 'Nombre', value: 'givenName', sortable: true },
-      { text: 'Apellido', value: 'sn', sortable: true },
-      { text: 'Cargo', value: 'title', sortable: true }
+      { text: 'Nombre', value: 'name', align: 'center', sortable: true },
+      { text: 'Usuario', value: 'username', align: 'center', sortable: true },
+      { text: 'Cargo', value: 'charge', align: 'center', sortable: true },
+      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true },
+      { text: 'Acciones', value: 'id', align: 'center', sortable: false }
     ]
   }),
   watch: {
@@ -48,24 +58,35 @@ export default {
       if (newVal != oldVal) {
         this.getUsers()
       }
+    },
+    enabled: function(newVal, oldVal) {
+      if (newVal != oldVal) {
+        this.getUsers()
+      }
     }
   },
   mounted() {
     this.bus.$on('search', val => {
       this.search = val
     })
+    this.bus.$on('enabled', val => {
+      this.enabled = val
+    })
+    this.bus.$on('refresh', () => {
+      this.getUsers()
+    })
     this.getUsers()
   },
   methods: {
     async getUsers(params) {
       try {
-        let res = await axios.get(`ldap`, {
+        let res = await axios.get(`user`, {
           params: {
             page: this.pagination.page,
             per_page: this.pagination.rowsPerPage,
             sortBy: this.pagination.sortBy,
             direction: this.pagination.descending ? 'desc' : 'asc',
-            status: this.status,
+            enabled: this.enabled,
             search: this.search
           }
         })

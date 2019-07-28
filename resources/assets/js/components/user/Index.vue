@@ -27,23 +27,33 @@
           clearable
         ></v-text-field>
       </v-flex>
+      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)">
+        <v-tooltip top>
+          <v-icon slot="activator">add</v-icon>
+          <span>Nuevo usuario</span>
+        </v-tooltip>
+      </v-btn>
     </v-toolbar>
     <v-card>
       <v-card-text>
-        <DatabaseUsers :bus="bus"/>
+        <List :bus="bus"/>
       </v-card-text>
     </v-card>
+    <Edit :bus="bus"/>
   </v-container>
 </template>
+
 <script>
 import _ from 'lodash'
 import Vue from 'vue'
-import DatabaseUsers from './DatabaseUsers'
+import List from './List'
+import Edit from './Edit'
 
 export default {
   name: "userIndex",
   components: {
-    DatabaseUsers
+    List,
+    Edit
   },
   data: () => ({
     viewType: 'Usuarios',
