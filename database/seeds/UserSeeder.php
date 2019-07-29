@@ -11,12 +11,12 @@ class UserSeeder extends Seeder
 	 */
 	public function run()
 	{
-		$user = App\User::create([
+		$user = App\User::firstOrCreate([
 			'username' => 'admin',
 			'password' => bcrypt('admin'),
 		]);
 
-		$role = App\Role::create([
+		$role = App\Role::firstOrCreate([
 			'name' => 'admin',
 			'display_name' => 'Administrador',
 			'description' => 'Administrador',
@@ -24,13 +24,13 @@ class UserSeeder extends Seeder
 
 		$user->attachRole($role);
 
-		$role = App\Role::create([
+		$role = App\Role::firstOrCreate([
 			'name' => 'chief',
 			'display_name' => 'Responsable',
 			'description' => 'Gestión del sistema',
 		]);
 
-		$role = App\Role::create([
+		$role = App\Role::firstOrCreate([
 			'name' => 'monitor',
 			'display_name' => 'Monitor',
 			'description' => 'Monitoreo de parámetros',

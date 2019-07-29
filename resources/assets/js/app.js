@@ -117,4 +117,14 @@ Validator.localize('es', es)
 if (store.getters.tokenExpired) {
   store.dispatch('logout')
   router.go('login')
+} else {
+  if (store.getters.id) {
+    axios.patch(`auth/${store.getters.id}`)
+    .then((res) => {
+      store.commit('login', res.data)
+    })
+    .catch((e) => {
+      console.log(e)
+    })
+  }
 }

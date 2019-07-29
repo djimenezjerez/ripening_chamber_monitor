@@ -5,7 +5,7 @@ Route::group([
   'prefix' => 'v1',
 ], function () {
   // Login
-  Route::resource('auth', 'Api\V1\AuthController')->only(['store']);
+  Route::resource('auth', 'Api\V1\AuthController')->only(['store', 'update']);
   Route::resource('date', 'Api\V1\DateController')->only(['show']);
 
   // With credentials
@@ -13,7 +13,7 @@ Route::group([
     'middleware' => 'jwt.auth'
   ], function () {
     // Logout and refresh token
-    Route::resource('auth', 'Api\V1\AuthController')->only(['show', 'update', 'destroy']);
+    Route::resource('auth', 'Api\V1\AuthController')->only(['show', 'destroy']);
     Route::resource('user', 'Api\V1\UserController')->only(['update']);
 
     // ADMIN routes
