@@ -12,13 +12,21 @@
       <td class="text-xs-center">{{ props.item.username }}</td>
       <td class="text-xs-center">{{ props.item.charge }}</td>
       <td class="text-xs-center">{{ props.item.phone }}</td>
+      <td class="text-xs-center">
+        <v-btn icon text @click.native="bus.$emit('edit', props.item)">
+          <v-tooltip top>
+            <v-icon color="info" slot="activator">edit</v-icon>
+            <span>Editar</span>
+          </v-tooltip>
+        </v-btn>
+      </td>
     </template>
   </v-data-table>
 </template>
 
 <script>
 export default {
-  name: 'databaseUsers',
+  name: 'List',
   props: ['bus'],
   data: () => ({
     loading: true,
@@ -36,7 +44,8 @@ export default {
       { text: 'Nombre', value: 'name', align: 'center', sortable: true },
       { text: 'Usuario', value: 'username', align: 'center', sortable: true },
       { text: 'Cargo', value: 'charge', align: 'center', sortable: true },
-      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true }
+      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true },
+      { text: 'Acciones', value: 'id', align: 'center', sortable: false }
     ]
   }),
   watch: {
@@ -62,6 +71,9 @@ export default {
     })
     this.bus.$on('enabled', val => {
       this.enabled = val
+    })
+    this.bus.$on('refresh', () => {
+      this.getUsers()
     })
     this.getUsers()
   },
