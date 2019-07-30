@@ -4,7 +4,7 @@ export default {
   state: {
     id: localStorage.getItem('id') || null,
     user: localStorage.getItem('user') || null,
-    role: localStorage.getItem('role') || null,
+    roles: localStorage.getItem('roles') || null,
     permissions: localStorage.getItem('permissions') || null,
     dateNow: moment().format('Y-MM-DD'),
     token: {
@@ -19,8 +19,8 @@ export default {
     user(state) {
       return JSON.parse(state.user)
     },
-    role(state) {
-      return JSON.parse(state.role)
+    roles(state) {
+      return JSON.parse(state.roles)
     },
     permissions(state) {
       return JSON.parse(state.permissions)
@@ -47,12 +47,12 @@ export default {
       localStorage.removeItem('user')
       localStorage.removeItem('token')
       localStorage.removeItem('token_type')
-      localStorage.removeItem('role')
+      localStorage.removeItem('roles')
       localStorage.removeItem('id')
       localStorage.removeItem('permissions')
       state.id = null
       state.user = null
-      state.role = null
+      state.roles = null
       state.permissions = null
     },
     'login': function (state, data) {
@@ -60,11 +60,11 @@ export default {
       localStorage.setItem("token_type", data.token_type);
       localStorage.setItem("id", JSON.stringify(data.id));
       localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("role", JSON.stringify(data.role));
+      localStorage.setItem("roles", JSON.stringify(data.roles));
       localStorage.setItem("permissions", JSON.stringify(data.permissions));
       state.user = localStorage.getItem('id');
       state.user = localStorage.getItem('user');
-      state.role = localStorage.getItem('role');
+      state.roles = localStorage.getItem('roles');
       state.permissions = localStorage.getItem('permissions');
       state.token = {
         type: localStorage.getItem('token_type'),

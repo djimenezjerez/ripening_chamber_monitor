@@ -29,7 +29,7 @@
         <v-flex xs3>
           <v-form>
             <v-text-field
-              v-validate="'required|min:5|max:255'"
+              v-validate="'required|min:4'"
               v-model="auth.oldPassword"
               label="Contraseña Anterior"
               type="password"
@@ -40,7 +40,7 @@
               @keyup.enter="focusPassword('newPassword')"
             ></v-text-field>
             <v-text-field
-              v-validate="'required|min:5|max:255'"
+              v-validate="'required|min:4'"
               v-model="auth.newPassword"
               label="Contraseña Nueva"
               type="password"
@@ -51,7 +51,7 @@
               @keyup.enter="focusPassword('confirmPassword')"
             ></v-text-field>
             <v-text-field
-              v-validate="'required|min:5|max:255'"
+              v-validate="'required|min:4'"
               v-model="auth.confirmPassword"
               label="Repita la Contraseña"
               type="password"
@@ -106,27 +106,27 @@ export default {
       try {
         if (await this.$validator.validateAll()) {
           if (this.auth.newPassword !== this.auth.confirmPassword) {
-            this.auth.newPassword = ""
-            this.auth.confirmPassword = ""
-            this.focusPassword("newPassword")
-            this.toastr.error("Las contraseñas no coinciden")
+            this.auth.newPassword = ''
+            this.auth.confirmPassword = ''
+            this.focusPassword('newPassword')
+            this.toastr.error('Las contraseñas no coinciden')
           } else {
             await axios.patch(
               `/user/${this.$store.getters.id}`,
               this.auth
             )
-            this.toastr.success("Contraseña actualizada correctamente")
-            this.$store.dispatch("logout")
-            this.$router.push("login")
+            this.toastr.success('Contraseña actualizada correctamente')
+            this.$store.dispatch('logout')
+            this.$router.push('login')
           }
         }
       } catch (e) {
         this.auth = {
-          oldPassword: "",
-          newPassword: "",
-          confirmPassword: ""
+          oldPassword: '',
+          newPassword: '',
+          confirmPassword: ''
         }
-        this.focusPassword("oldPassword")
+        this.focusPassword('oldPassword')
       }
     }
   }

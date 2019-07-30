@@ -51,27 +51,6 @@
                   :error-messages="errors.collect('Teléfono')"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs6 pr-4>
-                <v-text-field
-                  v-model="user.password"
-                  type="password"
-                  ref="password"
-                  label="Contraseña"
-                  v-validate="passwordRules"
-                  data-vv-name="Contraseña"
-                  :error-messages="errors.collect('Contraseña')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs6 pl-4>
-                <v-text-field
-                  v-model="user.passwordConfirm"
-                  type="password"
-                  label="Confirmar Contraseña"
-                  v-validate="passwordRules"
-                  data-vv-name="Confirmar Contraseña"
-                  :error-messages="errors.collect('Confirmar Contraseña')"
-                ></v-text-field>
-              </v-flex>
               <v-flex xs12 v-if="user.id">
                 <v-switch
                   v-model="user.enabled"
@@ -110,15 +89,6 @@ export default {
     user: {},
     title: ''
   }),
-  computed: {
-    passwordRules() {
-      if ((this.user.password != null && this.user.password != '') || this.user.id == null) {
-        return 'required|min:4'
-      } else {
-        return ''
-      }
-    }
-  },
   mounted() {
     this.bus.$on('edit', val => {
       this.show = true
@@ -127,7 +97,6 @@ export default {
         this.title = 'Añadir usuario'
       } else {
         this.user = val
-        this.user.passwordConfirm = null
         this.title = 'Editar usuario'
       }
     })
@@ -141,26 +110,18 @@ export default {
     },
     async save() {
       try {
-        let valid = await this.$validator.validateAll()
-        if (valid) {
-          if ((this.user.password != this.user.passwordConfirm) && this.user.id == null) {
-            this.toastr.error('Las contraseñas no coinciden')
-            this.user.password = ''
-            this.user.passwordConfirm = ''
-            this.$refs['password'].focus()
+        if (await this.$validator.validateAll()) {
+          if (this.user.id != null) {
+            await axios.patch(`user/${this.user.id}`, this.user)
           } else {
-            if (this.user.id != null) {
-              await axios.patch(`user/${this.user.id}`, this.user)
-            } else {
-              await axios.post(`user`, this.user)
-            }
-            this.toastr.success('Usuario registrado')
-            this.close()
+            this.user.newPassword = this.user.username
+            await axios.post(`user`, this.user)
           }
+          this.toastr.success('Usuario registrado')
+          this.close()
         }
-      } catch(e) {
+      } catch (e) {
         console.log(e)
-        this.toastr.error('Error al guardar los datos de usuario')
       }
     },
     resetUser() {
@@ -170,12 +131,9 @@ export default {
         username: null,
         charge: null,
         phone: null,
-        password: null,
-        passwordConfirm: null,
         enabled: true
       }
     }
   }
 }
 </script>
-

@@ -17,7 +17,7 @@ class UserController extends Controller
    */
   public function index(Request $request)
   {
-    $users = User::query();
+    $users = User::where('username', '!=', 'admin');
     if ($request->has('search')) {
       if ($request->search != 'null' && $request->search != '') {
         $search = $request->search;

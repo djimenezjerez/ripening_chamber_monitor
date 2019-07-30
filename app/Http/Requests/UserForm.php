@@ -41,7 +41,7 @@ class UserForm extends FormRequest
     $this->sanitize();
 
     $rules = [
-      'password' => 'string|min:4',
+      'newPassword' => 'string|min:4',
       'username' => 'string|min:4',
       'name' => 'string|min:4',
       'phone' => 'nullable|digits_between:7,8',
@@ -71,8 +71,8 @@ class UserForm extends FormRequest
       'integer' => 'El campo solo puede contener números',
       'unique' => 'El registro ya existe',
       'name.min' => 'El nombre debe contener al menos 4 caracteres',
-      'username.min' => 'El nombre de usuario debe contener al menos 3 caracteres',
-      'password.min' => 'La contraseña debe contener al menos 3 caracteres',
+      'username.min' => 'El nombre de usuario debe contener al menos 4 caracteres',
+      'newPassword.min' => 'La contraseña debe contener al menos 4 caracteres',
       'digits_between' => 'El teléfono debe contener de 7 a 8 caracteres',
     ];
   }
@@ -84,7 +84,7 @@ class UserForm extends FormRequest
     if (array_key_exists('name', $input)) $input['name'] = mb_strtoupper($input['name']);
     if (array_key_exists('username', $input)) $input['username'] = mb_strtolower($input['username']);
     if (array_key_exists('charge', $input)) $input['charge'] = mb_strtoupper($input['charge']);
-    if (array_key_exists('password', $input)) $input['password'] = Hash::make($input['password']);
+    if (array_key_exists('newPassword', $input)) $input['password'] = Hash::make($input['newPassword']);
 
     $this->replace($input);
   }

@@ -108,8 +108,12 @@ class AuthController extends Controller
     $user = $this->guard()->user();
     $id = $user->id;
     $username = $user->username;
-    $role = $user->roles[0]->name;
-    $permissions = array_unique(array_merge($user->roles[0]->permissions->pluck('name')->toArray(), $user->permissions->pluck('name')->toArray()));
+    $roles = $user->roles->all();
+    $permissions = $user->permissions->pluck('name')->toArray();
+    foreach($roles as $role) {
+      $permissions = array_unique(array_merge($role->permissions->pluck('name')->toArray(), $permissions));
+    }
+    $roles = $user->roles()->pluck('name')->toArray();
 
     $ip = request()->ip();
     UserAction::create([
@@ -123,7 +127,7 @@ class AuthController extends Controller
       'expires_in' => auth('api')->factory()->getTTL(),
       'id' => $id,
       'user' => $username,
-      'role' => $role,
+      'roles' => $roles,
       'permissions' => $permissions,
       'message' => 'Indentidad verificada',
     ], 200);

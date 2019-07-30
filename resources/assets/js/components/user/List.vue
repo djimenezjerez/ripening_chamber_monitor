@@ -19,6 +19,12 @@
             <span>Editar</span>
           </v-tooltip>
         </v-btn>
+        <v-btn icon text @click.native="resetPassword(props.item)" v-if="enabled">
+          <v-tooltip top>
+            <v-icon color="error" slot="activator">vpn_key</v-icon>
+            <span>Reiniciar contraseña</span>
+          </v-tooltip>
+        </v-btn>
       </td>
     </template>
   </v-data-table>
@@ -100,6 +106,16 @@ export default {
         console.log(e)
       } finally {
         this.loading = false
+      }
+    },
+    async resetPassword(item) {
+      try {
+        await axios.patch(`user/${item.id}`, {
+          newPassword: item.username
+        })
+        this.toastr.success('Contraseña reiniciada')
+      } catch(e) {
+        console.log(e)
       }
     }
   }
