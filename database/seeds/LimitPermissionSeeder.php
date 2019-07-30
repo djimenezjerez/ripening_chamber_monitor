@@ -11,22 +11,28 @@ class LimitPermissionSeeder extends Seeder
    */
   public function run()
   {
-    $permissions = [
-      [
-        'name' => 'read-limit',
-        'display_name' => 'Leer límites',
-        'description' => 'Leer límites ambientales enviados por los sensores',
-        'created_at' => new \dateTime,
-        'updated_at' => new \dateTime,
-      ], [
-        'name' => 'update-limit',
-        'display_name' => 'Actualizar límites',
-        'description' => 'Actualizar límites ambientales para cambio de estado',
-        'created_at' => new \dateTime,
-        'updated_at' => new \dateTime,
-      ]
-    ];
+    $module = App\Module::whereName('Parámetros')->first();
 
-    App\Permission::insert($permissions);
+    if ($module) {
+      $permissions = [
+        [
+          'name' => 'read-limit',
+          'display_name' => 'Leer límites',
+          'description' => 'Leer límites ambientales enviados por los sensores',
+          'created_at' => new \dateTime,
+          'updated_at' => new \dateTime,
+          'module_id' => $module->id
+        ], [
+          'name' => 'update-limit',
+          'display_name' => 'Actualizar límites',
+          'description' => 'Actualizar límites ambientales para cambio de estado',
+          'created_at' => new \dateTime,
+          'updated_at' => new \dateTime,
+          'module_id' => $module->id
+        ]
+      ];
+
+      App\Permission::insert($permissions);
+    }
   }
 }

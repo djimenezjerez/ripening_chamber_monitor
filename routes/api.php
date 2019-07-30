@@ -22,6 +22,9 @@ Route::group([
     ], function () {
       // User
       Route::resource('user', 'Api\V1\UserController')->only(['index', 'store', 'show', 'destroy']);
+      // Module
+      Route::resource('module', 'Api\V1\ModuleController')->only(['index', 'show']);
+      Route::get('module/{id}/permissions', 'Api\V1\ModuleController@permissions');
     });
   });
 });

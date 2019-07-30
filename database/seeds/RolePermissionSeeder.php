@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Seeder;
 
-class UserActionPermissionSeeder extends Seeder
+class RolePermissionSeeder extends Seeder
 {
   /**
    * Run the database seeds.
@@ -16,16 +16,16 @@ class UserActionPermissionSeeder extends Seeder
     if ($module) {
       $permissions = [
         [
-          'name' => 'read-user-action',
-          'display_name' => 'Leer acciones de usuarios',
-          'description' => 'Permiso para leer datos de acciones de usuarios',
+          'name' => 'read-role',
+          'display_name' => 'Leer roles',
+          'description' => 'Permiso para leer la lista de roles',
           'created_at' => new \dateTime,
           'updated_at' => new \dateTime,
           'module_id' => $module->id
         ], [
-          'name' => 'delete-user-action',
-          'display_name' => 'Eliminar accion de usuario',
-          'description' => 'Permiso para eliminar una accion de usuario',
+          'name' => 'update-role',
+          'display_name' => 'Actualizar rol',
+          'description' => 'Permiso para actualizar datos de rol',
           'created_at' => new \dateTime,
           'updated_at' => new \dateTime,
           'module_id' => $module->id

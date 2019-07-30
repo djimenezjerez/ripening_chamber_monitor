@@ -11,16 +11,21 @@ class SensorPermissionSeeder extends Seeder
    */
   public function run()
   {
-    $permissions = [
-      [
-        'name' => 'read-sensor',
-        'display_name' => 'Monitorear sensores',
-        'description' => 'Permiso para leer estado actual de los sensores',
-        'created_at' => new \dateTime,
-        'updated_at' => new \dateTime,
-      ]
-    ];
+    $module = App\Module::whereName('Sensores')->first();
 
-    App\Permission::insert($permissions);
+    if ($module) {
+      $permissions = [
+        [
+          'name' => 'read-sensor',
+          'display_name' => 'Monitorear sensores',
+          'description' => 'Permiso para leer estado actual de los sensores',
+          'created_at' => new \dateTime,
+          'updated_at' => new \dateTime,
+          'module_id' => $module->id
+        ]
+      ];
+
+      App\Permission::insert($permissions);
+    }
   }
 }
