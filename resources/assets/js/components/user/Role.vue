@@ -13,7 +13,7 @@
       </v-toolbar>
       <v-card-text>
         <template v-for="role in roles">
-          <v-checkbox :key="role.id" v-model="role.checked" :value="user.roles.includes(role.name)" :label="role.display_name"></v-checkbox>
+          <v-checkbox :key="role.id" v-model="role.checked" :label="role.display_name"></v-checkbox>
         </template>
       </v-card-text>
       <v-card-actions>
@@ -88,7 +88,14 @@ export default {
     async getUserRoles() {
       try {
         let res = await axios.get(`user/${this.user.id}/role`)
-        this.user.roles = res.data.map(o => o.name)
+        this.user.roles = res.data
+        this.roles.forEach(role => {
+          if (res.data.find(o => o.id == role.id)) {
+            role.checked = true
+          } else {
+            role.checked = false
+          }
+        })
         this.$forceUpdate();
       } catch (e) {
         console.log(e)
