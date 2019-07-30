@@ -40,6 +40,7 @@
       </v-card-text>
     </v-card>
     <Edit :bus="bus"/>
+    <Role :bus="bus"/>
   </v-container>
 </template>
 
@@ -48,12 +49,14 @@ import _ from 'lodash'
 import Vue from 'vue'
 import List from './List'
 import Edit from './Edit'
+import Role from './Role'
 
 export default {
   name: "userIndex",
   components: {
     List,
-    Edit
+    Edit,
+    Role
   },
   data: () => ({
     viewType: 'Usuarios',

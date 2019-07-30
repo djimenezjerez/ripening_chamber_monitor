@@ -76,14 +76,16 @@ class UserController extends Controller
     return $user;
   }
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  \App\User  $user
-   * @return \Illuminate\Http\Response
-   */
-  public function destroy($id)
+  public function get_roles($id)
   {
-    //TODO when user-actions table have been created
+    $user = User::findOrFail($id);
+    return $user->roles;
+  }
+
+  public function set_roles(Request $request, $id)
+  {
+    $user = User::findOrFail($id);
+    $user->syncRoles($request->input('roles'));
+    return $user->roles;
   }
 }

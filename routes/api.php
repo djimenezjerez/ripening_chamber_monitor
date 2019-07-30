@@ -22,6 +22,10 @@ Route::group([
     ], function () {
       // User
       Route::resource('user', 'Api\V1\UserController')->only(['index', 'store', 'show', 'destroy']);
+      Route::get('user/{id}/role', 'Api\V1\UserController@get_roles');
+      Route::post('user/{id}/role', 'Api\V1\UserController@set_roles');
+      // Role
+      Route::resource('role', 'Api\V1\RoleController')->only(['index', 'show']);
       // Module
       Route::resource('module', 'Api\V1\ModuleController')->only(['index', 'show']);
       Route::get('module/{id}/permissions', 'Api\V1\ModuleController@permissions');
