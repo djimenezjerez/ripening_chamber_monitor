@@ -25,7 +25,7 @@
             <span>Editar</span>
           </v-tooltip>
         </v-btn>
-        <v-btn icon text @click.native="bus.$emit('role', props.item)">
+        <v-btn icon text @click.native="bus.$emit('role', props.item)" v-if="enabled">
           <v-tooltip top>
             <v-icon color="danger" slot="activator">security</v-icon>
             <span>Roles</span>

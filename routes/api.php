@@ -26,9 +26,12 @@ Route::group([
       Route::post('user/{id}/role', 'Api\V1\UserController@set_roles');
       // Role
       Route::resource('role', 'Api\V1\RoleController')->only(['index', 'show']);
+      Route::get('role/{id}/permission', 'Api\V1\RoleController@get_permissions');
+      Route::post('role/{role_id}/permission/{permission_id}', 'Api\V1\RoleController@set_permission');
+      Route::delete('role/{role_id}/permission/{permission_id}', 'Api\V1\RoleController@unset_permission');
       // Module
       Route::resource('module', 'Api\V1\ModuleController')->only(['index', 'show']);
-      Route::get('module/{id}/permissions', 'Api\V1\ModuleController@permissions');
+      Route::get('module/{id}/permission', 'Api\V1\ModuleController@permissions');
     });
   });
 });

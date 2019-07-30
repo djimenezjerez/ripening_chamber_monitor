@@ -96,7 +96,7 @@ export default {
             role.checked = false
           }
         })
-        this.$forceUpdate();
+        this.$forceUpdate()
       } catch (e) {
         console.log(e)
       }
