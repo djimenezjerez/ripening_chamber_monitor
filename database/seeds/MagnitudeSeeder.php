@@ -11,8 +11,24 @@ class MagnitudeSeeder extends Seeder
      */
     public function run()
     {
-        $total_items = 2;
+        $magnitudes = [
+            [
+                'name' => 'tem',
+                'display_name' => 'Temperatura',
+                'measure' => 'ºC',
+                'created_at' => new \dateTime,
+                'updated_at' => new \dateTime
+            ], [
+                'name' => 'hum',
+                'display_name' => 'Humedad',
+                'measure' => '%',
+                'created_at' => new \dateTime,
+                'updated_at' => new \dateTime
+            ]
+        ];
 
-		factory(App\Magnitude::class, $total_items)->create();
+        foreach($magnitudes as $magnitude) {
+            App\Magnitude::create($magnitude);
+        }
     }
 }

@@ -3,6 +3,8 @@ import Profile from './components/auth/Profile'
 import DashboardIndex from './components/dashboard/Index'
 import UserIndex from './components/user/Index'
 import RoleIndex from './components/role/Index'
+import RoomIndex from './components/room/Index'
+import DeviceIndex from './components/device/Index'
 
 export const routes = [
   {
@@ -42,6 +44,20 @@ export const routes = [
     path: '/role',
     name: 'roleIndex',
     component: RoleIndex,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/room',
+    name: 'roomIndex',
+    component: RoomIndex,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/device',
+    name: 'deviceIndex',
+    component: DeviceIndex,
     meta: {
       requiresAuth: true
     }

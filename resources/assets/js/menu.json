@@ -6,6 +6,25 @@
     "permission": null,
     "params": {}
   }, {
+    "title": "Parámetros",
+    "icon": "settings",
+    "permission": "read-room",
+    "group": [
+      {
+        "href": "roomIndex",
+        "title": "Ambientes",
+        "icon": "meeting_room",
+        "permission": "read-room",
+        "params": {}
+      }, {
+        "href": "deviceIndex",
+        "title": "Dispositivos",
+        "icon": "settings_remote",
+        "permission": "read-device",
+        "params": {}
+      }
+    ]
+  }, {
     "title": "Acceso",
     "icon": "vpn_key",
     "permission": "read-user",

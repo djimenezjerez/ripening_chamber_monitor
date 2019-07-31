@@ -13,19 +13,19 @@
       <td class="text-xs-center">{{ props.item.charge }}</td>
       <td class="text-xs-center">{{ props.item.phone }}</td>
       <td class="text-xs-center">
-        <v-btn icon text @click.native="resetPassword(props.item)" v-if="enabled">
+        <v-btn icon text @click.native="resetPassword(props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
           <v-tooltip top>
             <v-icon color="error" slot="activator">vpn_key</v-icon>
             <span>Reiniciar contraseña</span>
           </v-tooltip>
         </v-btn>
-        <v-btn icon text @click="bus.$emit('edit', props.item)">
+        <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-user')">
           <v-tooltip top>
             <v-icon color="info" slot="activator">edit</v-icon>
             <span>Editar</span>
           </v-tooltip>
         </v-btn>
-        <v-btn icon text @click.native="bus.$emit('role', props.item)" v-if="enabled">
+        <v-btn icon text @click.native="bus.$emit('role', props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
           <v-tooltip top>
             <v-icon color="danger" slot="activator">security</v-icon>
             <span>Roles</span>

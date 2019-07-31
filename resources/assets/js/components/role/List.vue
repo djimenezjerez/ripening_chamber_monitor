@@ -9,7 +9,7 @@
     <template v-slot:items="props">
       <td class="text-xs-center">{{ props.item.display_name }}</td>
       <td class="text-xs-center">
-        <v-btn icon text @click="bus.$emit('edit', props.item)">
+        <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-role')">
           <v-tooltip top>
             <v-icon color="info" slot="activator">edit</v-icon>
             <span>Editar</span>

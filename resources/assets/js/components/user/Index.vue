@@ -27,7 +27,7 @@
           clearable
         ></v-text-field>
       </v-flex>
-      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)">
+      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-user')">
         <v-tooltip top>
           <v-icon slot="activator">add</v-icon>
           <span>Nuevo usuario</span>
