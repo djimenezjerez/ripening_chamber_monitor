@@ -9,8 +9,8 @@ class UserActionSeeder extends Seeder {
 	 * @return void
 	 */
 	public function run() {
-		$total_actions = 10;
+		$total_items = 10;
 
-		factory(App\UserAction::class, $total_actions)->create();
+		factory(App\UserAction::class, $total_items)->create();
 	}
 }

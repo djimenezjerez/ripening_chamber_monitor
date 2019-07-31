@@ -17,11 +17,11 @@ class UserController extends Controller
    */
   public function index(Request $request)
   {
-    $users = User::where('username', '!=', 'admin');
+    $list = User::where('username', '!=', 'admin');
     if ($request->has('search')) {
       if ($request->search != 'null' && $request->search != '') {
         $search = $request->search;
-        $users = $users->where(function ($query) use ($search) {
+        $list = $list->where(function ($query) use ($search) {
           foreach (Schema::getColumnListing(User::getTableName()) as $column) {
             $query = $query->orWhere($column, 'ilike', '%' . $search . '%');
           }
@@ -29,14 +29,14 @@ class UserController extends Controller
       }
     }
     if ($request->has('enabled')) {
-      $users = $users->whereEnabled(json_decode($request->input('enabled'), true));
+      $list = $list->whereEnabled(json_decode($request->input('enabled'), true));
     }
     if ($request->has('sortBy')) {
       if ($request->sortBy != 'null') {
-        $users = $users->orderBy($request->sortBy, $request->input('direction') ?? 'asc');
+        $list = $list->orderBy($request->sortBy, $request->input('direction') ?? 'asc');
       }
     }
-    return $users->paginate($request->input('per_page') ?? 10);
+    return $list->paginate($request->input('per_page') ?? 10);
   }
 
   /**
@@ -70,10 +70,10 @@ class UserController extends Controller
    */
   public function update(UserForm $request, $id)
   {
-    $user = User::findOrFail($id);
-    $user->fill($request->all());
-    $user->save();
-    return $user;
+    $item = User::findOrFail($id);
+    $item->fill($request->all());
+    $item->save();
+    return $item;
   }
 
   public function get_roles($id)

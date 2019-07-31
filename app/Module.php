@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Module extends Model
 {
+    public $timestamps = true;
     public $guarded = ['id'];
     protected $fillable = ['name'];
 

@@ -26,7 +26,7 @@ class LaratrustSetupTables extends Migration
 			$table->string('name')->unique();
 			$table->string('display_name')->nullable();
 			$table->string('description')->nullable();
-			$table->bigInteger('module_id');
+			$table->bigInteger('module_id')->unsigned();
 			$table->foreign('module_id')->references('id')->on('modules')
 				->onUpdate('cascade')->onDelete('cascade');
 			$table->timestamps();

@@ -13,7 +13,7 @@ class AdminSeeder extends Seeder
   {
     $role = App\Role::firstOrCreate([
       'name' => 'admin',
-      'display_name' => 'Administrador',
+      'display_name' => 'Administración',
       'description' => 'Rol administrador',
     ]);
 
