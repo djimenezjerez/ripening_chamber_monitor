@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Measurement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class MeasurementController extends Controller
 {
@@ -13,7 +14,7 @@ class MeasurementController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $list = Measurement::query();
         if ($request->has('search')) {

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Room;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class RoomController extends Controller
 {
@@ -13,7 +14,7 @@ class RoomController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $list = Room::query();
         if ($request->has('search')) {

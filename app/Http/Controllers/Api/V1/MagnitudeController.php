@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Magnitude;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class MagnitudeController extends Controller
 {
@@ -13,7 +14,7 @@ class MagnitudeController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $list = Magnitude::query();
         if ($request->has('search')) {

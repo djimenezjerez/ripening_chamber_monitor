@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Device;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Schema;
 
 class DeviceController extends Controller
 {
@@ -13,7 +14,7 @@ class DeviceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $list = Device::query();
         if ($request->has('search')) {
@@ -77,7 +78,7 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Device $device)
+    public function destroy($id)
     {
         $item = Device::findOrFail($id);
         $item->delete();

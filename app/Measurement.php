@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Measurement extends Model
 {
+	use Traits\EloquentGetTableNameTrait;
+
     public $timestamps = true;
 	public $guarded = ['id'];
 	protected $fillable = ['room_id', 'magnitude_id', 'value'];

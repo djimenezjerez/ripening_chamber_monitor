@@ -32,6 +32,10 @@ Route::group([
       // Module
       Route::resource('module', 'Api\V1\ModuleController')->only(['index', 'show']);
       Route::get('module/{id}/permission', 'Api\V1\ModuleController@permissions');
+      // Device
+      Route::resource('device', 'Api\V1\DeviceController')->only(['index', 'store', 'show', 'update', 'destroy']);
+      // Room
+      Route::resource('room', 'Api\V1\RoomController')->only(['index', 'store', 'show', 'update', 'destroy']);
     });
   });
 });

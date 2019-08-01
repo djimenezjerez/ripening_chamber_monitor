@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Magnitude extends Model
 {
+	use Traits\EloquentGetTableNameTrait;
+
     public $timestamps = true;
 	public $guarded = ['id'];
 	protected $fillable = ['name', 'display_name', 'measure'];

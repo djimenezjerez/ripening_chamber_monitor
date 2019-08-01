@@ -6,6 +6,8 @@ use Illuminate\Database\Eloquent\Model;
 
 class Room extends Model
 {
+  use Traits\EloquentGetTableNameTrait;
+
   public $guarded = ['id'];
   protected $fillable = ['name', 'display_name'];
 

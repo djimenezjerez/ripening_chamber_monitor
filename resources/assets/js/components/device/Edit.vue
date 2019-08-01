@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-toolbar dense flat dark class="info">
-        <v-toolbar-title>{{ title }} usuario</v-toolbar-title>
+        <v-toolbar-title>{{ title }} dispositivo</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.native="close()">
           <v-icon>close</v-icon>
@@ -17,7 +17,16 @@
             <v-layout wrap>
               <v-flex xs12>
                 <v-text-field
-                  v-model="user.name"
+                  v-model="device.name"
+                  label="Código"
+                  v-validate="'required|min:4'"
+                  data-vv-name="Código"
+                  :error-messages="errors.collect('Código')"
+                ></v-text-field>
+              </v-flex>
+              <v-flex xs12>
+                <v-text-field
+                  v-model="device.display_name"
                   label="Nombre"
                   v-validate="'required|min:4'"
                   data-vv-name="Nombre"
@@ -26,36 +35,21 @@
               </v-flex>
               <v-flex xs12>
                 <v-text-field
-                  v-model="user.charge"
-                  label="Cargo"
-                  v-validate="'alpha_spaces|min:1'"
-                  data-vv-name="Cargo"
-                  :error-messages="errors.collect('Cargo')"
+                  v-model="device.mac"
+                  label="MAC"
+                  v-validate="'required|min:17|max:17'"
+                  data-vv-name="MAC"
+                  :error-messages="errors.collect('MAC')"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs6 pr-4>
+              <v-flex xs12>
                 <v-text-field
-                  v-model="user.username"
-                  label="Usuario"
-                  v-validate="'required|alpha_num|min:4'"
-                  data-vv-name="Usuario"
-                  :error-messages="errors.collect('Usuario')"
+                  v-model="device.ip"
+                  label="IP"
+                  v-validate="'required|ip'"
+                  data-vv-name="IP"
+                  :error-messages="errors.collect('IP')"
                 ></v-text-field>
-              </v-flex>
-              <v-flex xs6 pl-4>
-                <v-text-field
-                  v-model="user.phone"
-                  label="Teléfono"
-                  v-validate="'numeric|min:7|max:8'"
-                  data-vv-name="Teléfono"
-                  :error-messages="errors.collect('Teléfono')"
-                ></v-text-field>
-              </v-flex>
-              <v-flex xs12 v-if="user.id && $store.getters.permissions.includes('delete-user')">
-                <v-switch
-                  v-model="user.enabled"
-                  :label="user.enabled ? `Activo` : `Inactivo`"
-                ></v-switch>
               </v-flex>
             </v-layout>
           </v-container>
@@ -86,17 +80,17 @@ export default {
   data: () => ({
     show: false,
     valid: false,
-    user: {},
+    device: {},
     title: ''
   }),
   mounted() {
     this.bus.$on('edit', val => {
       this.show = true
       if (val == null) {
-        this.resetUser()
+        this.resetDevice()
         this.title = 'Añadir'
       } else {
-        this.user = val
+        this.device = val
         this.title = 'Editar'
       }
     })
@@ -105,33 +99,31 @@ export default {
     close() {
       this.$validator.reset()
       this.show = false
-      this.resetUser()
+      this.resetDevice()
       this.bus.$emit('refresh')
     },
     async save() {
       try {
         if (await this.$validator.validateAll()) {
-          if (this.user.id != null) {
-            await axios.patch(`user/${this.user.id}`, this.user)
+          if (this.device.id != null) {
+            await axios.patch(`device/${this.device.id}`, this.device)
           } else {
-            this.user.newPassword = this.user.username
-            await axios.post(`user`, this.user)
+            await axios.post(`device`, this.device)
           }
-          this.toastr.success('Usuario registrado')
+          this.toastr.success('Dispositivo registrado')
           this.close()
         }
       } catch (e) {
         console.log(e)
       }
     },
-    resetUser() {
-      this.user = {
+    resetDevice() {
+      this.device = {
         id: null,
         name: null,
-        username: null,
-        charge: null,
-        phone: null,
-        enabled: true
+        display_name: null,
+        mac: null,
+        ip: null
       }
     }
   }
