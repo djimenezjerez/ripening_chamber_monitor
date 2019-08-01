@@ -13,6 +13,8 @@ class RoomSeeder extends Seeder
     {
         $total_items = 3;
 
-		factory(App\Room::class, $total_items)->create();
+        for($i = $total_items; $i > 0; $i++) {
+            $room = factory(App\Room::class)->create();
+        }
     }
 }

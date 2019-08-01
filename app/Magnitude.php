@@ -15,4 +15,8 @@ class Magnitude extends Model
 	public function measurements() {
 		return $this->hasMany(Measurement::class);
 	}
+
+	public function rooms() {
+		return $this->belongsToMany(Room::class);
+	}
 }

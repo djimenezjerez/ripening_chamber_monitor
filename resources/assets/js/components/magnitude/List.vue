@@ -47,7 +47,8 @@ export default {
     headers: [
       { text: 'Código', value: 'name', align: 'center', sortable: true },
       { text: 'Nombre', value: 'display_name', align: 'center', sortable: true },
-      { text: 'Unidad', value: 'measure', align: 'center', sortable: true }
+      { text: 'Unidad', value: 'measure', align: 'center', sortable: true },
+      { text: 'Acciones', value: 'id', align: 'center', sortable: false }
     ]
   }),
   watch: {
@@ -63,6 +64,9 @@ export default {
     }
   },
   mounted() {
+    if (!this.$store.getters.permissions.some(o => ['update-magnitude', 'delete-magnitude'].includes(o))) {
+      this.headers.pop()
+    }
     this.bus.$on('refresh', () => {
       this.getMagnitudes()
     })

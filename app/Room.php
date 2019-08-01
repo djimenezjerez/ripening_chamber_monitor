@@ -18,4 +18,8 @@ class Room extends Model
   public function device() {
     return $this->belongsTo(Device::class);
   }
+
+  public function magnitudes() {
+		return $this->belongsToMany(Magnitude::class);
+	}
 }

@@ -32,6 +32,7 @@
       </v-card-text>
     </v-card>
     <Edit :bus="bus" :devices="devices"/>
+    <Magnitude :bus="bus"/>
     <RemoveItem :bus="bus"/>
   </v-container>
 </template>
@@ -41,12 +42,14 @@ import _ from 'lodash'
 import Vue from 'vue'
 import List from './List'
 import Edit from './Edit'
+import Magnitude from './Magnitude'
 import RemoveItem from '../RemoveItem'
 
 export default {
   name: "roomIndex",
   components: {
     RemoveItem,
+    Magnitude,
     List,
     Edit
   },

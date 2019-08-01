@@ -84,4 +84,17 @@ class RoomController extends Controller
         $item->delete();
         return $item;
     }
+
+    public function get_magnitudes($id)
+    {
+        $item = Room::findOrFail($id);
+        return $item->magnitudes;
+    }
+
+    public function set_magnitudes(Request $request, $id)
+    {
+        $item = Room::findOrFail($id);
+        $item->magnitudes()->sync($request->input('magnitudes'));
+        return $item->magnitudes;
+    }
 }

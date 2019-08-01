@@ -24,6 +24,12 @@
             <span>Eliminar</span>
           </v-tooltip>
         </v-btn>
+        <v-btn icon text @click.native="bus.$emit('magnitude', props.item)" v-if="$store.getters.permissions.includes('update-room')">
+          <v-tooltip top>
+            <v-icon color="danger" slot="activator">opacity</v-icon>
+            <span>Magnitudes</span>
+          </v-tooltip>
+        </v-btn>
       </td>
     </template>
   </v-data-table>
