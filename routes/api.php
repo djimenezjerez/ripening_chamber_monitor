@@ -40,6 +40,8 @@ Route::group([
       Route::resource('magnitude', 'Api\V1\MagnitudeController')->only(['index', 'store', 'show', 'update', 'destroy']);
       Route::get('room/{id}/magnitude', 'Api\V1\RoomController@get_magnitudes');
       Route::post('room/{id}/magnitude', 'Api\V1\RoomController@set_magnitudes');
+      // Limits
+      Route::get('room/{room_id}/magnitude/{magnitude_id}', 'Api\V1\RoomController@get_limits');
     });
   });
 });

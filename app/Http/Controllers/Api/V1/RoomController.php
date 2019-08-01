@@ -97,4 +97,10 @@ class RoomController extends Controller
         $item->magnitudes()->sync($request->input('magnitudes'));
         return $item->magnitudes;
     }
+
+    public function get_limits($room_id, $magnitude_id)
+    {
+        $item = Room::findOrFail($id);
+        return $item->magnitudes;
+    }
 }

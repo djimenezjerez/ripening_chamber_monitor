@@ -10,7 +10,7 @@ class Device extends Model
 
     public $timestamps = true;
 	public $guarded = ['id'];
-	protected $fillable = ['name', 'display_name', 'mac', 'ip'];
+	protected $fillable = ['name', 'display_name', 'mac', 'ip', 'alive'];
 
 	public function rooms() {
 		return $this->hasMany(Room::class);
