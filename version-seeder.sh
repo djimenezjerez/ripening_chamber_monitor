@@ -7,7 +7,7 @@ php artisan migrate
 php artisan db:seed --class=ModuleSeeder
 php artisan db:seed --class=MagnitudeSeeder
 php artisan db:seed --class=DevicePermissionSeeder
-php artisan db:seed --class=LimitPermissionSeeder
+php artisan db:seed --class=MagnitudePermissionSeeder
 php artisan db:seed --class=SensorPermissionSeeder
 php artisan db:seed --class=UserActionPermissionSeeder
 php artisan db:seed --class=UserPermissionSeeder

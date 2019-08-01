@@ -16,7 +16,7 @@ class RoleMonitorSeeder extends Seeder
       'display_name' => 'MONITOR'
     ]);
 
-    $permisions = App\Permission::where('name', 'read-sensor')->orWhere('name', 'read-limit')->get()->toArray();
+    $permisions = App\Permission::where('name', 'read-sensor')->orWhere('name', 'read-magnitude')->get()->toArray();
 
     $role->attachPermissions($permisions);
   }

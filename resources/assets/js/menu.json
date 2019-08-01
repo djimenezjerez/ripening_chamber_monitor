@@ -22,6 +22,12 @@
         "icon": "meeting_room",
         "permission": "read-room",
         "params": {}
+      }, {
+        "href": "magnitudeIndex",
+        "title": "Magnitudes",
+        "icon": "opacity",
+        "permission": "read-magnitude",
+        "params": {}
       }
     ]
   }, {
