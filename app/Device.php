@@ -13,6 +13,6 @@ class Device extends Model
 	protected $fillable = ['name', 'display_name', 'mac', 'ip'];
 
 	public function rooms() {
-		return $this->belongsToMany(Room::class);
+		return $this->hasMany(Room::class);
 	}
 }

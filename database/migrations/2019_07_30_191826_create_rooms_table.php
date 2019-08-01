@@ -17,6 +17,8 @@ class CreateRoomsTable extends Migration
             $table->bigIncrements('id');
             $table->string('name')->unique();
             $table->string('display_name');
+            $table->bigInteger('device_id')->unsigned();
+            $table->foreign('device_id')->references('id')->on('devices')->onUpdate('cascade')->onDelete('cascade');
             $table->timestamps();
         });
     }

@@ -11,16 +11,16 @@
     "permission": "read-room",
     "group": [
       {
-        "href": "roomIndex",
-        "title": "Ambientes",
-        "icon": "meeting_room",
-        "permission": "read-room",
-        "params": {}
-      }, {
         "href": "deviceIndex",
         "title": "Dispositivos",
         "icon": "settings_remote",
         "permission": "read-device",
+        "params": {}
+      }, {
+        "href": "roomIndex",
+        "title": "Ambientes",
+        "icon": "meeting_room",
+        "permission": "read-room",
         "params": {}
       }
     ]

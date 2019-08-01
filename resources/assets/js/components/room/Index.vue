@@ -19,7 +19,7 @@
           clearable
         ></v-text-field>
       </v-flex>
-      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-room')">
+      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-room') && devices.length > 0">
         <v-tooltip top>
           <v-icon slot="activator">add</v-icon>
           <span>Nuevo ambiente</span>
@@ -28,10 +28,10 @@
     </v-toolbar>
     <v-card>
       <v-card-text>
-        <List :bus="bus"/>
+        <List :bus="bus" :devices="devices"/>
       </v-card-text>
     </v-card>
-    <Edit :bus="bus"/>
+    <Edit :bus="bus" :devices="devices"/>
     <RemoveItem :bus="bus"/>
   </v-container>
 </template>
@@ -52,12 +52,34 @@ export default {
   },
   data: () => ({
     bus: new Vue(),
-    search: ''
+    search: '',
+    devices: []
   }),
   watch: {
     search: _.debounce(function () {
       this.bus.$emit('search', this.search)
     }, 1000)
+  },
+  beforeMount() {
+    this.getDevices()
+  },
+  methods: {
+    async getDevices() {
+      try {
+        let res = await axios.get(`device`, {
+          params: {
+            page: 1,
+            per_page: 1000,
+            sortBy: 'display_name',
+            direction: 'asc',
+            search: null
+          }
+        })
+        this.devices = res.data.data
+      } catch (e) {
+        console.log(e)
+      }
+    }
   }
 }
 </script>

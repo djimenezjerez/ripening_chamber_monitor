@@ -33,6 +33,19 @@
                   :error-messages="errors.collect('Nombre')"
                 ></v-text-field>
               </v-flex>
+              <v-select
+                :items="devices"
+                label="Dispositivo"
+                prepend-icon="settings_remote"
+                item-text="display_name"
+                item-value="id"
+                v-model="room.device_id"
+                :hint="room.device_id ? devices.find(o => o.id == room.device_id).ip : ''"
+                :persistent-hint="true"
+                v-validate="'required'"
+                data-vv-name="Dispositivo"
+                :error-messages="errors.collect('Dispositivo')"
+              ></v-select>
             </v-layout>
           </v-container>
         </v-form>
@@ -58,7 +71,7 @@
 <script>
 export default {
   name: 'Edit',
-  props: ['bus'],
+  props: ['bus', 'devices'],
   data: () => ({
     show: false,
     valid: false,
@@ -103,7 +116,8 @@ export default {
       this.room = {
         id: null,
         name: null,
-        display_name: null
+        display_name: null,
+        device_id: null
       }
     }
   }

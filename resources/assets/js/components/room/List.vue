@@ -10,6 +10,7 @@
     <template v-slot:items="props">
       <td class="text-xs-center">{{ props.item.name }}</td>
       <td class="text-xs-center">{{ props.item.display_name }}</td>
+      <td class="text-xs-center">{{ devices.find(o => o.id == props.item.device_id).display_name }}</td>
       <td class="text-xs-center">
         <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-room')">
           <v-tooltip top>
@@ -31,7 +32,7 @@
 <script>
 export default {
   name: 'List',
-  props: ['bus'],
+  props: ['bus', 'devices'],
   data: () => ({
     loading: true,
     search: '',
@@ -46,6 +47,7 @@ export default {
     headers: [
       { text: 'Código', value: 'name', align: 'center', sortable: true },
       { text: 'Nombre', value: 'display_name', align: 'center', sortable: true },
+      { text: 'Dispositivo', value: 'device_id', align: 'center', sortable: true },
       { text: 'Acciones', value: 'id', align: 'center', sortable: false }
     ]
   }),
