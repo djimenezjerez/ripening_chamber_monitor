@@ -5,9 +5,11 @@
         <v-toolbar-title>{{ magnitude.display_name }}</v-toolbar-title>
       </v-toolbar>
       <v-card-text>
-        <v-flex xs12 md4 v-for="room in rooms" :key="room.id">
-          <TemperatureChart v-if="magnitude.name == 'tem'" :room="room" :magnitude="magnitude"/>
-        </v-flex>
+        <v-layout wrap>
+          <v-flex xs12 md4 v-for="room in rooms" :key="room.id">
+            <TemperatureChart v-if="magnitude.name == 'tem'" :room="room" :magnitude="magnitude"/>
+          </v-flex>
+        </v-layout>
       </v-card-text>
     </v-card>
   </v-container>

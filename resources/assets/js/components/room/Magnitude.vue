@@ -157,7 +157,7 @@ export default {
           params: {
             page: 1,
             per_page: 1000,
-            sortBy: 'display_name',
+            sortBy: 'id',
             direction: 'asc',
             search: null
           }

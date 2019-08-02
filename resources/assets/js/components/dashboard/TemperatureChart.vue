@@ -1,8 +1,9 @@
 <template>
   <div>
     <p class="ma-0 pa-0 font-weight-thin display-2 text-center">{{ room.display_name }}</p>
-    <canvas id="chart" class="ma-0 pa-0"></canvas>
+    <canvas :id="chartId" class="ma-0 pa-0"></canvas>
     <p class="ma-0 pa-0 font-weight-thin display-2 text-center">{{ value }} {{ magnitude.measure }}</p>
+    <p v-if="date != ''" class="ma-0 pa-0 font-weight-thin caption text-center">Último date recibido el: {{ date.format('LLLL') }}</p>
   </div>
 </template>
 
@@ -15,6 +16,7 @@ export default {
   data: () => ({
     type: 'doughnut',
     value: 0,
+    date: '',
     options: {
       rotation: 1 * Math.PI,
       circumference: 1 * Math.PI,
@@ -34,12 +36,32 @@ export default {
     },
     chart: null
   }),
+  computed: {
+    topic() {
+      return `${this.room.name}/${this.magnitude.name}`
+    },
+    chartId() {
+      return `${this.room.name}.${this.magnitude.name}`
+    }
+  },
   mounted() {
-    this.createChart('myChart')
+    this.createChart()
     this.data.labels = [
       `Límite mínimo: ${this.room.pivot.min_limit}`,
       `Límite máximo: ${this.room.pivot.max_limit}`
     ]
+    this.$mqtt.subscribe(this.topic)
+  },
+  mqtt: {
+    '+/tem' (data, topic) {
+      if (topic.split('/')[0] == this.room.name) {
+        let value = Number(String.fromCharCode.apply(null, data))
+        if (this.value != value) {
+          this.value = value
+          this.date = this.$moment()
+        }
+      }
+    }
   },
   watch: {
     value(val) {
@@ -57,7 +79,7 @@ export default {
   },
   methods: {
     createChart(chartId) {
-      const context = document.getElementById('chart')
+      const context = document.getElementById(this.chartId)
       this.chart = new Chart(context, {
         type: this.type,
         data: this.data,
