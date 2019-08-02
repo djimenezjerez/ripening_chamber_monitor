@@ -6,7 +6,7 @@
       </v-toolbar>
       <v-card-text>
         <v-flex xs12 md4 v-for="room in rooms" :key="room.id">
-          <TemperatureChart :room="room" :magnitude="magnitude"/>
+          <TemperatureChart v-if="magnitude.name == 'tem'" :room="room" :magnitude="magnitude"/>
         </v-flex>
       </v-card-text>
     </v-card>
