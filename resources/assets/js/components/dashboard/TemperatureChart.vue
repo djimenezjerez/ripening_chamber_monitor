@@ -52,6 +52,9 @@ export default {
     ]
     this.$mqtt.subscribe(this.topic)
   },
+  beforeDestroy() {
+    this.$mqtt.unsubscribe(this.topic)
+  },
   mqtt: {
     '+/tem' (data, topic) {
       if (topic.split('/')[0] == this.room.name) {
