@@ -12,36 +12,46 @@
         </v-btn>
       </v-toolbar>
       <v-card-text>
-        <v-expansion-panel>
+        <v-expansion-panel popout>
           <v-expansion-panel-content
             v-for="magnitude in magnitudes"
             :key="magnitude.id"
+            hide-actions
+            lazy
           >
             <template v-slot:header>
-              <v-checkbox v-model="magnitude.checked" :label="magnitude.display_name"></v-checkbox>
+              <v-checkbox
+                v-model="magnitude.checked"
+                :label="magnitude.display_name"
+                @change="resetLimits(magnitude)"
+              ></v-checkbox>
             </template>
-            <v-container grid-list-xs>
-              <v-layout wrap>
-                <v-flex xs6 pr-4>
-                  <v-text-field
-                    v-model="magnitude.min_limit"
-                    label="Mínimo"
-                    v-validate="magnitude.checked ? 'required|decimal:2|min_value:0.00|max_value:100.0' : ''"
-                    data-vv-name="Mínimo"
-                    :error-messages="errors.collect('Mínimo')"
-                  ></v-text-field>
-                </v-flex>
-                <v-flex xs6 pl-4>
-                  <v-text-field
-                    v-model="magnitude.max_limit"
-                    label="Máximo"
-                    v-validate="magnitude.checked ? 'required|decimal:2|min_value:0.00|max_value:100.0' : ''"
-                    data-vv-name="Máximo"
-                    :error-messages="errors.collect('Máximo')"
-                  ></v-text-field>
-                </v-flex>
-              </v-layout>
-            </v-container>
+            <v-form v-model="valid" lazy-validation>
+              <v-container grid-list-xs class="mt-0 pt-0">
+                <v-layout wrap class="mt-0 pt-0">
+                  <v-flex xs6 pr-4 class="mt-0 pt-0">
+                    <v-text-field
+                      v-model="magnitude.pivot.min_limit"
+                      label="Mínimo"
+                      v-validate="limitRules(magnitude)"
+                      data-vv-name="Mínimo"
+                      :error-messages="errors.collect('Mínimo')"
+                      class="mt-0 pt-0"
+                    ></v-text-field>
+                  </v-flex>
+                  <v-flex xs6 pl-4 class="mt-0 pt-0">
+                    <v-text-field
+                      v-model="magnitude.pivot.max_limit"
+                      label="Máximo"
+                      v-validate="limitRules(magnitude)"
+                      data-vv-name="Máximo"
+                      :error-messages="errors.collect('Máximo')"
+                      class="mt-0 pt-0"
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
+              </v-container>
+            </v-form>
           </v-expansion-panel-content>
         </v-expansion-panel>
       </v-card-text>
@@ -53,6 +63,7 @@
           @click.native="close()"
         >Cerrar</v-btn>
         <v-btn
+          :disabled="!valid"
           color="error"
           class="mr-6"
           @click.native="save()"
@@ -81,7 +92,8 @@ export default {
       if (val.hasOwnProperty('id')) this.getRoomMagnitudes()
     }
   },
-  mounted() {
+  async mounted() {
+    await this.$validator.validateAll()
     this.getMagnitudes()
     this.bus.$on('magnitude', val => {
       this.show = true
@@ -89,19 +101,52 @@ export default {
     })
   },
   methods: {
+    resetLimits(magnitude) {
+      if (!magnitude.checked) {
+        magnitude.min_limit = 0
+        magnitude.max_limit = 0
+      }
+    },
+    limitRules(magnitude) {
+      if (magnitude.checked) {
+        return 'required|decimal:2|min_value:0.00|max_value:100.0'
+      } else {
+        return ''
+      }
+    },
     close() {
       this.room = {
         magnitudes: []
       }
       this.show = false
     },
+    filterMagnitudes() {
+      return new Promise((resolve, reject) => {
+        let magnitudes = this.magnitudes.filter(o => o.checked)
+        if (magnitudes.length > 0) {
+          let checkedMagnitudes = {}
+          magnitudes.forEach(magnitude => {
+            checkedMagnitudes[magnitude.id] = {
+              min_limit: magnitude.pivot.min_limit,
+              max_limit: magnitude.pivot.max_limit
+            }
+          })
+          return resolve(checkedMagnitudes)
+        } else {
+          return resolve([])
+        }
+      })
+    },
     async save() {
       try {
-        await axios.post(`room/${this.room.id}/magnitude`, {
-          magnitudes: this.magnitudes.filter(o => o.checked).map(o => o.id)
-        })
-        this.toastr.success('Actualizado correctamente')
-        this.close()
+        if (await this.$validator.validateAll()) {
+          let checkedMagnitudes = await this.filterMagnitudes()
+          await axios.post(`room/${this.room.id}/magnitude`, {
+            magnitudes: checkedMagnitudes
+          })
+          this.toastr.success('Actualizado correctamente')
+          this.close()
+        }
       } catch (e) {
         console.log(e)
       }
@@ -118,28 +163,12 @@ export default {
           }
         })
         this.magnitudes = res.data.data
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async setRoomLimits(id) {
-      try {
-        let magnitude = this.magnitudes.find(o => o.id == id)
-        let res = await axios.post(`room/${this.room.id}/magnitude/${id}`, {
-          params: {
-            min_limit: magnitude.min_limit,
-            max_limit: magnitude.max_limit
+        this.magnitudes.forEach(magnitude => {
+          magnitude.pivot = {
+            min_limit: null,
+            max_limit: null
           }
         })
-        console.log(res.data)
-      } catch (e) {
-        console.log(e)
-      }
-    },
-    async getRoomLimits(id) {
-      try {
-        let res = await axios.get(`room/${this.room.id}/magnitude/${id}`)
-        console.log(res.data)
       } catch (e) {
         console.log(e)
       }
@@ -149,13 +178,19 @@ export default {
         let res = await axios.get(`room/${this.room.id}/magnitude`)
         this.room.magnitudes = res.data
         this.magnitudes.forEach(magnitude => {
-          if (res.data.find(o => o.id == magnitude.id)) {
+          let data = res.data.find(o => o.id == magnitude.id)
+          if (data) {
             magnitude.checked = true
-            magnitude.limits = this.getRoomLimits(magnitude.id)
+            magnitude.pivot = {
+              min_limit: data.pivot.min_limit,
+              max_limit: data.pivot.max_limit
+            }
           } else {
             magnitude.checked = false
-            magnitude.min_limit = null
-            magnitude.max_limit = null
+            magnitude.pivot = {
+              min_limit: null,
+              max_limit: null
+            }
           }
         })
         this.$forceUpdate()

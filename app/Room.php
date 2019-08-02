@@ -20,6 +20,6 @@ class Room extends Model
   }
 
   public function magnitudes() {
-		return $this->belongsToMany(Magnitude::class);
+		return $this->belongsToMany(Magnitude::class)->withPivot('min_limit', 'max_limit');
 	}
 }
