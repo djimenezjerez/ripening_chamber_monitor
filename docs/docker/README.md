@@ -17,6 +17,7 @@ git submodule update --init --recursive
 * Copy the modified files to laradock folder
 
 ```sh
+cp -f docs/docker/mosquitto.conf laradock/mosquitto/
 cp -f docs/docker/docker-compose.yml laradock/
 cp -f docs/docker/env-example laradock/.env
 ```

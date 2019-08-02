@@ -20,6 +20,7 @@ class CreateMagnitudeRoomTable extends Migration
             $table->foreign('magnitude_id')->references('id')->on('magnitudes')->onUpdate('cascade')->onDelete('cascade');
             $table->float('min_limit', 5, 2);
             $table->float('max_limit', 5, 2);
+            $table->tinyInteger('interval')->unsigned();
         });
     }
 

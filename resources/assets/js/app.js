@@ -19,7 +19,10 @@ import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import ess from './es.js'
 import Vuetify from 'vuetify'
 import VueMqtt from 'vue-mqtt'
-Vue.use(VueMqtt, `ws://192.168.100.103:9001`)
+
+Vue.use(VueMqtt, `ws://${process.env.MIX_MQTT_URL}`, {
+  clientId: 'web'
+})
 
 Vue.use(Vuetify, {
   lang: {

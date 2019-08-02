@@ -17,6 +17,6 @@ class Magnitude extends Model
 	}
 
 	public function rooms() {
-		return $this->belongsToMany(Room::class)->withPivot('min_limit', 'max_limit');
+		return $this->belongsToMany(Room::class)->withPivot('min_limit', 'max_limit', 'interval');
 	}
 }

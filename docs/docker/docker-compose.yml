@@ -1484,7 +1484,8 @@ services:
       volumes:
         - ${DATA_PATH_HOST}/mosquitto/data:/mosquitto/data
       ports:
-        - "${MOSQUITTO_PORT}:9001"
+        - "${MOSQUITTO_PORT_MQTT}:1883"
+        - "${MOSQUITTO_PORT_WS}:9001"
       networks:
         - frontend
         - backend

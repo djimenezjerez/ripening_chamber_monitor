@@ -698,7 +698,8 @@ TRAEFIK_HOST_HTTPS_PORT=443
 
 ### MOSQUITTO #################################################
 
-MOSQUITTO_PORT=1883
+MOSQUITTO_PORT_MQTT=1883
+MOSQUITTO_PORT_WS=9001
 
 ### COUCHDB ###################################################
 

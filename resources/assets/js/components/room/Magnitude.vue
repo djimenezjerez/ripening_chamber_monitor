@@ -20,11 +20,27 @@
             lazy
           >
             <template v-slot:header>
-              <v-checkbox
-                v-model="magnitude.checked"
-                :label="magnitude.display_name"
-                @change="resetLimits(magnitude)"
-              ></v-checkbox>
+              <v-layout wrap class="mt-0 pt-0">
+                <v-flex xs6 pr-4 class="mt-0 pt-0">
+                  <v-checkbox
+                    v-model="magnitude.checked"
+                    :label="magnitude.display_name"
+                    @change="resetLimits(magnitude)"
+                  ></v-checkbox>
+                </v-flex>
+                <v-flex xs6 pl-4 class="mt-0 pt-0">
+                  <v-text-field
+                    v-model="magnitude.pivot.interval"
+                    label="Intervalo"
+                    v-validate="intervalRules(magnitude)"
+                    data-vv-name="Intervalo"
+                    :error-messages="errors.collect('Intervalo')"
+                    class="mt-0 pt-0"
+                    hint="Minutos"
+                    persistent-hint=""
+                  ></v-text-field>
+                </v-flex>
+              </v-layout>
             </template>
             <v-form v-model="valid" lazy-validation>
               <v-container grid-list-xs class="mt-0 pt-0">
@@ -114,6 +130,13 @@ export default {
         return ''
       }
     },
+    intervalRules(magnitude) {
+      if (magnitude.checked) {
+        return 'required|integer|min_value:1|max_value:240'
+      } else {
+        return ''
+      }
+    },
     close() {
       this.room = {
         magnitudes: []
@@ -128,7 +151,8 @@ export default {
           magnitudes.forEach(magnitude => {
             checkedMagnitudes[magnitude.id] = {
               min_limit: magnitude.pivot.min_limit,
-              max_limit: magnitude.pivot.max_limit
+              max_limit: magnitude.pivot.max_limit,
+              interval: magnitude.pivot.interval
             }
           })
           return resolve(checkedMagnitudes)
@@ -166,7 +190,8 @@ export default {
         this.magnitudes.forEach(magnitude => {
           magnitude.pivot = {
             min_limit: null,
-            max_limit: null
+            max_limit: null,
+            interval: null
           }
         })
       } catch (e) {
@@ -183,13 +208,15 @@ export default {
             magnitude.checked = true
             magnitude.pivot = {
               min_limit: data.pivot.min_limit,
-              max_limit: data.pivot.max_limit
+              max_limit: data.pivot.max_limit,
+              interval: data.pivot.interval
             }
           } else {
             magnitude.checked = false
             magnitude.pivot = {
               min_limit: null,
-              max_limit: null
+              max_limit: null,
+              interval: null
             }
           }
         })
