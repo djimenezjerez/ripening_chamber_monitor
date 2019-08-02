@@ -84,4 +84,10 @@ class MagnitudeController extends Controller
         $item->delete();
         return $item;
     }
+
+    public function get_rooms($id)
+    {
+        $item = Magnitude::findOrFail($id);
+        return $item->rooms;
+    }
 }
