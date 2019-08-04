@@ -7,8 +7,7 @@
       <v-card-text>
         <v-layout wrap>
           <v-flex xs12 md4 v-for="room in rooms" :key="room.id">
-            <TemperatureChart v-if="magnitude.name == 'tem'" :room="room" :magnitude="magnitude"/>
-            <HumidityChart v-if="magnitude.name == 'hum'" :room="room" :magnitude="magnitude"/>
+            <Chart :room="room" :magnitude="magnitude"/>
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -17,15 +16,13 @@
 </template>
 
 <script>
-import TemperatureChart from './TemperatureChart'
-import HumidityChart from './HumidityChart'
+import Chart from './Chart'
 
 export default {
   name: 'Magnitude',
   props: ['magnitude'],
   components: {
-    TemperatureChart,
-    HumidityChart
+    Chart
   },
   data: () => ({
     rooms: []
