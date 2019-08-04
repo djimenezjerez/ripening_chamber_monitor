@@ -1,8 +1,8 @@
 <template>
   <div>
     <canvas :id="chartId" class="ma-0 pa-0"></canvas>
-    <p class="ma-0 pa-0 font-weight-thin headline text-center">{{ value }} {{ magnitude.measure }}</p>
-    <p v-if="date != ''" class="ma-0 pa-0 font-weight-thin caption text-center">Último date recibido el: {{ date.format('LLLL') }}:{{ date.format('ss')}}</p>
+    <p align="center" class="ma-0 pa-0 font-weight-thin headline text-center">{{ value }} {{ magnitude.measure }}</p>
+    <p v-if="date != ''"  align="center" class="ma-0 pa-0 font-weight-thin caption text-center">Último date recibido el: {{ date.format('LLLL') }}:{{ date.format('ss')}}</p>
   </div>
 </template>
 
@@ -21,10 +21,13 @@ export default {
       options: (this.magnitude.name == 'tem') ? {
         title: {
           display: true,
-          text: this.room.display_name
+          text: [this.room.display_name, `Límite mínimo: ${this.room.pivot.min_limit} - Límite máximo: ${this.room.pivot.max_limit}`]
         },
         rotation: 1 * Math.PI,
         circumference: 1 * Math.PI,
+        legend: {
+          display: false,
+        },
         tooltips: {
           enabled: false
         },
@@ -35,18 +38,24 @@ export default {
       } : {
         title: {
           display: true,
-          text: this.room.display_name
+          text: [this.room.display_name, `Límite mínimo: ${this.room.pivot.min_limit} - Límite máximo: ${this.room.pivot.max_limit}`]
         },
         legend: {
-          display: false
+          display: false,
         },
         tooltips: {
-          enabled: false
+          enabled: true
         },
-        hover: {
-          mode: null
-        },
-        responsive: true
+        responsive: true,
+        // scales: {
+        //   yAxes: [{
+        //     display: true,
+        //     ticks: {
+        //       suggestedMin: 0,
+        //       suggestedMax: 100
+        //     }
+        //   }]
+        // }
       },
       data: (this.magnitude.name == 'tem') ? {
         datasets: [{
@@ -94,6 +103,9 @@ export default {
     },
     'tem/+' (data, topic) {
       this.verifyTopic(data, topic)
+    },
+    'hic/+' (data, topic) {
+      this.verifyTopic(data, topic)
     }
   },
   watch: {
@@ -109,7 +121,7 @@ export default {
           this.data.datasets[0].backgroundColor[0] = 'red'
         }
         this.chart.update()
-      } else if (this.magnitude.name == 'hum') {
+      } else if (['hum', 'hic'].includes(this.magnitude.name)) {
         if (this.data.datasets[0].data.length == this.limitValues) {
           this.data.labels.shift()
           this.data.datasets[0].data.shift()

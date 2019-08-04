@@ -49,6 +49,22 @@ volumes:
 services:
 
 ### Workspace Utilities ##################################
+    node:
+      image: node:12.7.0-alpine
+      depends_on:
+        - php-fpm
+      volumes:
+        - ${APP_CODE_PATH_HOST}:/app
+      tty: true
+      networks:
+        - backend
+      links:
+        - postgres
+      working_dir: /app
+      command: ['npm', 'start']
+      restart: always
+
+### Workspace Utilities ##################################
     workspace:
       build:
         context: ./workspace

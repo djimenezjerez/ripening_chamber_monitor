@@ -132,7 +132,7 @@ export default {
     },
     intervalRules(magnitude) {
       if (magnitude.checked) {
-        return 'required|integer|min_value:1|max_value:240'
+        return 'required|integer|min_value:0|max_value:240'
       } else {
         return ''
       }

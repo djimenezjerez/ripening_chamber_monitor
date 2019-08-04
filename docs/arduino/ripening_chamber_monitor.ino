@@ -34,6 +34,11 @@ const char hum_cha2[] PROGMEM = "hum/cha2";
 const char hum_cha3[] PROGMEM = "hum/cha3";
 const char* const pub_hum[] PROGMEM = {hum_cha1,hum_cha2,hum_cha3};
 
+const char hic_cha1[] PROGMEM = "hic/cha1";
+const char hic_cha2[] PROGMEM = "hic/cha2";
+const char hic_cha3[] PROGMEM = "hic/cha3";
+const char* const pub_hic[] PROGMEM = {hic_cha1,hic_cha2,hic_cha3};
+
 const char id[] PROGMEM = "ard1";
 const char* const connection[] PROGMEM = {id};
 
@@ -127,13 +132,14 @@ void sensorRead(byte i) {
     return;
   }
 
-  float hic = dht[i]->computeHeatIndex(t, h, false);
-
   strcpy_P(buffer, (char*)pgm_read_word(&(pub_tem[i])));
   mqtt.publish(buffer, String(t).c_str());
 
   strcpy_P(buffer, (char*)pgm_read_word(&(pub_hum[i])));
   mqtt.publish(buffer, String(h).c_str());
+
+  strcpy_P(buffer, (char*)pgm_read_word(&(pub_hic[i])));
+  mqtt.publish(buffer, String(dht[i]->computeHeatIndex(t, h, false)).c_str());
 }
 
 void setup()
