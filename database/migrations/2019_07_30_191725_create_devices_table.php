@@ -19,7 +19,7 @@ class CreateDevicesTable extends Migration
             $table->string('display_name');
             $table->macAddress('mac');
             $table->ipAddress('ip');
-            $table->boolean('alive')->default(false);
+            $table->boolean('online')->default(false);
             $table->timestamps();
         });
     }

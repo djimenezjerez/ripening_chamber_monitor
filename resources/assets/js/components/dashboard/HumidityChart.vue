@@ -10,20 +10,22 @@
 import Chart from 'chart.js';
 
 export default {
-  name: 'TemperatureChart',
+  name: 'HumidityChart',
   props: ['room', 'magnitude'],
   data() {
     return {
-      type: 'doughnut',
+      type: 'line',
       value: 0,
+      limitValues: 10,
       date: '',
       options: {
         title: {
           display: true,
           text: this.room.display_name
         },
-        rotation: 1 * Math.PI,
-        circumference: 1 * Math.PI,
+        legend: {
+          display: false
+        },
         tooltips: {
           enabled: false
         },
@@ -33,10 +35,14 @@ export default {
         responsive: true
       },
       data: {
-        datasets: [{
-          data: [0, 100],
-          backgroundColor: ['red', 'lightgray']
-        }]
+        labels: [],
+        datasets: [
+          {
+            data: [],
+            borderColor: 'blue',
+            fill: false
+          }
+        ]
       },
       chart: null
     }
@@ -51,10 +57,6 @@ export default {
   },
   mounted() {
     this.createChart()
-    this.data.labels = [
-      `Límite mínimo: ${this.room.pivot.min_limit}`,
-      `Límite máximo: ${this.room.pivot.max_limit}`
-    ]
     this.$mqtt.subscribe(this.topic)
     console.log(`Subscribed to: ${this.topic}`)
   },
@@ -62,7 +64,7 @@ export default {
     this.$mqtt.unsubscribe(this.topic)
   },
   mqtt: {
-    'tem/+' (data, topic) {
+    'hum/+' (data, topic) {
       if (topic.split('/')[1] == this.room.name) {
         let value = Number(String.fromCharCode.apply(null, data))
         if (this.value != value) {
@@ -74,14 +76,18 @@ export default {
   },
   watch: {
     value(val) {
-      this.data.datasets[0].data[0] = val
-      this.data.datasets[0].data[1] = 100 - val
+      if (this.data.datasets[0].data.length == this.limitValues) {
+        this.data.labels.shift()
+        this.data.datasets[0].data.shift()
+      }
+      this.data.labels.push(this.$moment(this.date).format('HH:mm:ss'))
+      this.data.datasets[0].data.push(val)
       if (val < this.room.pivot.min_limit) {
-        this.data.datasets[0].backgroundColor[0] = 'blue'
+        this.data.datasets[0].borderColor = 'blue'
       } else if (val < this.room.pivot.max_limit) {
-        this.data.datasets[0].backgroundColor[0] = 'green'
+        this.data.datasets[0].borderColor = 'green'
       } else {
-        this.data.datasets[0].backgroundColor[0] = 'red'
+        this.data.datasets[0].borderColor = 'red'
       }
       this.chart.update()
     }

@@ -8,20 +8,19 @@ import { routes } from './routes'
 import StoreData from './store'
 import AppMain from './components/AppMain'
 import es from 'vee-validate/dist/locale/es'
-
+import moment from 'moment-business-days'
 import toastr from 'toastr'
 import 'toastr/build/toastr.min.css'
-Vue.prototype.toastr = toastr
-
-import print from 'print-js'
 import 'vuetify/dist/vuetify.min.css'
 import 'material-design-icons-iconfont/dist/material-design-icons.css'
 import ess from './es.js'
 import Vuetify from 'vuetify'
 import VueMqtt from 'vue-mqtt'
 
+Vue.prototype.toastr = toastr
+
 Vue.use(VueMqtt, `ws://${process.env.MIX_MQTT_URL}`, {
-  clientId: 'web'
+  clientId: `web.${moment().unix()}`
 })
 
 Vue.use(Vuetify, {
@@ -46,9 +45,6 @@ Vue.use(Vuetify, {
 Vue.config.productionTip = false
 Vue.use(VueRouter)
 Vue.use(Vuex)
-
-import moment from 'moment-business-days'
-import { log } from 'util'
 
 moment.updateLocale('es', require('moment/locale/es'), {
   workingWeekdays: [1, 2, 3, 4, 5]

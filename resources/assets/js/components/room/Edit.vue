@@ -19,7 +19,7 @@
                 <v-text-field
                   v-model="room.name"
                   label="Código"
-                  v-validate="'required|min:3'"
+                  v-validate="'required|min:4|max:4'"
                   data-vv-name="Código"
                   :error-messages="errors.collect('Código')"
                 ></v-text-field>
