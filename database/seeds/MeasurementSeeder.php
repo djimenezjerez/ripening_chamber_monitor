@@ -11,10 +11,8 @@ class MeasurementSeeder extends Seeder
      */
     public function run()
     {
-        $total_items = 10;
+        $total_items = 200;
 
-        for($i = $total_items; $i > 0; $i--) {
-            factory(App\Measurement::class, $total_items)->create();
-        }
+        App\Measurement::insert(factory(App\Measurement::class, $total_items)->make()->toArray());
     }
 }

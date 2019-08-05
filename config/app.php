@@ -177,7 +177,10 @@ return [
     Barryvdh\Snappy\ServiceProvider::class,
 
     // Barcode
-    Milon\Barcode\BarcodeServiceProvider::class
+    Milon\Barcode\BarcodeServiceProvider::class,
+
+    // Excel
+    Maatwebsite\Excel\ExcelServiceProvider::class
   ],
 
   /*
@@ -243,6 +246,8 @@ return [
     'Carbon' => \Carbon\Carbon::class,
     // Barcode
     'DNS1D' => Milon\Barcode\Facades\DNS1DFacade::class,
-    'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class
+    'DNS2D' => Milon\Barcode\Facades\DNS2DFacade::class,
+    // Excel
+    'Excel' => Maatwebsite\Excel\Facades\Excel::class
   ],
 ];
