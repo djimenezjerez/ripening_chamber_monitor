@@ -6,6 +6,12 @@
     "permission": null,
     "params": {}
   }, {
+    "href": "reportIndex",
+    "title": "Reportes",
+    "icon": "description",
+    "permission": null,
+    "params": {}
+  }, {
     "title": "Parámetros",
     "icon": "settings",
     "permission": "read-room",

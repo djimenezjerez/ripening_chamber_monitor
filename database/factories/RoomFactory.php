@@ -12,7 +12,7 @@ $factory->define(Room::class, function (Faker $faker) {
 
 	return [
 		'name' => $faker->unique()->stateAbbr(),
-		'display_name' => $faker->sentence(),
+		'display_name' => $faker->word(),
 		'device_id' => Device::all()->random()->id
 	];
 });

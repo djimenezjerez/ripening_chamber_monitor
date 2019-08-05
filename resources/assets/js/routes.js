@@ -6,6 +6,7 @@ import RoleIndex from './components/role/Index'
 import RoomIndex from './components/room/Index'
 import DeviceIndex from './components/device/Index'
 import MagnitudeIndex from './components/magnitude/Index'
+import ReportIndex from './components/report/Index'
 
 export const routes = [
   {
@@ -66,6 +67,13 @@ export const routes = [
     path: '/magnitude',
     name: 'magnitudeIndex',
     component: MagnitudeIndex,
+    meta: {
+      requiresAuth: true
+    }
+  }, {
+    path: '/report',
+    name: 'reportIndex',
+    component: ReportIndex,
     meta: {
       requiresAuth: true
     }

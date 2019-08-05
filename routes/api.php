@@ -38,10 +38,13 @@ Route::group([
       Route::resource('room', 'Api\V1\RoomController')->only(['index', 'store', 'show', 'update', 'destroy']);
       Route::get('room/{id}/magnitude', 'Api\V1\RoomController@get_magnitudes');
       Route::post('room/{id}/magnitude', 'Api\V1\RoomController@set_magnitudes');
+      Route::get('room/export/{id}/{from}/{to}', 'Api\V1\RoomController@export');
       // Magnitude
       Route::resource('magnitude', 'Api\V1\MagnitudeController')->only(['index', 
       'store', 'show', 'update', 'destroy']);
       Route::get('magnitude/{id}/room', 'Api\V1\MagnitudeController@get_rooms');
+      // Measurement
+      Route::resource('measurement', 'Api\V1\MeasurementController')->only(['index']);
     });
   });
 });

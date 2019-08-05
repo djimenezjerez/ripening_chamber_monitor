@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Carbon;
 use App\Measurement;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -16,23 +17,16 @@ class MeasurementController extends Controller
      */
     public function index(Request $request)
     {
-        $list = Measurement::query();
-        if ($request->has('search')) {
-            if ($request->search != 'null' && $request->search != '') {
-                $search = $request->search;
-                $list = $list->where(function ($query) use ($search) {
-                foreach (Schema::getColumnListing(Measurement::getTableName()) as $column) {
-                    $query = $query->orWhere($column, 'ilike', '%' . $search . '%');
-                }
-                });
-            }
-        }
+        $from = Carbon::parse($request->input('from'))->startOfDay();
+        $to = Carbon::parse($request->input('to'))->endOfDay();
+
+        $list = Measurement::whereRoomId($request->input('room'))->whereMagnitudeId($request->input('magnitude'))->whereBetween('created_at', [$from, $to]);
         if ($request->has('sortBy')) {
             if ($request->sortBy != 'null') {
                 $list = $list->orderBy($request->sortBy, $request->input('direction') ?? 'asc');
             }
         }
-        return $list->paginate($request->input('per_page') ?? 10);
+        return $list->orderBy('created_at', 'ASC')->paginate($request->input('per_page') ?? 10);
     }
 
     /**

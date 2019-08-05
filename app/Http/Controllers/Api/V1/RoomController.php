@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers\Api\V1;
 
+use Carbon;
 use App\Room;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Schema;
+use App\Exports\MeasurementExport;
 
 class RoomController extends Controller
 {
@@ -96,5 +98,13 @@ class RoomController extends Controller
         $item = Room::findOrFail($id);
         $item->magnitudes()->sync($request->input('magnitudes'));
         return $item->magnitudes;
+    }
+
+    public function export($id, $from, $to)
+    {
+        $room = Room::findOrFail($id);
+        $filename = implode('_', [str_replace(' ', '_', $room->display_name), Carbon::parse($from)->format('d_m_y'), Carbon::parse($to)->format('d_m_y')]);
+        $filename .= '.xlsx';
+        return (new MeasurementExport($id, $from, $to))->download($filename);
     }
 }
