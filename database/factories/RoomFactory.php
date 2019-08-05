@@ -8,9 +8,10 @@ use Faker\Generator as Faker;
 
 $factory->define(Room::class, function (Faker $faker) {
     $faker->addProvider(new \Faker\Provider\Lorem($faker));
+    $faker->addProvider(new \Faker\Provider\en_US\Address($faker));
 
 	return [
-		'name' => $faker->word(),
+		'name' => $faker->unique()->stateAbbr(),
 		'display_name' => $faker->sentence(),
 		'device_id' => Device::all()->random()->id
 	];

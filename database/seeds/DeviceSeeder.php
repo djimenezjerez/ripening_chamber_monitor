@@ -13,6 +13,8 @@ class DeviceSeeder extends Seeder
     {
         $total_items = 1;
 
-		factory(App\Room::class, $total_items)->create();
+        for($i = $total_items; $i > 0; $i--) {
+            factory(App\Device::class, $total_items)->create();
+        }
     }
 }

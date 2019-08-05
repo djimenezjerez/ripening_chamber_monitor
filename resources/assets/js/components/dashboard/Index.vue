@@ -14,12 +14,27 @@ export default {
     Magnitude
   },
   data: () => ({
-    magnitudes: []
+    magnitudes: [],
+    devices: []
   }),
   mounted() {
+    this.getDevices()
     this.getMagnitudes()
   },
   methods: {
+    async getDevices() {
+      try {
+        let res = await axios.get(`device`)
+        this.devices = res.data.data
+        if (this.devices.length == 0) {
+          this.$router.push({
+            name: 'deviceIndex'
+          })
+        }
+      } catch (e) {
+        console.log(e)
+      }
+    },
     async getMagnitudes() {
       try {
         let res = await axios.get(`magnitude`, {

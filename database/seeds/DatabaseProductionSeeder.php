@@ -14,6 +14,8 @@ class DatabaseProductionSeeder extends Seeder
   {
     $this->command->info('Unguarding models');
     Model::unguard();
+
     $this->call(AdminSeeder::class);
+    $this->call(AdminPermissionSeeder::class);
   }
 }

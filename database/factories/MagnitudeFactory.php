@@ -9,7 +9,7 @@ $factory->define(Magnitude::class, function (Faker $faker) {
     $faker->addProvider(new \Faker\Provider\Lorem($faker));
 
     return [
-        'name' => $faker->word(),
+        'name' => $faker->unique()->word(),
         'display_name' => $faker->word(),
         'measure' => $faker->randomLetter()
     ];

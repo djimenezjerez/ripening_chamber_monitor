@@ -9,7 +9,7 @@ class Measurement extends Model
 	use Traits\EloquentGetTableNameTrait;
 
     public $timestamps = true;
-	public $guarded = ['id'];
+	protected $primaryKey = 'room_id';
 	protected $fillable = ['room_id', 'magnitude_id', 'value'];
 
 	public function room() {
