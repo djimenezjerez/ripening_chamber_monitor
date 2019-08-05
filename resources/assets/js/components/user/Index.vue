@@ -4,10 +4,10 @@
       <v-toolbar-title>Usuarios</v-toolbar-title>
       <v-spacer></v-spacer>
       <template v-if="viewType == 'Usuarios'">
-        <v-btn  @click="enabled = true" :class="this.enabled ? 'primary' : 'normal'" class="mr-0">
+        <v-btn @click="enabled = true" :class="this.enabled ? 'primary' : 'normal'" class="mr-0">
           <div class="font-weight-regular subheading pa-2 white--text">ACTIVOS</div>
         </v-btn>
-        <v-btn  @click="enabled = false" :class="!this.enabled ? 'primary' : 'normal'" class="mr-3">
+        <v-btn @click="enabled = false" :class="!this.enabled ? 'primary' : 'normal'" class="mr-3">
           <div class="font-weight-regular subheading pa-2 white--text">INACTIVOS</div>
         </v-btn>
       </template>

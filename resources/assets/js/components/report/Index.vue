@@ -2,6 +2,7 @@
   <v-container fluid>
     <v-toolbar>
       <v-toolbar-title>Reportes</v-toolbar-title>
+      <v-spacer></v-spacer>
     </v-toolbar>
     <v-toolbar class="pt-2">
       <v-layout wrap>
@@ -106,6 +107,7 @@ export default {
         from: false,
         to: false
       },
+      totalMeasurements: 0,
       rooms: [],
       magnitudes: []
     }
@@ -139,6 +141,11 @@ export default {
   },
   mounted() {
     this.getRooms()
+    this.bus.$on('totalMeasurements', val => {
+      if (val != this.totalMeasurements) {
+        this.totalMeasurements = val
+      }
+    })
   },
   methods: {
     emitSearch() {
