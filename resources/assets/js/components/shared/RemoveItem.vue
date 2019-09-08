@@ -19,33 +19,33 @@ export default {
     return {
       path: '',
       dialog: false,
-    };
+    }
   },
   methods: {
     resetVariables() {
-      this.path = '';
+      this.path = ''
     },
     close() {
-      this.resetVariables();
-      this.dialog = false;
-      this.bus.$emit("closeDialog");
+      this.resetVariables()
+      this.dialog = false
+      this.bus.$emit('closeDialog')
     },
     async remove() {
       try {
-        let res = await axios.delete(this.path);
+        let res = await axios.delete(this.path)
         this.toast('Eliminado correctamente', 'error')
-        this.bus.$emit("removed", Number(this.path.split('/').pop()));
+        this.bus.$emit('deleted', Number(this.path.split('/').pop()))
         this.close()
       } catch (e) {
-        console.log(e);
+        console.log(e)
       }
     }
   },
   mounted() {
-    this.bus.$on("delete", url => {
-      this.path = url;
-      this.dialog = true;
-    });
+    this.bus.$on('delete', url => {
+      this.path = url
+      this.dialog = true
+    })
   }
-};
+}
 </script>

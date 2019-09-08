@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e2e2a053acace300f5b3b0f89ef2d000",
+    "content-hash": "c8b9303d967c97433473e281ad286fe1",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -1072,43 +1072,43 @@
         },
         {
             "name": "laravel/framework",
-            "version": "v5.8.35",
+            "version": "v6.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/laravel/framework.git",
-                "reference": "5a9e4d241a8b815e16c9d2151e908992c38db197"
+                "reference": "f38711564c642ee88a58bf180010a0c7a7ab062e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/laravel/framework/zipball/5a9e4d241a8b815e16c9d2151e908992c38db197",
-                "reference": "5a9e4d241a8b815e16c9d2151e908992c38db197",
+                "url": "https://api.github.com/repos/laravel/framework/zipball/f38711564c642ee88a58bf180010a0c7a7ab062e",
+                "reference": "f38711564c642ee88a58bf180010a0c7a7ab062e",
                 "shasum": ""
             },
             "require": {
                 "doctrine/inflector": "^1.1",
                 "dragonmantank/cron-expression": "^2.0",
-                "egulias/email-validator": "^2.0",
+                "egulias/email-validator": "^2.1.10",
                 "erusev/parsedown": "^1.7",
                 "ext-json": "*",
                 "ext-mbstring": "*",
                 "ext-openssl": "*",
                 "league/flysystem": "^1.0.8",
-                "monolog/monolog": "^1.12",
-                "nesbot/carbon": "^1.26.3 || ^2.0",
+                "monolog/monolog": "^1.12|^2.0",
+                "nesbot/carbon": "^2.0",
                 "opis/closure": "^3.1",
-                "php": "^7.1.3",
+                "php": "^7.2",
                 "psr/container": "^1.0",
                 "psr/simple-cache": "^1.0",
                 "ramsey/uuid": "^3.7",
                 "swiftmailer/swiftmailer": "^6.0",
-                "symfony/console": "^4.2",
-                "symfony/debug": "^4.2",
-                "symfony/finder": "^4.2",
-                "symfony/http-foundation": "^4.2",
-                "symfony/http-kernel": "^4.2",
-                "symfony/process": "^4.2",
-                "symfony/routing": "^4.2",
-                "symfony/var-dumper": "^4.2",
+                "symfony/console": "^4.3.4",
+                "symfony/debug": "^4.3.4",
+                "symfony/finder": "^4.3.4",
+                "symfony/http-foundation": "^4.3.4",
+                "symfony/http-kernel": "^4.3.4",
+                "symfony/process": "^4.3.4",
+                "symfony/routing": "^4.3.4",
+                "symfony/var-dumper": "^4.3.4",
                 "tijsverkoyen/css-to-inline-styles": "^2.2.1",
                 "vlucas/phpdotenv": "^3.3"
             },
@@ -1148,47 +1148,44 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^3.0",
                 "doctrine/dbal": "^2.6",
-                "filp/whoops": "^2.1.4",
+                "filp/whoops": "^2.4",
                 "guzzlehttp/guzzle": "^6.3",
                 "league/flysystem-cached-adapter": "^1.0",
-                "mockery/mockery": "^1.0",
+                "mockery/mockery": "^1.2.3",
                 "moontoast/math": "^1.1",
-                "orchestra/testbench-core": "3.8.*",
+                "orchestra/testbench-core": "^4.0",
                 "pda/pheanstalk": "^4.0",
-                "phpunit/phpunit": "^7.5|^8.0",
+                "phpunit/phpunit": "^8.3",
                 "predis/predis": "^1.1.1",
-                "symfony/css-selector": "^4.2",
-                "symfony/dom-crawler": "^4.2",
+                "symfony/cache": "^4.3",
                 "true/punycode": "^2.1"
             },
             "suggest": {
-                "aws/aws-sdk-php": "Required to use the SQS queue driver and SES mail driver (^3.0).",
+                "aws/aws-sdk-php": "Required to use the SQS queue driver, DynamoDb failed job storage and SES mail driver (^3.0).",
                 "doctrine/dbal": "Required to rename columns and drop SQLite columns (^2.6).",
                 "ext-gd": "Required to use Illuminate\\Http\\Testing\\FileFactory::image().",
+                "ext-memcached": "Required to use the memcache cache driver.",
                 "ext-pcntl": "Required to use all features of the queue worker.",
                 "ext-posix": "Required to use all features of the queue worker.",
-                "filp/whoops": "Required for friendly error pages in development (^2.1.4).",
+                "ext-redis": "Required to use the Redis cache and queue drivers.",
+                "filp/whoops": "Required for friendly error pages in development (^2.4).",
                 "fzaninotto/faker": "Required to use the eloquent factory builder (^1.4).",
-                "guzzlehttp/guzzle": "Required to use the Mailgun and Mandrill mail drivers and the ping methods on schedules (^6.0).",
+                "guzzlehttp/guzzle": "Required to use the Mailgun mail driver and the ping methods on schedules (^6.0).",
                 "laravel/tinker": "Required to use the tinker console command (^1.0).",
                 "league/flysystem-aws-s3-v3": "Required to use the Flysystem S3 driver (^1.0).",
                 "league/flysystem-cached-adapter": "Required to use the Flysystem cache (^1.0).",
-                "league/flysystem-rackspace": "Required to use the Flysystem Rackspace driver (^1.0).",
                 "league/flysystem-sftp": "Required to use the Flysystem SFTP driver (^1.0).",
                 "moontoast/math": "Required to use ordered UUIDs (^1.1).",
-                "nexmo/client": "Required to use the Nexmo transport (^1.0).",
                 "pda/pheanstalk": "Required to use the beanstalk queue driver (^4.0).",
-                "predis/predis": "Required to use the redis cache and queue drivers (^1.0).",
                 "pusher/pusher-php-server": "Required to use the Pusher broadcast driver (^3.0).",
-                "symfony/css-selector": "Required to use some of the crawler integration testing tools (^4.2).",
-                "symfony/dom-crawler": "Required to use most of the crawler integration testing tools (^4.2).",
-                "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.1).",
+                "symfony/cache": "Required to PSR-6 cache bridge (^4.3.4).",
+                "symfony/psr-http-message-bridge": "Required to use PSR-7 bridging features (^1.2).",
                 "wildbit/swiftmailer-postmark": "Required to use Postmark mail driver (^3.0)."
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "5.8-dev"
+                    "dev-master": "6.x-dev"
                 }
             },
             "autoload": {
@@ -1216,7 +1213,7 @@
                 "framework",
                 "laravel"
             ],
-            "time": "2019-09-03T16:44:30+00:00"
+            "time": "2019-09-05T20:31:10+00:00"
         },
         {
             "name": "laravel/tinker",
@@ -1654,71 +1651,22 @@
             "time": "2018-11-04T22:12:12+00:00"
         },
         {
-            "name": "milon/barcode",
-            "version": "5.3.6",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/milon/barcode.git",
-                "reference": "ca2f3efbf46142ff7f7afe3b0f3660ea4a067576"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/milon/barcode/zipball/ca2f3efbf46142ff7f7afe3b0f3660ea4a067576",
-                "reference": "ca2f3efbf46142ff7f7afe3b0f3660ea4a067576",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/support": "5.*",
-                "php": ">=5.6.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-0": {
-                    "Milon\\Barcode": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-3.0"
-            ],
-            "authors": [
-                {
-                    "name": "Nuruzzaman Milon",
-                    "email": "contact@milon.im"
-                }
-            ],
-            "description": "Barcode generator like Qr Code , PDF417,C39, C39+,C39E,C39E+,C93,S25,S25+,I25,I25+,C128,C128A,C128B,C128C,2-Digits UPC-Based Extention,5-Digits UPC-Based Extention,EAN 8,EAN 13,UPC-A,UPC-E,MSI (Variation of Plessey code) ",
-            "keywords": [
-                "CODABAR",
-                "CODE 128",
-                "CODE 39",
-                "barcode",
-                "datamatrix",
-                "ean",
-                "laravel",
-                "pdf417",
-                "qr code",
-                "qrcode"
-            ],
-            "time": "2017-07-28T00:33:38+00:00"
-        },
-        {
             "name": "monolog/monolog",
-            "version": "1.25.1",
+            "version": "2.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/Seldaek/monolog.git",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf"
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
-                "reference": "70e65a5470a42cfec1a7da00d30edb6e617e8dcf",
+                "url": "https://api.github.com/repos/Seldaek/monolog/zipball/68545165e19249013afd1d6f7485aecff07a2d22",
+                "reference": "68545165e19249013afd1d6f7485aecff07a2d22",
                 "shasum": ""
             },
             "require": {
-                "php": ">=5.3.0",
-                "psr/log": "~1.0"
+                "php": "^7.2",
+                "psr/log": "^1.0.1"
             },
             "provide": {
                 "psr/log-implementation": "1.0.0"
@@ -1726,33 +1674,36 @@
             "require-dev": {
                 "aws/aws-sdk-php": "^2.4.9 || ^3.0",
                 "doctrine/couchdb": "~1.0@dev",
-                "graylog2/gelf-php": "~1.0",
-                "jakub-onderka/php-parallel-lint": "0.9",
+                "elasticsearch/elasticsearch": "^6.0",
+                "graylog2/gelf-php": "^1.4.2",
+                "jakub-onderka/php-parallel-lint": "^0.9",
                 "php-amqplib/php-amqplib": "~2.4",
                 "php-console/php-console": "^3.1.3",
-                "phpunit/phpunit": "~4.5",
-                "phpunit/phpunit-mock-objects": "2.3.0",
+                "phpspec/prophecy": "^1.6.1",
+                "phpunit/phpunit": "^8.3",
+                "predis/predis": "^1.1",
+                "rollbar/rollbar": "^1.3",
                 "ruflin/elastica": ">=0.90 <3.0",
-                "sentry/sentry": "^0.13",
                 "swiftmailer/swiftmailer": "^5.3|^6.0"
             },
             "suggest": {
                 "aws/aws-sdk-php": "Allow sending log messages to AWS services like DynamoDB",
                 "doctrine/couchdb": "Allow sending log messages to a CouchDB server",
+                "elasticsearch/elasticsearch": "Allow sending log messages to an Elasticsearch server via official client",
                 "ext-amqp": "Allow sending log messages to an AMQP server (1.0+ required)",
-                "ext-mongo": "Allow sending log messages to a MongoDB server",
+                "ext-mbstring": "Allow to work properly with unicode symbols",
+                "ext-mongodb": "Allow sending log messages to a MongoDB server (via driver)",
                 "graylog2/gelf-php": "Allow sending log messages to a GrayLog2 server",
-                "mongodb/mongodb": "Allow sending log messages to a MongoDB server via PHP Driver",
+                "mongodb/mongodb": "Allow sending log messages to a MongoDB server (via library)",
                 "php-amqplib/php-amqplib": "Allow sending log messages to an AMQP server using php-amqplib",
                 "php-console/php-console": "Allow sending log messages to Google Chrome",
                 "rollbar/rollbar": "Allow sending log messages to Rollbar",
-                "ruflin/elastica": "Allow sending log messages to an Elastic Search server",
-                "sentry/sentry": "Allow sending log messages to a Sentry server"
+                "ruflin/elastica": "Allow sending log messages to an Elastic Search server"
             },
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "2.0.x-dev"
+                    "dev-master": "2.x-dev"
                 }
             },
             "autoload": {
@@ -1778,7 +1729,7 @@
                 "logging",
                 "psr-3"
             ],
-            "time": "2019-09-06T13:49:17+00:00"
+            "time": "2019-08-30T09:56:44+00:00"
         },
         {
             "name": "namshi/jose",
@@ -4104,78 +4055,26 @@
         },
         {
             "name": "tymon/jwt-auth",
-            "version": "1.0.0-rc.4.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/tymondesigns/jwt-auth.git",
-                "reference": "63698d304554e5d0bc3eb481cc260a9fc900e151"
-            },
+            "version": "1.0.0-rc.4.2",
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/tymondesigns/jwt-auth/zipball/63698d304554e5d0bc3eb481cc260a9fc900e151",
-                "reference": "63698d304554e5d0bc3eb481cc260a9fc900e151",
-                "shasum": ""
+                "url": "https://github.com/tymondesigns/jwt-auth/archive/1.0.0-rc.4.1.zip"
             },
             "require": {
-                "illuminate/auth": "^5.1",
-                "illuminate/contracts": "^5.1",
-                "illuminate/http": "^5.1",
-                "illuminate/support": "^5.1",
+                "illuminate/auth": "^6.0",
+                "illuminate/contracts": "^6.0",
+                "illuminate/http": "^6.0",
+                "illuminate/support": "^6.0",
                 "lcobucci/jwt": "^3.2",
                 "namshi/jose": "^7.0",
-                "nesbot/carbon": "^1.0 || ^2.0",
-                "php": "^5.5.9 || ^7.0"
-            },
-            "require-dev": {
-                "cartalyst/sentinel": "2.0.*",
-                "illuminate/console": "^5.1",
-                "illuminate/database": "^5.1",
-                "illuminate/routing": "^5.1",
-                "mockery/mockery": ">=0.9.9",
-                "phpunit/phpunit": "~4.8 || ~6.0"
+                "nesbot/carbon": "^1.0 || ^2.0"
             },
             "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-develop": "1.0-dev"
-                },
-                "laravel": {
-                    "aliases": {
-                        "JWTAuth": "Tymon\\JWTAuth\\Facades\\JWTAuth",
-                        "JWTFactory": "Tymon\\JWTAuth\\Facades\\JWTFactory"
-                    },
-                    "providers": [
-                        "Tymon\\JWTAuth\\Providers\\LaravelServiceProvider"
-                    ]
-                }
-            },
             "autoload": {
-                "psr-4": {
-                    "Tymon\\JWTAuth\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Sean Tymon",
-                    "role": "Developer",
-                    "email": "tymon148@gmail.com",
-                    "homepage": "https://tymon.xyz"
-                }
-            ],
-            "description": "JSON Web Token Authentication for Laravel and Lumen",
-            "homepage": "https://github.com/tymondesigns/jwt-auth",
-            "keywords": [
-                "Authentication",
-                "JSON Web Token",
-                "auth",
-                "jwt",
-                "laravel"
-            ],
-            "time": "2019-03-14T20:29:20+00:00"
+                "classmap": [
+                    "src/"
+                ]
+            }
         },
         {
             "name": "vlucas/phpdotenv",
@@ -4457,87 +4356,6 @@
             "time": "2016-01-20T08:20:44+00:00"
         },
         {
-            "name": "mnapoli/front-yaml",
-            "version": "1.6.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mnapoli/FrontYAML.git",
-                "reference": "24070ace8b741247bb3161cbb38ecc541268b296"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/FrontYAML/zipball/24070ace8b741247bb3161cbb38ecc541268b296",
-                "reference": "24070ace8b741247bb3161cbb38ecc541268b296",
-                "shasum": ""
-            },
-            "require": {
-                "erusev/parsedown": "~1.0",
-                "php": ">=5.4.0",
-                "symfony/yaml": "~2.1|^3.0|^4.0"
-            },
-            "require-dev": {
-                "league/commonmark": "~0.7",
-                "phpunit/phpunit": "~4.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Mni\\FrontYAML\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "time": "2017-10-29T19:29:55+00:00"
-        },
-        {
-            "name": "mnapoli/silly",
-            "version": "1.7.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mnapoli/silly.git",
-                "reference": "5f7f34f4db75685e6fe7d652c12d9a7b6e8034d6"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mnapoli/silly/zipball/5f7f34f4db75685e6fe7d652c12d9a7b6e8034d6",
-                "reference": "5f7f34f4db75685e6fe7d652c12d9a7b6e8034d6",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.0",
-                "php-di/invoker": "~2.0",
-                "psr/container": "^1.0",
-                "symfony/console": "~3.0|~4.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^2.12",
-                "mnapoli/phpunit-easymock": "~1.0",
-                "phpunit/phpunit": "~6.4"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Silly\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Silly CLI micro-framework based on Symfony Console",
-            "keywords": [
-                "PSR-11",
-                "cli",
-                "console",
-                "framework",
-                "micro-framework",
-                "silly"
-            ],
-            "time": "2018-12-26T21:17:30+00:00"
-        },
-        {
             "name": "mockery/mockery",
             "version": "1.2.3",
             "source": {
@@ -4603,172 +4421,6 @@
             "time": "2019-08-07T15:01:07+00:00"
         },
         {
-            "name": "mpociot/documentarian",
-            "version": "0.3.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mpociot/documentarian.git",
-                "reference": "6a9f227ec1d1d295d4d3ee91bca0a6a98585684f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mpociot/documentarian/zipball/6a9f227ec1d1d295d4d3ee91bca0a6a98585684f",
-                "reference": "6a9f227ec1d1d295d4d3ee91bca0a6a98585684f",
-                "shasum": ""
-            },
-            "require": {
-                "illuminate/view": "5.*|^6.0",
-                "mnapoli/front-yaml": "^1.5",
-                "mnapoli/silly": "~1.0",
-                "php": ">=5.5.9",
-                "windwalker/renderer": "3.*"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "^4.8"
-            },
-            "bin": [
-                "documentarian"
-            ],
-            "type": "library",
-            "autoload": {
-                "files": [
-                    "includes/helpers.php"
-                ],
-                "psr-4": {
-                    "Mpociot\\Documentarian\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "Apache 2"
-            ],
-            "authors": [
-                {
-                    "name": "Marcel Pociot",
-                    "email": "m.pociot@gmail.com"
-                }
-            ],
-            "time": "2019-09-04T22:15:39+00:00"
-        },
-        {
-            "name": "mpociot/laravel-apidoc-generator",
-            "version": "3.17.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mpociot/laravel-apidoc-generator.git",
-                "reference": "4893170252adc9f37401c78a98543bbc6d01d69d"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mpociot/laravel-apidoc-generator/zipball/4893170252adc9f37401c78a98543bbc6d01d69d",
-                "reference": "4893170252adc9f37401c78a98543bbc6d01d69d",
-                "shasum": ""
-            },
-            "require": {
-                "fzaninotto/faker": "~1.8",
-                "illuminate/console": "^5.5|^6.0",
-                "illuminate/routing": "^5.5|^6.0",
-                "illuminate/support": "^5.5|^6.0",
-                "league/flysystem": "^1.0",
-                "mpociot/documentarian": "^0.3.0",
-                "mpociot/reflection-docblock": "^1.0.1",
-                "php": ">=7.0.0",
-                "ramsey/uuid": "^3.8"
-            },
-            "require-dev": {
-                "dingo/api": "2.0.0-alpha1",
-                "league/fractal": "^0.17.0",
-                "mockery/mockery": "^1.2.0",
-                "orchestra/testbench": "3.5.* || 3.6.* || 3.7.*",
-                "phpstan/phpstan": "^0.9.0 || ^0.10.0 || ^0.11.15",
-                "phpunit/phpunit": "^6.0.0 || ^7.4.0"
-            },
-            "suggest": {
-                "league/fractal": "Required for transformers support",
-                "nunomaduro/collision": "For better reporting of errors that are thrown when generating docs"
-            },
-            "type": "library",
-            "extra": {
-                "laravel": {
-                    "providers": [
-                        "Mpociot\\ApiDoc\\ApiDocGeneratorServiceProvider"
-                    ]
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Mpociot\\ApiDoc\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Marcel Pociot",
-                    "email": "m.pociot@gmail.com"
-                }
-            ],
-            "description": "Generate beautiful API documentation from your Laravel application",
-            "homepage": "http://github.com/mpociot/laravel-apidoc-generator",
-            "keywords": [
-                "api",
-                "documentation",
-                "laravel"
-            ],
-            "time": "2019-09-07T15:44:55+00:00"
-        },
-        {
-            "name": "mpociot/reflection-docblock",
-            "version": "1.0.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/mpociot/reflection-docblock.git",
-                "reference": "c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/mpociot/reflection-docblock/zipball/c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587",
-                "reference": "c8b2e2b1f5cebbb06e2b5ccbf2958f2198867587",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.3.3"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "suggest": {
-                "dflydev/markdown": "~1.0",
-                "erusev/parsedown": "~1.0"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "2.0.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-0": {
-                    "Mpociot": [
-                        "src/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Mike van Riel",
-                    "email": "mike.vanriel@naenius.com"
-                }
-            ],
-            "time": "2016-06-20T20:53:12+00:00"
-        },
-        {
             "name": "nunomaduro/collision",
             "version": "v2.1.1",
             "source": {
@@ -4831,218 +4483,6 @@
                 "symfony"
             ],
             "time": "2018-11-21T21:40:54+00:00"
-        },
-        {
-            "name": "php-di/invoker",
-            "version": "2.0.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/PHP-DI/Invoker.git",
-                "reference": "540c27c86f663e20fe39a24cd72fa76cdb21d41a"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/PHP-DI/Invoker/zipball/540c27c86f663e20fe39a24cd72fa76cdb21d41a",
-                "reference": "540c27c86f663e20fe39a24cd72fa76cdb21d41a",
-                "shasum": ""
-            },
-            "require": {
-                "psr/container": "~1.0"
-            },
-            "require-dev": {
-                "athletic/athletic": "~0.1.8",
-                "phpunit/phpunit": "~4.5"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "Invoker\\": "src/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "description": "Generic and extensible callable invoker",
-            "homepage": "https://github.com/PHP-DI/Invoker",
-            "keywords": [
-                "callable",
-                "dependency",
-                "dependency-injection",
-                "injection",
-                "invoke",
-                "invoker"
-            ],
-            "time": "2017-03-20T19:28:22+00:00"
-        },
-        {
-            "name": "symfony/yaml",
-            "version": "v4.3.4",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/symfony/yaml.git",
-                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/symfony/yaml/zipball/5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
-                "reference": "5a0b7c32dc3ec56fd4abae8a4a71b0cf05013686",
-                "shasum": ""
-            },
-            "require": {
-                "php": "^7.1.3",
-                "symfony/polyfill-ctype": "~1.8"
-            },
-            "conflict": {
-                "symfony/console": "<3.4"
-            },
-            "require-dev": {
-                "symfony/console": "~3.4|~4.0"
-            },
-            "suggest": {
-                "symfony/console": "For validating YAML files using the lint command"
-            },
-            "type": "library",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "4.3-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Symfony\\Component\\Yaml\\": ""
-                },
-                "exclude-from-classmap": [
-                    "/Tests/"
-                ]
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Fabien Potencier",
-                    "email": "fabien@symfony.com"
-                },
-                {
-                    "name": "Symfony Community",
-                    "homepage": "https://symfony.com/contributors"
-                }
-            ],
-            "description": "Symfony Yaml Component",
-            "homepage": "https://symfony.com",
-            "time": "2019-08-20T14:27:59+00:00"
-        },
-        {
-            "name": "windwalker/renderer",
-            "version": "3.5.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ventoviro/windwalker-renderer.git",
-                "reference": "c49ee2a473f565b5a428f86d3462f6637a40b35e"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ventoviro/windwalker-renderer/zipball/c49ee2a473f565b5a428f86d3462f6637a40b35e",
-                "reference": "c49ee2a473f565b5a428f86d3462f6637a40b35e",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3",
-                "windwalker/structure": "~3.0"
-            },
-            "require-dev": {
-                "illuminate/view": "5.2.*",
-                "league/plates": "3.*",
-                "mustache/mustache": "2.*",
-                "twig/twig": "1.*",
-                "windwalker/dom": "~3.0",
-                "windwalker/filesystem": "~3.0",
-                "windwalker/test": "~3.0"
-            },
-            "suggest": {
-                "illuminate/view": "Install 5.* if you require Laravel Blade engine.",
-                "league/plates": "Install 3.* if you require Plates template engine.",
-                "mustache/mustache": "Install 2.* if you require Mustache engine.",
-                "twig/twig": "Install 1.* if you require Twig engine."
-            },
-            "type": "windwalker-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Windwalker\\Renderer\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.0-or-later"
-            ],
-            "description": "Windwalker Renderer package",
-            "homepage": "https://github.com/ventoviro/windwalker-renderer",
-            "keywords": [
-                "framework",
-                "renderer",
-                "windwalker"
-            ],
-            "time": "2019-08-17T05:12:18+00:00"
-        },
-        {
-            "name": "windwalker/structure",
-            "version": "3.5.12",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/ventoviro/windwalker-structure.git",
-                "reference": "efd8e765b6d57db395c23ba02948953b7d20dd86"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/ventoviro/windwalker-structure/zipball/efd8e765b6d57db395c23ba02948953b7d20dd86",
-                "reference": "efd8e765b6d57db395c23ba02948953b7d20dd86",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=7.1.3"
-            },
-            "require-dev": {
-                "ext-json": "*",
-                "laktak/hjson": "^2.1",
-                "symfony/yaml": "3.*",
-                "windwalker/test": "~3.0",
-                "yosymfony/toml": "^1.0"
-            },
-            "suggest": {
-                "laktak/hjson": "Install ~2.0 if you require HJSON support.",
-                "symfony/yaml": "Install 3.* if you require YAML support.",
-                "yosymfony/toml": "Install ~1.0 if you require TOML support."
-            },
-            "type": "windwalker-package",
-            "extra": {
-                "branch-alias": {
-                    "dev-master": "3.x-dev"
-                }
-            },
-            "autoload": {
-                "psr-4": {
-                    "Windwalker\\Structure\\": ""
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "LGPL-2.0-or-later"
-            ],
-            "description": "Windwalker Structure package",
-            "homepage": "https://github.com/ventoviro/windwalker-structure",
-            "keywords": [
-                "framework",
-                "structure",
-                "windwalker"
-            ],
-            "time": "2019-07-26T17:11:14+00:00"
         }
     ],
     "aliases": [],

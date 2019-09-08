@@ -73,8 +73,8 @@ export default {
           params: {
             page: 1,
             per_page: 1000,
-            sortBy: 'display_name',
-            direction: 'asc',
+            sortBy: ['display_name'],
+            sortDesc: [false],
             search: null
           }
         })

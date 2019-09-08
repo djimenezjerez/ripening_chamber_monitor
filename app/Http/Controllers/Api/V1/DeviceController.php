@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Api\V1;
 use App\Device;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\DeviceForm;
 use Illuminate\Support\Facades\Schema;
 
 class DeviceController extends Controller
@@ -43,7 +44,7 @@ class DeviceController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(DeviceForm $request)
     {
         return Device::create($request->all());
     }
@@ -66,7 +67,7 @@ class DeviceController extends Controller
      * @param  \App\Device  $device
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(DeviceForm $request, $id)
     {
         $item = Device::findOrFail($id);
         $item->fill($request->all());
