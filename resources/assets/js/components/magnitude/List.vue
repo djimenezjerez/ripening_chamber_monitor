@@ -3,28 +3,35 @@
     :headers="headers"
     :items="magnitudes"
     :loading="loading"
-    :pagination.sync="pagination"
-    :total-items="totalMagnitudes"
-    :rows-per-page-items="[10,20,30]"
+    :options.sync="options"
+    :server-items-length="totalItems"
+    :footer-props="{ itemsPerPageOptions: [10, 20, 30] }"
   >
-    <template v-slot:items="props">
-      <td class="text-xs-center">{{ props.item.name }}</td>
-      <td class="text-xs-center">{{ props.item.display_name }}</td>
-      <td class="text-xs-center">{{ props.item.measure }}</td>
-      <td class="text-xs-center">
-        <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-magnitude')">
-          <v-tooltip top>
-            <v-icon color="info" slot="activator">edit</v-icon>
-            <span>Editar</span>
-          </v-tooltip>
-        </v-btn>
-        <v-btn icon text @click="bus.$emit('delete', `magnitude/${props.item.id}`)" v-if="$store.getters.permissions.includes('delete-magnitude')">
-          <v-tooltip top>
-            <v-icon color="error" slot="activator">delete</v-icon>
-            <span>Eliminar</span>
-          </v-tooltip>
-        </v-btn>
-      </td>
+    <template v-slot:item="props">
+      <tr>
+
+        <td class="text-center">{{ props.item.name }}</td>
+        <td class="text-center">{{ props.item.display_name }}</td>
+        <td class="text-center">{{ props.item.measure }}</td>
+        <td class="text-center">
+          <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-magnitude')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="info" v-on="on">mdi-pencil</v-icon>
+              </template>
+              <span>Editar</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn icon text @click="bus.$emit('delete', `magnitude/${props.item.id}`)" v-if="$store.getters.permissions.includes('delete-magnitude')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="error" v-on="on">mdi-delete</v-icon>
+              </template>
+              <span>Eliminar</span>
+            </v-tooltip>
+          </v-btn>
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>
@@ -36,24 +43,24 @@ export default {
   data: () => ({
     loading: true,
     search: '',
-    pagination: {
+    options: {
       page: 1,
       rowsPerPage: 10,
-      sortBy: null,
-      descending: false
+      sortBy: ['name'],
+      sortDesc: [false]
     },
     magnitudes: [],
-    totalMagnitudes: 0,
+    totalItems: 0,
     headers: [
-      { text: 'Código', value: 'name', align: 'center', sortable: true },
-      { text: 'Nombre', value: 'display_name', align: 'center', sortable: true },
-      { text: 'Unidad', value: 'measure', align: 'center', sortable: true },
-      { text: 'Acciones', value: 'id', align: 'center', sortable: false }
+      { text: 'Código', value: 'name', align: 'center', sortable: true, class: 'grey lighten-2' },
+      { text: 'Nombre', value: 'display_name', align: 'center', sortable: true, class: 'grey lighten-2' },
+      { text: 'Unidad', value: 'measure', align: 'center', sortable: true, class: 'grey lighten-2' },
+      { text: 'Acciones', value: 'id', align: 'center', sortable: false, class: 'grey lighten-2' }
     ]
   }),
   watch: {
-    pagination: function(newVal, oldVal) {
-      if (newVal.page != oldVal.page || newVal.rowsPerPage != oldVal.rowsPerPage || newVal.sortBy != oldVal.sortBy || newVal.descending != oldVal.descending) {
+    options: function(newVal, oldVal) {
+      if (newVal.page != oldVal.page || newVal.rowsPerPage != oldVal.rowsPerPage || newVal.sortBy != oldVal.sortBy || newVal.sortDesc != oldVal.sortDesc) {
         this.getMagnitudes()
       }
     },
@@ -83,19 +90,19 @@ export default {
       try {
         let res = await axios.get(`magnitude`, {
           params: {
-            page: this.pagination.page,
-            per_page: this.pagination.rowsPerPage,
-            sortBy: this.pagination.sortBy,
-            direction: this.pagination.descending ? 'desc' : 'asc',
+            page: this.options.page,
+            per_page: this.options.rowsPerPage,
+            sortBy: this.options.sortBy,
+            sortDesc: this.options.sortDesc,
             search: this.search
           }
         })
         this.magnitudes = res.data.data
-        this.totalMagnitudes = res.data.total
+        this.totalItems = res.data.total
         delete res.data['data']
-        this.pagination.page = res.data.current_page
-        this.pagination.rowsPerPage = parseInt(res.data.per_page)
-        this.pagination.totalItems = res.data.total
+        this.options.page = res.data.current_page
+        this.options.rowsPerPage = parseInt(res.data.per_page)
+        this.options.totalItems = res.data.total
       } catch (e) {
         console.log(e)
       } finally {

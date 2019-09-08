@@ -4,13 +4,14 @@
     width="600"
   >
     <v-card>
-      <v-toolbar dense flat dark class="info">
+      <v-toolbar flat dense color="tertiary">
         <v-toolbar-title>{{ title }} usuario</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click.native="close()">
-          <v-icon>close</v-icon>
+        <v-btn icon @click.stop="close()">
+          <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
+      <v-card-title></v-card-title>
       <v-card-text>
         <v-form v-model="valid">
           <v-container grid-list-xs>
@@ -63,17 +64,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          color="success"
-          class="mr-6"
-          @click.native="close()"
-        >Cerrar</v-btn>
-        <v-btn
-          :disabled="!valid"
-          color="error"
-          class="mr-6"
-          @click.native="save()"
-        >Guardar</v-btn>
+        <v-btn color="error" @click="save()">Guardar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -114,10 +105,10 @@ export default {
           if (this.user.id != null) {
             await axios.patch(`user/${this.user.id}`, this.user)
           } else {
-            this.user.newPassword = this.user.username
+            this.user.password = this.user.username
             await axios.post(`user`, this.user)
           }
-          this.toastr.success('Usuario registrado')
+          this.toast('Usuario registrado', 'success')
           this.close()
         }
       } catch (e) {

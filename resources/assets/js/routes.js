@@ -1,12 +1,12 @@
-import Login from './components/auth/Login'
-import Profile from './components/auth/Profile'
-import DashboardIndex from './components/dashboard/Index'
-import UserIndex from './components/user/Index'
-import RoleIndex from './components/role/Index'
-import RoomIndex from './components/room/Index'
-import DeviceIndex from './components/device/Index'
-import MagnitudeIndex from './components/magnitude/Index'
-import ReportIndex from './components/report/Index'
+import Login from '@/components/auth/Login'
+import Profile from '@/components/auth/Profile'
+import DashboardIndex from '@/components/dashboard/Index'
+import UserIndex from '@/components/user/Index'
+import RoleIndex from '@/components/role/Index'
+import RoomIndex from '@/components/room/Index'
+import DeviceIndex from '@/components/device/Index'
+import MagnitudeIndex from '@/components/magnitude/Index'
+import ReportIndex from '@/components/report/Index'
 
 export const routes = [
   {

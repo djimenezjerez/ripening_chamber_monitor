@@ -4,13 +4,14 @@
     width="600"
   >
     <v-card>
-      <v-toolbar dense flat dark class="info">
+      <v-toolbar flat dense color="tertiary">
         <v-toolbar-title>{{ title }} ambiente</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click.native="close()">
-          <v-icon>close</v-icon>
+        <v-btn icon @click.stop="close()">
+          <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
+      <v-card-title></v-card-title>
       <v-card-text>
         <v-form v-model="valid">
           <v-container grid-list-xs>
@@ -36,7 +37,7 @@
               <v-select
                 :items="devices"
                 label="Dispositivo"
-                prepend-icon="settings_remote"
+                prepend-icon="mdi-cellphone-wireless"
                 item-text="display_name"
                 item-value="id"
                 v-model="room.device_id"
@@ -52,17 +53,7 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
-        <v-btn
-          color="success"
-          class="mr-6"
-          @click.native="close()"
-        >Cerrar</v-btn>
-        <v-btn
-          :disabled="!valid"
-          color="error"
-          class="mr-6"
-          @click.native="save()"
-        >Guardar</v-btn>
+        <v-btn color="error" @click="save()">Guardar</v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
@@ -105,7 +96,7 @@ export default {
           } else {
             await axios.post(`room`, this.room)
           }
-          this.toastr.success('Ambiente registrado')
+          this.toast('Ambiente registrado', 'success')
           this.close()
         }
       } catch (e) {

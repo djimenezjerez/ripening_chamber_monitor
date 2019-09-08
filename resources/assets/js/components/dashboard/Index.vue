@@ -5,11 +5,12 @@
     </template>
   </div>
 </template>
+
 <script>
-import Magnitude from './Magnitude'
+import Magnitude from '@/components/dashboard/Magnitude'
 
 export default {
-  name: "dashboardIndex",
+  name: "dashboard-index",
   components: {
     Magnitude
   },

@@ -1,74 +1,46 @@
-require('./bootstrap')
+// Vue instance
+import '@/bootstrap'
+Vue.config.productionTip = false
+import App from '@/layout/App'
 
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import Vuex from 'vuex'
-import VeeValidate, { Validator } from 'vee-validate'
-import { routes } from './routes'
-import StoreData from './store'
-import AppMain from './components/AppMain'
-import es from 'vee-validate/dist/locale/es'
-import moment from 'moment-business-days'
-import toastr from 'toastr'
-import 'toastr/build/toastr.min.css'
-import 'vuetify/dist/vuetify.min.css'
-import 'material-design-icons-iconfont/dist/material-design-icons.css'
-import ess from './es.js'
-import Vuetify from 'vuetify'
-import VueMqtt from 'vue-mqtt'
-
-Vue.prototype.toastr = toastr
-
-Vue.use(VueMqtt, `ws://${process.env.MIX_MQTT_URL}`, {
-  clientId: `web.${moment().unix()}`
-})
-
-Vue.use(Vuetify, {
-  lang: {
-    locales: { ess },
-    current: 'ess'
-  },
-  theme: {
-    primary: '#263238',
-    secondary: '#455A64',
-    tertiary: '#CFD8DC',
-    accent: '#8D6E63',
-    error: '#DD2C00',
-    warning: '#FFAB00',
-    info: '#0288D1',
-    success: '#43A047',
-    danger: '#ff6d00',
-    normal: '#757575'
+// Toast notification
+import toast from '@/plugins/toast'
+Vue.mixin({
+  methods: {
+    toast: toast
   }
 })
 
-Vue.config.productionTip = false
-Vue.use(VueRouter)
-Vue.use(Vuex)
+// Validator
+import '@/plugins/vee-validate'
 
-moment.updateLocale('es', require('moment/locale/es'), {
-  workingWeekdays: [1, 2, 3, 4, 5]
-})
-Vue.use(require('vue-moment'), {
-  moment
-})
+// Vuetify
+import vuetify from '@/plugins/vuetify'
 
-Vue.use(VeeValidate, {
-  locale: 'es',
+// Locale
+import VueI18n from 'vue-i18n'
+const i18n = new VueI18n({
+  locale: 'es'
 })
 
+// Router
+import router from '@/plugins/router'
+
+// Vuex
+import Vuex from 'vuex'
+import StoreData from '@/store'
 const store = new Vuex.Store(StoreData)
 
-const router = new VueRouter({
-  routes,
-  // hashbang: false,
-  mode: 'history',
-})
+// Moment
+import '@/plugins/moment'
 
+// MQTT
+import '@/plugins/mqtt'
+
+// JWT
 axios.defaults.headers.common['Accept'] = 'application/json'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
 axios.defaults.headers.common['Authorization'] = `${store.getters.token.type} ${store.getters.token.value}`
-
 axios.interceptors.response.use(response => {
   return response
 }, error => {
@@ -79,13 +51,12 @@ axios.interceptors.response.use(response => {
     }
     for (let key in error.response.data.errors) {
       error.response.data.errors[key].forEach(error => {
-        toastr.error(error)
+        toast(error, 'error')
       })
     }
   }
   return Promise.reject(error)
 })
-
 router.beforeEach((to, from, next) => {
   const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
   const user = store.state.user
@@ -102,21 +73,21 @@ router.beforeEach((to, from, next) => {
     next()
   }
 })
+if (store.getters.tokenExpired) {
+  store.dispatch('logout')
+  router.go('login')
+}
 
 new Vue({
-  el: '#app',
   router,
+  i18n,
   store,
-  components: {
-    AppMain
-  },
-  locale: 'es',
+  vuetify,
+  render: h => h(App),
   beforeCreate() {
     if (store.getters.tokenExpired) {
       store.dispatch('logout')
       router.go('login')
     }
   }
-})
-
-Validator.localize('es', es)
+}).$mount('#app')

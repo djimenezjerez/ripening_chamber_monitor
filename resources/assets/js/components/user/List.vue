@@ -3,35 +3,44 @@
     :headers="headers"
     :items="users"
     :loading="loading"
-    :pagination.sync="pagination"
-    :total-items="totalUsers"
-    :rows-per-page-items="[10,20,30]"
+    :options.sync="options"
+    :server-items-length="totalItems"
+    :footer-props="{ itemsPerPageOptions: [10, 20, 30] }"
   >
-    <template v-slot:items="props">
-      <td class="text-xs-center">{{ props.item.name }}</td>
-      <td class="text-xs-center">{{ props.item.username }}</td>
-      <td class="text-xs-center">{{ props.item.charge }}</td>
-      <td class="text-xs-center">{{ props.item.phone }}</td>
-      <td class="text-xs-center">
-        <v-btn icon text @click.native="resetPassword(props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
-          <v-tooltip top>
-            <v-icon color="error" slot="activator">vpn_key</v-icon>
-            <span>Reiniciar contraseña</span>
-          </v-tooltip>
-        </v-btn>
-        <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-user')">
-          <v-tooltip top>
-            <v-icon color="info" slot="activator">edit</v-icon>
-            <span>Editar</span>
-          </v-tooltip>
-        </v-btn>
-        <v-btn icon text @click.native="bus.$emit('role', props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
-          <v-tooltip top>
-            <v-icon color="danger" slot="activator">security</v-icon>
-            <span>Roles</span>
-          </v-tooltip>
-        </v-btn>
-      </td>
+    <template v-slot:item="props">
+      <tr>
+
+        <td class="text-center">{{ props.item.name }}</td>
+        <td class="text-center">{{ props.item.username }}</td>
+        <td class="text-center">{{ props.item.charge }}</td>
+        <td class="text-center">{{ props.item.phone }}</td>
+        <td class="text-center">
+          <v-btn icon text @click.native="resetPassword(props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="error" v-on="on">mdi-key</v-icon>
+              </template>
+              <span>Reiniciar contraseña</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-user')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="info" v-on="on">mdi-pencil</v-icon>
+              </template>
+              <span>Editar</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn icon text @click.native="bus.$emit('role', props.item)" v-if="enabled && $store.getters.permissions.includes('update-user')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="danger" v-on="on">mdi-security</v-icon>
+              </template>
+              <span>Roles</span>
+            </v-tooltip>
+          </v-btn>
+        </td>
+      </tr>
     </template>
   </v-data-table>
 </template>
@@ -44,25 +53,25 @@ export default {
     loading: true,
     search: '',
     enabled: true,
-    pagination: {
+    options: {
       page: 1,
       rowsPerPage: 10,
-      sortBy: null,
-      descending: false
+      sortBy: ['name'],
+      sortDesc: [false]
     },
     users: [],
-    totalUsers: 0,
+    totalItems: 0,
     headers: [
-      { text: 'Nombre', value: 'name', align: 'center', sortable: true },
-      { text: 'Usuario', value: 'username', align: 'center', sortable: true },
-      { text: 'Cargo', value: 'charge', align: 'center', sortable: true },
-      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true },
-      { text: 'Acciones', value: 'id', align: 'center', sortable: false }
+      { text: 'Nombre', value: 'name', align: 'center', sortable: true, width: '35%', class: 'grey lighten-2' },
+      { text: 'Usuario', value: 'username', align: 'center', sortable: true, width: '10%', class: 'grey lighten-2' },
+      { text: 'Cargo', value: 'charge', align: 'center', sortable: true, width: '25%', class: 'grey lighten-2' },
+      { text: 'Teléfono', value: 'phone', align: 'center', sortable: true, width: '15%', class: 'grey lighten-2' },
+      { text: 'Acciones', value: 'id', align: 'center', sortable: false, width: '15%', class: 'grey lighten-2' }
     ]
   }),
   watch: {
-    pagination: function(newVal, oldVal) {
-      if (newVal.page != oldVal.page || newVal.rowsPerPage != oldVal.rowsPerPage || newVal.sortBy != oldVal.sortBy || newVal.descending != oldVal.descending) {
+    options: function(newVal, oldVal) {
+      if (newVal.page != oldVal.page || newVal.rowsPerPage != oldVal.rowsPerPage || newVal.sortBy != oldVal.sortBy || newVal.sortDesc != oldVal.sortDesc) {
         this.getUsers()
       }
     },
@@ -94,20 +103,20 @@ export default {
       try {
         let res = await axios.get(`user`, {
           params: {
-            page: this.pagination.page,
-            per_page: this.pagination.rowsPerPage,
-            sortBy: this.pagination.sortBy,
-            direction: this.pagination.descending ? 'desc' : 'asc',
+            page: this.options.page,
+            per_page: this.options.itemsPerPage,
+            sortBy: this.options.sortBy,
+            sortDesc: this.options.sortDesc,
             enabled: this.enabled,
             search: this.search
           }
         })
         this.users = res.data.data
-        this.totalUsers = res.data.total
+        this.totalItems = res.data.total
         delete res.data['data']
-        this.pagination.page = res.data.current_page
-        this.pagination.rowsPerPage = parseInt(res.data.per_page)
-        this.pagination.totalItems = res.data.total
+        this.options.page = res.data.current_page
+        this.options.rowsPerPage = parseInt(res.data.per_page)
+        this.options.totalItems = res.data.total
       } catch (e) {
         console.log(e)
       } finally {
@@ -119,7 +128,7 @@ export default {
         await axios.patch(`user/${item.id}`, {
           newPassword: item.username
         })
-        this.toastr.success('Contraseña reiniciada')
+        this.toast('Contraseña reiniciada', 'success')
       } catch(e) {
         console.log(e)
       }

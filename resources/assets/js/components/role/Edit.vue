@@ -4,34 +4,37 @@
     width="600"
   >
     <v-card>
-      <v-toolbar dense flat dark class="info">
+      <v-toolbar flat dense color="tertiary">
         <v-toolbar-title>Permisos para el rol {{ role.display_name }}</v-toolbar-title>
         <v-spacer></v-spacer>
-        <v-btn icon @click.native="close()">
-          <v-icon>close</v-icon>
+        <v-btn icon @click.stop="close()">
+          <v-icon>mdi-close</v-icon>
         </v-btn>
       </v-toolbar>
+      <v-card-title></v-card-title>
       <v-card-text>
         <v-select
           :items="modules"
           label="Módulo"
-          prepend-icon="extension"
+          prepend-icon="mdi-settings"
           item-text="name"
           item-value="id"
           v-model="selectedModule"
         ></v-select>
         <template v-for="permission in permissions">
-          <v-checkbox @click.native="save(permission)" :key="permission.id" v-model="permission.checked" :label="permission.display_name"></v-checkbox>
+          <v-tooltip top :key="permission.id">
+            <template v-slot:activator="{ on }">
+              <v-checkbox
+                @click.native="save(permission)"
+                v-model="permission.checked"
+                :label="permission.display_name"
+                v-on="on"
+              ></v-checkbox>
+            </template>
+            <span>{{ permission.description }}</span>
+          </v-tooltip>
         </template>
       </v-card-text>
-      <v-card-actions>
-        <v-spacer></v-spacer>
-        <v-btn
-          color="success"
-          class="mr-6"
-          @click.native="close()"
-        >Cerrar</v-btn>
-      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
@@ -73,10 +76,10 @@ export default {
         this.loading = true
         if (permission.checked) {
           await axios.post(`role/${this.role.id}/permission/${permission.id}`)
-          this.toastr.success('Permiso agregado')
+          this.toast('Permiso agregado', 'success')
         } else {
           await axios.delete(`role/${this.role.id}/permission/${permission.id}`)
-          this.toastr.warning('Permiso removido')
+          this.toast('Permiso removido', 'warning')
         }
       } catch(e) {
         console.log(e)

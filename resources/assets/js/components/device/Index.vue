@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-toolbar>
+    <v-toolbar dense color="tertiary">
       <v-toolbar-title>Dispositivos</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-divider
@@ -11,25 +11,25 @@
       <v-flex xs2>
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           label="Buscar"
+          class="mr-5"
           single-line
           hide-details
-          full-width
           clearable
         ></v-text-field>
       </v-flex>
-      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-device')">
+      <v-btn fab x-small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-device')">
         <v-tooltip top>
-          <v-icon slot="activator">add</v-icon>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">mdi-plus</v-icon>
+          </template>
           <span>Nuevo dispositivo</span>
         </v-tooltip>
       </v-btn>
     </v-toolbar>
     <v-card>
-      <v-card-text>
-        <List :bus="bus"/>
-      </v-card-text>
+      <List :bus="bus"/>
     </v-card>
     <Edit :bus="bus"/>
     <RemoveItem :bus="bus"/>
@@ -39,9 +39,9 @@
 <script>
 import _ from 'lodash'
 import Vue from 'vue'
-import List from './List'
-import Edit from './Edit'
-import RemoveItem from '../RemoveItem'
+import List from '@/components/device/List'
+import Edit from '@/components/device/Edit'
+import RemoveItem from '@/components/shared/RemoveItem'
 
 export default {
   name: "deviceIndex",

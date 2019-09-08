@@ -21,9 +21,11 @@ class MeasurementController extends Controller
         $to = Carbon::parse($request->input('to'))->endOfDay();
 
         $list = Measurement::whereRoomId($request->input('room'))->whereMagnitudeId($request->input('magnitude'))->whereBetween('created_at', [$from, $to]);
-        if ($request->has('sortBy')) {
-            if ($request->sortBy != 'null') {
-                $list = $list->orderBy($request->sortBy, $request->input('direction') ?? 'asc');
+        if ($request->has('sortBy') && $request->has('sortDesc')) {
+            if (count($request->sortDesc) > 0 && count($request->sortBy) == count($request->sortDesc)) {
+                foreach($request->sortDesc as $i => $sortDesc) {
+                    $list = $list->orderBy($request->sortBy[$i], filter_var($sortDesc, FILTER_VALIDATE_BOOLEAN) ? 'desc' : 'asc');
+                }
             }
         }
         return $list->orderBy('created_at', 'ASC')->paginate($request->input('per_page') ?? 10);

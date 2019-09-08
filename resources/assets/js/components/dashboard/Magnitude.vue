@@ -1,12 +1,13 @@
 <template>
   <v-container fluid>
     <v-card>
-      <v-toolbar dense>
+      <v-toolbar flat dense color="tertiary">
         <v-toolbar-title>{{ magnitude.display_name }}</v-toolbar-title>
       </v-toolbar>
+      <v-card-title></v-card-title>
       <v-card-text>
         <v-layout wrap>
-          <v-flex xs12 md4 v-for="room in rooms" :key="room.id">
+          <v-flex xs12 md4 lg4 v-for="room in rooms" :key="room.id">
             <Chart :room="room" :magnitude="magnitude"/>
           </v-flex>
         </v-layout>
@@ -16,7 +17,7 @@
 </template>
 
 <script>
-import Chart from './Chart'
+import Chart from '@/components/dashboard/Chart'
 
 export default {
   name: 'Magnitude',

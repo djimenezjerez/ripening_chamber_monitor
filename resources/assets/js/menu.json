@@ -2,55 +2,55 @@
   {
     "href": "dashboardIndex",
     "title": "Inicio",
-    "icon": "home",
+    "icon": "mdi-home",
     "permission": null,
     "params": {}
   }, {
     "href": "reportIndex",
     "title": "Reportes",
-    "icon": "description",
+    "icon": "mdi-file-excel-box",
     "permission": null,
     "params": {}
   }, {
     "title": "Parámetros",
-    "icon": "settings",
+    "icon": "mdi-tune",
     "permission": "read-room",
     "group": [
       {
         "href": "deviceIndex",
         "title": "Dispositivos",
-        "icon": "settings_remote",
+        "icon": "mdi-cellphone-wireless",
         "permission": "read-device",
         "params": {}
       }, {
         "href": "roomIndex",
         "title": "Ambientes",
-        "icon": "meeting_room",
+        "icon": "mdi-door-open",
         "permission": "read-room",
         "params": {}
       }, {
         "href": "magnitudeIndex",
         "title": "Magnitudes",
-        "icon": "opacity",
+        "icon": "mdi-opacity",
         "permission": "read-magnitude",
         "params": {}
       }
     ]
   }, {
     "title": "Acceso",
-    "icon": "vpn_key",
+    "icon": "mdi-account",
     "permission": "read-user",
     "group": [
       {
         "href": "userIndex",
         "title": "Usuarios",
-        "icon": "group_add",
+        "icon": "mdi-account-key",
         "permission": "read-user",
         "params": {}
       }, {
         "href": "roleIndex",
         "title": "Roles",
-        "icon": "security",
+        "icon": "mdi-shield-key",
         "permission": "read-role",
         "params": {}
       }

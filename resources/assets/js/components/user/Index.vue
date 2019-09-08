@@ -1,16 +1,15 @@
 <template>
   <v-container fluid>
-    <v-toolbar>
+    <v-toolbar dense color="tertiary">
       <v-toolbar-title>Usuarios</v-toolbar-title>
       <v-spacer></v-spacer>
-      <template v-if="viewType == 'Usuarios'">
-        <v-btn @click="enabled = true" :class="this.enabled ? 'primary' : 'normal'" class="mr-0">
-          <div class="font-weight-regular subheading pa-2 white--text">ACTIVOS</div>
-        </v-btn>
-        <v-btn @click="enabled = false" :class="!this.enabled ? 'primary' : 'normal'" class="mr-3">
-          <div class="font-weight-regular subheading pa-2 white--text">INACTIVOS</div>
-        </v-btn>
-      </template>
+      <v-btn-toggle
+        v-model="enabled"
+        active-class="primary"
+      >
+        <v-btn text :value="true">ACTIVOS</v-btn>
+        <v-btn text :value="false">INACTIVOS</v-btn>
+      </v-btn-toggle>
       <v-divider
         class="mx-2"
         inset
@@ -19,25 +18,25 @@
       <v-flex xs2>
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           label="Buscar"
+          class="mr-5"
           single-line
           hide-details
-          full-width
           clearable
         ></v-text-field>
       </v-flex>
-      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-user')">
+      <v-btn fab x-small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-user')">
         <v-tooltip top>
-          <v-icon slot="activator">add</v-icon>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">mdi-plus</v-icon>
+          </template>
           <span>Nuevo usuario</span>
         </v-tooltip>
       </v-btn>
     </v-toolbar>
     <v-card>
-      <v-card-text>
-        <List :bus="bus"/>
-      </v-card-text>
+      <List :bus="bus"/>
     </v-card>
     <Edit :bus="bus"/>
     <Role :bus="bus"/>
@@ -47,9 +46,9 @@
 <script>
 import _ from 'lodash'
 import Vue from 'vue'
-import List from './List'
-import Edit from './Edit'
-import Role from './Role'
+import List from '@/components/user/List'
+import Edit from '@/components/user/Edit'
+import Role from '@/components/user/Role'
 
 export default {
   name: "userIndex",
@@ -59,10 +58,9 @@ export default {
     Role
   },
   data: () => ({
-    viewType: 'Usuarios',
     search: '',
     bus: new Vue(),
-    enabled: 'active'
+    enabled: true
   }),
   watch: {
     search: _.debounce(function () {

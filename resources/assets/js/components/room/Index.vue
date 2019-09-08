@@ -1,6 +1,6 @@
 <template>
   <v-container fluid>
-    <v-toolbar>
+    <v-toolbar flat dense color="tertiary">
       <v-toolbar-title>Ambientes</v-toolbar-title>
       <v-spacer></v-spacer>
       <v-divider
@@ -11,25 +11,25 @@
       <v-flex xs2>
         <v-text-field
           v-model="search"
-          append-icon="search"
+          append-icon="mdi-magnify"
           label="Buscar"
+          class="mr-5"
           single-line
           hide-details
-          full-width
           clearable
         ></v-text-field>
       </v-flex>
-      <v-btn icon small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-room') && devices.length > 0">
+      <v-btn fab x-small color="success" @click.native="bus.$emit('edit', null)" v-if="$store.getters.permissions.includes('create-room') && devices.length > 0">
         <v-tooltip top>
-          <v-icon slot="activator">add</v-icon>
+          <template v-slot:activator="{ on }">
+            <v-icon v-on="on">mdi-plus</v-icon>
+          </template>
           <span>Nuevo ambiente</span>
         </v-tooltip>
       </v-btn>
     </v-toolbar>
     <v-card>
-      <v-card-text>
-        <List :bus="bus" :devices="devices"/>
-      </v-card-text>
+      <List :bus="bus" :devices="devices"/>
     </v-card>
     <Edit :bus="bus" :devices="devices"/>
     <Magnitude :bus="bus"/>
@@ -40,10 +40,10 @@
 <script>
 import _ from 'lodash'
 import Vue from 'vue'
-import List from './List'
-import Edit from './Edit'
-import Magnitude from './Magnitude'
-import RemoveItem from '../RemoveItem'
+import List from '@/components/room/List'
+import Edit from '@/components/room/Edit'
+import Magnitude from '@/components/room/Magnitude'
+import RemoveItem from '@/components/shared/RemoveItem'
 
 export default {
   name: "roomIndex",

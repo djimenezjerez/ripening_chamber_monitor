@@ -1,17 +1,18 @@
 <template>
   <v-container fluid>
-    <v-toolbar>
+    <v-toolbar dense color="tertiary">
       <v-toolbar-title>Reportes</v-toolbar-title>
       <v-spacer></v-spacer>
     </v-toolbar>
-    <v-toolbar class="pt-2">
+    <v-toolbar class="pt-3">
       <v-layout wrap>
         <v-spacer></v-spacer>
         <v-flex xs4>
           <v-select
             :items="rooms"
             label="Ambiente"
-            prepend-icon="meeting_room"
+            prepend-icon="mdi-door-open"
+            class="px-4"
             item-text="display_name"
             item-value="id"
             v-model="data.room"
@@ -21,7 +22,8 @@
           <v-select
             :items="magnitudes"
             label="Magnitud"
-            prepend-icon="opacity"
+            prepend-icon="mdi-opacity"
+            class="px-4"
             item-text="display_name"
             item-value="id"
             v-model="data.magnitude"
@@ -34,14 +36,14 @@
             :nudge-right="40"
             transition="scale-transition"
             offset-y
-            full-width
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="formatted.from"
                 label="Desde"
-                prepend-icon="event"
+                prepend-icon="mdi-calendar"
+                class="px-4"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -56,14 +58,14 @@
             :nudge-right="40"
             transition="scale-transition"
             offset-y
-            full-width
             min-width="290px"
           >
             <template v-slot:activator="{ on }">
               <v-text-field
                 v-model="formatted.to"
                 label="Hasta"
-                prepend-icon="event"
+                prepend-icon="mdi-calendar"
+                class="px-4"
                 readonly
                 v-on="on"
               ></v-text-field>
@@ -74,16 +76,14 @@
       </v-layout>
     </v-toolbar>
     <v-card>
-      <v-card-text>
-        <List :bus="bus"/>
-      </v-card-text>
+      <List :bus="bus"/>
     </v-card>
   </v-container>
 </template>
 
 <script>
 import Vue from 'vue'
-import List from './List'
+import List from '@/components/report/List'
 
 export default {
   name: "reportIndex",
