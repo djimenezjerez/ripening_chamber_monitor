@@ -76,6 +76,11 @@ export default {
           })
           this.measurements = res.data.data
           this.totalItems = res.data.total
+          if (res.data.total > 0) {
+            this.bus.$emit('enableExport', true)
+          } else {
+            this.bus.$emit('enableExport', false)
+          }
           delete res.data['data']
           this.options.page = res.data.current_page
           this.options.rowsPerPage = parseInt(res.data.per_page)

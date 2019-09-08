@@ -105,7 +105,7 @@ class RoomController extends Controller
     public function export($id, $from, $to)
     {
         $room = Room::findOrFail($id);
-        $filename = implode('_', [str_replace(' ', '_', $room->display_name), Carbon::parse($from)->format('d_m_y'), Carbon::parse($to)->format('d_m_y')]);
+        $filename = implode('_', [str_replace(' ', '_', $room->display_name), Carbon::parse($from)->format('d_m_Y'), Carbon::parse($to)->format('d_m_Y')]);
         $filename .= '.xlsx';
         return (new MeasurementExport($id, $from, $to))->download($filename);
     }

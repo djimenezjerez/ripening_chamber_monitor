@@ -46,7 +46,7 @@ class MeasurementSheet implements FromQuery, WithMapping, WithHeadings, WithTitl
         return [
             'Fecha',
             'Hora',
-            'Medición'
+            'Valor'
         ];
     }
 

@@ -18,7 +18,7 @@
             v-model="data.room"
           ></v-select>
         </v-flex>
-        <v-flex xs4>
+        <v-flex xs3>
           <v-select
             :items="magnitudes"
             label="Magnitud"
@@ -73,6 +73,10 @@
             <v-date-picker :min="data.from" v-model="data.to" @input="showDate.to = false"></v-date-picker>
           </v-menu>
         </v-flex>
+        <v-flex xs1>
+          <v-spacer></v-spacer>
+          <Export :bus="bus"/>
+        </v-flex>
       </v-layout>
     </v-toolbar>
     <v-card>
@@ -84,11 +88,13 @@
 <script>
 import Vue from 'vue'
 import List from '@/components/report/List'
+import Export from '@/components/report/Export'
 
 export default {
   name: "reportIndex",
   components: {
-    List
+    List,
+    Export
   },
   data() {
     return {
