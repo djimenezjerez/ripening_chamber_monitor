@@ -3,16 +3,19 @@
     <template v-for="magnitude in magnitudes">
       <Magnitude :magnitude="magnitude" :key="magnitude.id"/>
     </template>
+    <Device :devices="devices"/>
   </div>
 </template>
 
 <script>
 import Magnitude from '@/components/dashboard/Magnitude'
+import Device from '@/components/dashboard/Device'
 
 export default {
   name: "dashboard-index",
   components: {
-    Magnitude
+    Magnitude,
+    Device
   },
   data: () => ({
     magnitudes: [],
