@@ -10,6 +10,10 @@ let sequelize = new Sequelize(process.env.DB_DATABASE, process.env.DB_USERNAME, 
   port: process.env.DB_PORT,
   dialect: 'postgres',
   logging: false,
+  timezone: process.env.APP_TIMEZONE,
+  dialectOptions: {
+    useUTC: false
+  },
   reconnect: {
     max_retries: 1,
     onRetry: (retry) => {

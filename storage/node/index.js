@@ -1,12 +1,14 @@
 #!/usr/bin/env node
 
 require('dotenv').config({ path: './.env' })
-const moment = require('moment')
+const moment = require('moment-timezone')
 const _ = require('lodash')
 let models  = require('./models')
 const mqtt = require('mqtt')
 const client  = mqtt.connect(`ws://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`)
 let devices = []
+
+moment.tz.setDefault('America/La_Paz')
 
 client.on('connect', function () {
   console.log('Connected to mqtt server')
@@ -32,7 +34,7 @@ async function setOnline(device, value) {
           online: value
         })
       } else {
-        devices[index].updatedAt = new Date()
+        devices[index].lastMeasurement = moment().format()
       }
     }
   } catch (e) {
@@ -115,9 +117,16 @@ async function verifyConnection() {
     if (devices.length > 0) {
       devices.forEach(d => {
         let end = moment()
-        let start = moment(d.updatedAt)
-        if (end.diff(start, 'minutes') >= 2 * Number(process.env.MQTT_CONTROL_INTERVAL)) {
-          client.publish(`dev/${d.name}`, '0')
+        if (d.hasOwnProperty('lastMeasurement')) {
+          let start = moment(d.lastMeasurement)
+          if (end.diff(start, 'seconds') >= 2 * Number(process.env.MQTT_CONTROL_INTERVAL)) {
+            client.publish(`dev/${d.name}`, '0')
+          }
+        } else {
+          d.lastMeasurement = moment().format()
+          if (!d.online) {
+            client.publish(`dev/${d.name}`, '0')
+          }
         }
       })
     }
@@ -130,7 +139,7 @@ async function main() {
   try {
     setInterval(() => {
       verifyConnection()
-    }, Number(process.env.MQTT_CONTROL_INTERVAL) * 60 * 1000)
+    }, Number(process.env.MQTT_CONTROL_INTERVAL) * 1000)
     devices = await models.Device.findAll()
     let magnitudes = await models.Magnitude.findAll()
     magnitudes.forEach(magnitude => {

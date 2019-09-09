@@ -61,7 +61,7 @@ class DeviceForm extends FormRequest
     public function sanitize()
     {
         $input = $this->all();
-        if (array_key_exists('name', $input)) $input['name'] = mb_strtoupper($input['name']);
+        if (array_key_exists('name', $input)) $input['name'] = mb_strtolower($input['name']);
         if (array_key_exists('mac', $input)) {
             $input['mac'] = str_replace('-', ':', $input['mac']);
             $input['mac'] = str_replace('.', ':', $input['mac']);

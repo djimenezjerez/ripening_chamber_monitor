@@ -30,7 +30,7 @@ export default {
   },
   computed: {
     bar() {
-      if (process.env.NODE_ENV == 'production') {
+      if (process.env.NODE_ENV != 'production') {
         return {
           color: `error`,
           text: `MONITOREO DE CÁMARAS DE MADURACIÓN (VERSIÓN DE PRUEBA)`

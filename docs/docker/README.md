@@ -17,7 +17,8 @@ git submodule update --init --recursive
 * Copy the modified files to laradock folder
 
 ```sh
-cp -f docs/docker/mosquitto.conf laradock/mosquitto/
+cp -rf docs/docker/node laradock/
+cp -f docs/docker/mosquitto/mosquitto.conf laradock/mosquitto/
 cp -f docs/docker/docker-compose.yml laradock/
 cp -f docs/docker/env-example laradock/.env
 ```
@@ -56,12 +57,6 @@ docker-compose logs --follow
 docker-compose ps
 ```
 
-* Install needed fonts into `php-fpm` container
-
-```sh
-docker-compose exec php-fpm /var/www/install-roboto-fonts.sh
-```
-
 * Within the container called `workspace` you need to run
 
 ```sh
@@ -72,12 +67,6 @@ docker-compose exec workspace composer run-script post-root-package-install
 docker-compose exec workspace composer install
 ```
 
-* To change the application to development mode you need to run
-
-```sh
-docker-compose exec workspace yarn dev
-```
-
 * Generate laravel's session and jwt auth keys
 
 ```sh
@@ -86,18 +75,18 @@ docker-compose exec workspace composer run-script post-create-project-cmd
 
 * Modify `.env` file according to the right credentials
 
+* To change the application to development mode you need to run
+
+```sh
+docker-compose exec workspace yarn dev
+```
+
 ## Issues
 
 * If you have error console output you can verify `exited` containers
 
 ```sh
 docker ps -a
-```
-
-* And remove every unused container
-
-```sh
-docker rm every_unused_container
 ```
 
 * And finally erase all unused containers, builded images, unused networks and volumes

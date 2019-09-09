@@ -43,6 +43,7 @@ export default {
   },
   beforeDestroy() {
     this.$mqtt.unsubscribe(this.topic)
+    console.log(`Unsubscribed from: ${this.topic}`)
   },
   mqtt: {
     'dev/+' (data, topic) {
@@ -52,12 +53,16 @@ export default {
   methods: {
     verifyTopic(data, topic) {
       let index = this.devices.findIndex(o => o.name == topic.split('/')[1])
-      this.devices[index].updated_at = new Date()
-      let state = Number(String.fromCharCode.apply(null, data))
-      if (state != this.devices[index].online) {
-        this.devices[index].online = state
-        if (state) this.toast(`Sensor ${this.devices[index].name} conectado`, 'success')
-        else this.toast(`Sensor ${this.devices[index].name} desconectado`, 'error')
+      if (index != -1) {
+        this.devices[index].updated_at = new Date()
+        let state = Number(String.fromCharCode.apply(null, data))
+        if (state != this.devices[index].online) {
+          this.devices[index].online = state
+          if (state) this.toast(`Sensor ${this.devices[index].name} conectado`, 'success')
+          else this.toast(`Sensor ${this.devices[index].name} desconectado`, 'error')
+        }
+      } else {
+        console.log(`Unknown device ${topic}`)
       }
     }
   }

@@ -96,6 +96,7 @@ export default {
   },
   beforeDestroy() {
     this.$mqtt.unsubscribe(this.topic)
+    console.log(`Unsubscribed from: ${this.topic}`)
   },
   mqtt: {
     'hum/+' (data, topic) {
