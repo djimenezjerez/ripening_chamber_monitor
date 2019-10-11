@@ -10,8 +10,9 @@
           ></v-img>
           <v-card-title primary-title class="justify-center">
             <div class="display-1 font-weight-thin text-md-center text-uppercase">
-              <p>MONITOREO DE CÁMARAS</p>
-              <p>DE MADURACIÓN</p>
+              <div>MONITOREO DE</div>
+              <div>CÁMARAS</div>
+              <div>DE MADURACIÓN</div>
             </div>
           </v-card-title>
           <v-spacer></v-spacer>

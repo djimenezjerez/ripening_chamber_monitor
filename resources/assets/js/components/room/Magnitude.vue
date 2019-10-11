@@ -45,7 +45,7 @@
             <v-form v-model="valid" lazy-validation>
               <v-container grid-list-xs class="mt-0 pt-0">
                 <v-layout wrap class="mt-0 pt-0">
-                  <v-flex xs6 pr-4 class="mt-0 pt-0">
+                  <v-flex xs5 px-4 class="mt-0 pt-0">
                     <v-text-field
                       v-model="magnitude.pivot.min_limit"
                       label="Mínimo"
@@ -55,7 +55,10 @@
                       class="mt-0 pt-0"
                     ></v-text-field>
                   </v-flex>
-                  <v-flex xs6 pl-4 class="mt-0 pt-0">
+                  <v-flex xs1>
+                    {{ magnitude.measure }}
+                  </v-flex>
+                  <v-flex xs5 px-4 class="mt-0 pt-0">
                     <v-text-field
                       v-model="magnitude.pivot.max_limit"
                       label="Máximo"
@@ -64,6 +67,9 @@
                       :error-messages="errors.collect('Máximo')"
                       class="mt-0 pt-0"
                     ></v-text-field>
+                  </v-flex>
+                  <v-flex xs1>
+                    {{ magnitude.measure }}
                   </v-flex>
                 </v-layout>
               </v-container>

@@ -34,11 +34,14 @@ export default {
     tokenExpired(state) {
       let token = localStorage.getItem('token')
       if (token) {
-        let base64 = token.split('.')[1]
-        token = decodeURIComponent(atob(base64).split('').map(c => {
+        if (!state.roles.includes('monitor')) {
+          let base64 = token.split('.')[1]
+          return moment().isAfter(moment.unix(JSON.parse(decodeURIComponent(atob(base64).split('').map(c => {
             return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-        }).join(''))
-        return moment().isAfter(moment.unix(JSON.parse(token).exp))
+          }).join(''))).exp))
+        } else {
+          return false
+        }
       }
     }
   },

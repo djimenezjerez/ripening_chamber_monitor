@@ -32,7 +32,7 @@
         "href": "magnitudeIndex",
         "title": "Magnitudes",
         "icon": "mdi-opacity",
-        "permission": "read-magnitude",
+        "permission": "create-magnitude",
         "params": {}
       }
     ]

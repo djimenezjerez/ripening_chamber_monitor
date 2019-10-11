@@ -36,7 +36,7 @@ class MeasurementSheet implements FromQuery, WithMapping, WithHeadings, WithTitl
 
         return [
             $date->format('d/m/Y'),
-            $date->format('H:m:s'),
+            $date->format('H:i:s'),
             $measurement->value
         ];
     }
