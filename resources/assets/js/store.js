@@ -4,8 +4,8 @@ export default {
   state: {
     id: localStorage.getItem('id') || null,
     user: localStorage.getItem('user') || null,
-    roles: localStorage.getItem('roles') || null,
-    permissions: localStorage.getItem('permissions') || null,
+    roles: localStorage.getItem('roles') || [],
+    permissions: localStorage.getItem('permissions') || [],
     dateNow: moment().format('Y-MM-DD'),
     token: {
       type: localStorage.getItem('token_type') || null,
@@ -55,8 +55,8 @@ export default {
       localStorage.removeItem('permissions')
       state.id = null
       state.user = null
-      state.roles = null
-      state.permissions = null
+      state.roles = []
+      state.permissions = []
     },
     'login': function (state, data) {
       localStorage.setItem("token", data.token);

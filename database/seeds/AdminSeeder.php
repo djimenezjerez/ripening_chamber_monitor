@@ -11,18 +11,22 @@ class AdminSeeder extends Seeder
    */
   public function run()
   {
-    $role = App\Role::firstOrCreate([
-      'name' => 'admin',
-      'display_name' => 'Administración',
-      'description' => 'Rol administrador',
-    ]);
+    $role = App\Role::firstOrCreate(
+      ['name' => 'admin'],
+      [
+        'display_name' => 'Administración',
+        'description' => 'Rol administrador'
+      ]
+    );
 
-    $user = App\User::firstOrCreate([
-      'name' => 'Administrador',
-      'username' => 'admin',
-      'password' => bcrypt('admin'),
-    ]);
+    $user = App\User::firstOrCreate(
+      ['name' => 'Administrador'],
+      [
+        'username' => 'admin',
+        'password' => bcrypt('admin')
+      ]
+    );
 
-    $user->attachRole($role);
+    $user->syncRoles([$role]);
   }
 }

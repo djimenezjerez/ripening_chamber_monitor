@@ -5,7 +5,8 @@
       <v-spacer></v-spacer>
       <v-btn-toggle
         v-model="enabled"
-        active-class="primary"
+        active-class="primary white--text"
+        mandatory
       >
         <v-btn text :value="true">ACTIVOS</v-btn>
         <v-btn text :value="false">INACTIVOS</v-btn>

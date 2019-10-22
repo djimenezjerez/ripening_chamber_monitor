@@ -11,7 +11,7 @@ class DeviceSeeder extends Seeder
      */
     public function run()
     {
-        $total_items = 1;
+        $total_items = 3;
 
         factory(App\Device::class, $total_items)->create();
     }

@@ -41,8 +41,6 @@ export default {
     getFilename(text) {
       return new Promise((resolve, reject) => {
         try {
-          console.log(text)
-          
           return resolve(text.split('filename=')[1].split(';')[0])
         } catch (e) {
           return resolve('reporte.xlsx')
@@ -58,8 +56,6 @@ export default {
             responseType: 'blob'
         })
         let filename = await this.getFilename(res.headers['content-disposition'])
-        console.log(filename)
-        
         const url = window.URL.createObjectURL(new Blob([res.data]))
         const link = document.createElement('a')
         link.href = url

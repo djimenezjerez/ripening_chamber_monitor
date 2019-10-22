@@ -14,6 +14,6 @@ class AdminPermissionSeeder extends Seeder
     $permisions = App\Permission::get()->toArray();
     $role = App\Role::where('name', 'admin')->first();
 
-    $role->attachPermissions($permisions);
+    $role->syncPermissions($permisions);
   }
 }

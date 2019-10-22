@@ -11,7 +11,8 @@
       <tr>
         <td class="text-center">{{ props.item.name }}</td>
         <td class="text-center">{{ props.item.display_name }}</td>
-        <td class="text-center">{{ devices.find(o => o.id == props.item.device_id).display_name }}</td>
+        <td class="text-center" v-if="devices.length > 0">{{ devices.find(o => o.id == props.item.device_id).display_name }}</td>
+        <td v-else></td>
         <td class="text-center">
           <v-btn icon text @click="bus.$emit('edit', props.item)" v-if="$store.getters.permissions.includes('update-room')">
             <v-tooltip top>

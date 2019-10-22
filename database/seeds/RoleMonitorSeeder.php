@@ -18,6 +18,6 @@ class RoleMonitorSeeder extends Seeder
 
     $permisions = App\Permission::where('name', 'read-sensor')->orWhere('name', 'read-magnitude')->get()->toArray();
 
-    $role->attachPermissions($permisions);
+    $role->syncPermissions($permisions);
   }
 }

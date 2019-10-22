@@ -34,7 +34,6 @@ Route::group([
       'middleware' => 'role:admin'
     ], function () {
       // Role
-      Route::resource('role', 'Api\V1\RoleController')->only(['index', 'show']);
       Route::get('role/{id}/permission', 'Api\V1\RoleController@get_permissions');
       Route::post('role/{role_id}/permission/{permission_id}', 'Api\V1\RoleController@set_permission');
       Route::delete('role/{role_id}/permission/{permission_id}', 'Api\V1\RoleController@unset_permission');
@@ -52,12 +51,14 @@ Route::group([
 
     // CHIEF routes
     Route::group([
-      'middleware' => 'role:admin|rrhh',
+      'middleware' => 'role:admin|chief',
     ], function () {
       // User
       Route::resource('user', 'Api\V1\UserController')->only(['index', 'store', 'show', 'destroy']);
       Route::get('user/{id}/role', 'Api\V1\UserController@get_roles');
       Route::post('user/{id}/role', 'Api\V1\UserController@set_roles');
+      // Role
+      Route::resource('role', 'Api\V1\RoleController')->only(['index', 'show']);
     });
   });
 });

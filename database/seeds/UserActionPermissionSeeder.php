@@ -19,20 +19,21 @@ class UserActionPermissionSeeder extends Seeder
           'name' => 'read-user-action',
           'display_name' => 'Leer acciones de usuarios',
           'description' => 'Permiso para leer datos de acciones de usuarios',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ], [
           'name' => 'delete-user-action',
           'display_name' => 'Eliminar accion de usuario',
           'description' => 'Permiso para eliminar una accion de usuario',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ]
       ];
 
-      App\Permission::insert($permissions);
+      foreach ($permissions as $permission) {
+        App\Permission::firstOrCreate(
+          array_slice($permission, 0, 1),
+          array_slice($permission, 1)
+        );
+      }
     }
   }
 }

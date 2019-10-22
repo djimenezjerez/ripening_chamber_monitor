@@ -13,20 +13,16 @@ class ModuleSeeder extends Seeder
     {
         $modules = [
             [
-                'name' => 'Administrador',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime,
+                'name' => 'Administrador'
             ], [
-                'name' => 'Sensores',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime,
+                'name' => 'Sensores'
             ], [
-                'name' => 'Parámetros',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime,
+                'name' => 'Parámetros'
             ]
         ];
 
-        App\Module::insert($modules);
+        foreach ($modules as $module) {
+            App\Module::firstOrCreate($module);
+        }
     }
 }

@@ -15,26 +15,23 @@ class MagnitudeSeeder extends Seeder
             [
                 'name' => 'tem',
                 'display_name' => 'Temperatura',
-                'measure' => 'ºC',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime
+                'measure' => 'ºC'
             ], [
                 'name' => 'hum',
                 'display_name' => 'Humedad',
-                'measure' => '%',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime
+                'measure' => '%'
             ], [
                 'name' => 'hic',
                 'display_name' => 'Sensación térmica',
-                'measure' => 'ºC',
-                'created_at' => new \dateTime,
-                'updated_at' => new \dateTime
+                'measure' => 'ºC'
             ]
         ];
 
         foreach($magnitudes as $magnitude) {
-            App\Magnitude::create($magnitude);
+            App\Magnitude::firstOrCreate(
+                array_slice($magnitude, 0, 1),
+                array_slice($magnitude, 1)
+            );
         }
     }
 }

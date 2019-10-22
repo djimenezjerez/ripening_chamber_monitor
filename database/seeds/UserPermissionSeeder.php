@@ -11,7 +11,7 @@ class UserPermissionSeeder extends Seeder
    */
   public function run()
   {
-    $module = App\Module::whereName('Parámetros')->first();
+    $module = App\Module::whereName('Administrador')->first();
 
     if ($module) {
       $permissions = [
@@ -19,34 +19,31 @@ class UserPermissionSeeder extends Seeder
           'name' => 'read-user',
           'display_name' => 'Leer usuarios',
           'description' => 'Permiso para leer la lista de usuarios',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ], [
           'name' => 'create-user',
           'display_name' => 'Crear usuario',
           'description' => 'Permiso para crear usuarios',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ], [
           'name' => 'update-user',
           'display_name' => 'Actualizar usuario',
           'description' => 'Permiso para actualizar datos de usuarios',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ], [
           'name' => 'delete-user',
           'display_name' => 'Eliminar usuario',
           'description' => 'Permiso para eliminar usuarios',
-          'created_at' => new \dateTime,
-          'updated_at' => new \dateTime,
           'module_id' => $module->id
         ]
       ];
 
-      App\Permission::insert($permissions);
+      foreach ($permissions as $permission) {
+        App\Permission::firstOrCreate(
+          array_slice($permission, 0, 1),
+          array_slice($permission, 1)
+        );
+      }
     }
   }
 }

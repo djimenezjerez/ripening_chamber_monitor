@@ -55,5 +55,6 @@ class DatabaseSeeder extends Seeder
     $this->call(DeviceSeeder::class);
     $this->call(RoomSeeder::class);
     $this->call(MeasurementSeeder::class);
+    $this->call(MagnitudeRoomSeeder::class);
   }
 }
