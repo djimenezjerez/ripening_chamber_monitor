@@ -7,8 +7,14 @@ let models  = require('./models')
 const mqtt = require('mqtt')
 const client  = mqtt.connect(`ws://${process.env.MQTT_HOST}:${process.env.MQTT_PORT}`)
 let devices = []
+const redisDriver = require("redis")
 
-moment.tz.setDefault('America/La_Paz')
+const redis = redisDriver.createClient({
+  port: process.env.REDIS_PORT,
+  host: process.env.REDIS_HOST
+})
+
+moment.tz.setDefault(process.env.APP_TIMEZONE)
 
 client.on('connect', function () {
   console.log('Connected to mqtt server')
@@ -26,20 +32,43 @@ client.on('message', (topic, message) => {
 
 async function setOnline(device, value) {
   try {
-    let index = devices.findIndex(o => o.name == device)
-    if (index != -1) {
-      let d = devices[index]
+    let d = await models.Device.findOne({
+      where: {
+        name: device
+      }
+    })
+    if (d) {
       if (value != d.online) {
         await d.update({
           online: value
         })
+        redis.set(d.name, Number(value).toString())
+        let rooms = await models.Room.findAll({
+          where: {
+            device_id: d.id
+          }
+        })
+        rooms.forEach(room => {
+          setTimeout(() => {
+            publish('led', room.name, 'a')
+          }, Number(process.env.MQTT_CONTROL_INTERVAL) * 1000)
+        })
       } else {
-        devices[index].lastMeasurement = moment().format()
+        redis.set(`${d.name}.lastMeasurement`, moment().format())
       }
     }
   } catch (e) {
     console.error(e)
   }
+}
+
+function publish(pre, key, value) {
+  redis.get(key, (err, r) => {
+    if (r !== value) {
+      redis.set(key, value)
+      client.publish(`${pre}/${key}`, value)
+    }
+  })
 }
 
 async function insert(magnitude, room, value) {
@@ -63,11 +92,11 @@ async function insert(magnitude, room, value) {
     if (params) {
       if (magnitude == process.env.MQTT_CONTROL_PARAM) {
         if (value < params.min_limit) {
-          client.publish(`led/${r.name}`, 'b')
+          publish('led', r.name, 'b')
         } else if (value < params.max_limit) {
-          client.publish(`led/${r.name}`, 'g')
+          publish('led', r.name, 'g')
         } else {
-          client.publish(`led/${r.name}`, 'r')
+          publish('led', r.name, 'r')
         }
       }
       let lastMeasurement = await models.Measurement.findOne({
@@ -86,7 +115,7 @@ async function insert(magnitude, room, value) {
           })
         } else {
           let end = moment()
-          let start = moment(lastMeasurement.createdAt)
+          let start = moment.tz(lastMeasurement.createdAt, process.env.APP_TIMEZONE).add(4, 'hours')
           if (end.diff(start, 'minutes') >= params.interval) {
             lastMeasurement = await models.Measurement.create({
               magnitude_id: m.id,
@@ -112,22 +141,25 @@ async function verifyConnection() {
     }).map(o => o.id)
     if (_.xor(cacheDevices, newDevices).length > 0) {
       devices = await models.Device.findAll()
-      console.log(`Updating cahed devices from ${cacheDevices.toString()} to ${newDevices.toString()}`)
+      console.log(`Updating cached devices from ${cacheDevices.toString()} to ${newDevices.toString()}`)
     }
     if (devices.length > 0) {
       devices.forEach(d => {
         let end = moment()
-        if (d.hasOwnProperty('lastMeasurement')) {
-          let start = moment(d.lastMeasurement)
-          if (end.diff(start, 'seconds') >= 2 * Number(process.env.MQTT_CONTROL_INTERVAL)) {
-            client.publish(`dev/${d.name}`, '0')
+        let key = `${d.name}.lastMeasurement`
+        redis.get(key, (err, value) => {
+          if (value) {
+            let start = moment(value)
+            if (end.diff(start, 'seconds') >= 2 * Number(process.env.MQTT_CONTROL_INTERVAL)) {
+              publish('dev', d.name, '0')
+            }
+          } else {
+            redis.set(key, moment().format())
+            if (!d.online) {
+              publish('dev', d.name, '0')
+            }
           }
-        } else {
-          d.lastMeasurement = moment().format()
-          if (!d.online) {
-            client.publish(`dev/${d.name}`, '0')
-          }
-        }
+        })
       })
     }
   } catch (e) {
