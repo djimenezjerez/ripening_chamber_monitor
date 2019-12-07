@@ -9,39 +9,45 @@
 
 byte lastSensor = 0;
 unsigned long readTime;
-// Camara 1, Camara 2, Camara 3
+// Cámara 1, Cámara 2, Cámara 3
 const byte dhtPins[] = {9,8,7};
 const byte leds[][3] = {
   // R,G,B
-  {2,3,5},
-  {16,15,14},
-  {19,18,17}
+  {2,3,5}, // Cámara 1
+  {16,15,14}, // Cámara 2
+  {19,18,17} // Cámara 3
+  /*
+  .----------------------.
+  |  ETH   B    G    R   |
+  |  POW  PIN  PIN  PIN  |
+  .----------------------.
+  */
 };
 
 const byte mac[] = { 0xDE,0xED,0xBA,0xFE,0xFE,0xED };
 IPAddress ip(192,168,1,79);
 IPAddress server(192,168,1,78);
-
+// Tópicos para control de leds
 const char led_cha1[] PROGMEM = "led/cha1";
 const char led_cha2[] PROGMEM = "led/cha2";
 const char led_cha3[] PROGMEM = "led/cha3";
 const char* const sub_led[] PROGMEM = {led_cha1,led_cha2,led_cha3};
-
+// Tópicos para envío de temperatura
 const char tem_cha1[] PROGMEM = "tem/cha1";
 const char tem_cha2[] PROGMEM = "tem/cha2";
 const char tem_cha3[] PROGMEM = "tem/cha3";
 const char* const pub_tem[] PROGMEM = {tem_cha1,tem_cha2,tem_cha3};
-
+// Tópicos para envío de humedad
 const char hum_cha1[] PROGMEM = "hum/cha1";
 const char hum_cha2[] PROGMEM = "hum/cha2";
 const char hum_cha3[] PROGMEM = "hum/cha3";
 const char* const pub_hum[] PROGMEM = {hum_cha1,hum_cha2,hum_cha3};
-
+// Tópicos para envío de sensación térmica
 const char hic_cha1[] PROGMEM = "hic/cha1";
 const char hic_cha2[] PROGMEM = "hic/cha2";
 const char hic_cha3[] PROGMEM = "hic/cha3";
 const char* const pub_hic[] PROGMEM = {hic_cha1,hic_cha2,hic_cha3};
-
+// Tópico para envío de estado activo
 const char status_topic[] PROGMEM = "dev";
 const char id[] PROGMEM = "ard1";
 const char* const connection[] PROGMEM = {status_topic,id};
@@ -51,7 +57,7 @@ char buffer[12];
 EthernetClient client;
 PubSubClient mqtt(client);
 DHT* dht[sizeof(dhtPins)];
-
+// Encender los 3 leds de una cámara por tiempo
 void blinkLeds(byte i) {
   Serial.println((String) "Blink leds camara: " + (i+1));
   for(byte j = 0; j < 3; j++) {
@@ -60,7 +66,7 @@ void blinkLeds(byte i) {
     digitalWrite(leds[i][j], LOW);
   }
 }
-
+// Apagar todos los leds
 void turnOffLeds() {
   for(byte i = 0; i < sizeof(dhtPins); i++) {
     for(byte j = 0; j < 3; j++) {
@@ -68,7 +74,7 @@ void turnOffLeds() {
     }
   }
 }
-
+// Establecer pines de salida
 void stateLeds() {
   for(byte i = 0; i < sizeof(dhtPins); i++) {
     for(byte j = 0; j < 3; j++) {
@@ -76,7 +82,7 @@ void stateLeds() {
     }
   }
 }
-
+// Encender un led de una cámara y apagar los demás
 void switchLed(byte chamber, byte pin) {
   byte state;
   for (byte i = 0; i < 3; i++) {
@@ -95,7 +101,7 @@ void switchLed(byte chamber, byte pin) {
   }
   
 }
-
+// Recibir mensaje
 void callback(char* topic, byte* payload, unsigned int length) {
   for(byte i = 0; i < sizeof(dhtPins); i++) {
     strcpy_P(buffer, (char*)pgm_read_word(&(sub_led[i])));
@@ -117,7 +123,7 @@ void callback(char* topic, byte* payload, unsigned int length) {
     }
   }
 }
-
+// Reconectar al servidor
 void reconnect() {
   while(!mqtt.connected()) {
     for(byte i = 0; i < sizeof(dhtPins); i++) {
@@ -137,7 +143,7 @@ void reconnect() {
     }
   }
 }
-
+// Leer y envíar datos de un sensor
 void sensorRead(byte i) {
   readTime = millis();
   Serial.println((String) "Leyendo sensor: " + i);
@@ -162,7 +168,7 @@ void sensorRead(byte i) {
     blinkLeds(i);
   }
 }
-
+// Envíar el estado del dispositivo
 void sendStatus() {
   strcpy_P(buffer, (char*)pgm_read_word(&(connection[0])));
   strcat(buffer, "/");
