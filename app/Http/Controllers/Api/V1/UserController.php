@@ -75,9 +75,10 @@ class UserController extends Controller
     public function update(UserForm $request, $id)
     {
         $item = User::findOrFail($id);
-        if (Auth::user()->username != 'admin') {
-            if ($request->has('password') && $request->has('old_password')) {
-                if (!(Auth::user()->id == $id && Hash::check($request->old_password, $item->password))) {
+        $logged_user = Auth::user();
+        if ($logged_user->id == $item->id) {
+            if ($request->has('old_password') && $request->has('password')) {
+                if (!Hash::check($request->old_password, $item->password)) {
                     return response()->json([
                         'message' => 'No autorizado',
                         'errors' => [
@@ -85,13 +86,20 @@ class UserController extends Controller
                         ],
                     ], 422);
                 }
-            } else {
-                unset($request['password']);
             }
+        } elseif (!$logged_user->hasPermission('update-user')) {
+            unset($request['password']);
         }
         $item->fill($request->all());
         $item->save();
         return $item;
+    }
+
+    public function destroy($id)
+    {
+        $user = User::findOrFail($id);
+        $user->delete();
+        return $user;
     }
 
     public function get_roles($id)

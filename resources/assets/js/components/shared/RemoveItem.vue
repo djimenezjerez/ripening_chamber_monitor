@@ -1,5 +1,5 @@
 <template>
-  <v-dialog persistent v-model="dialog" max-width="26%" @keydown.esc="close">
+  <v-dialog persistent v-model="dialog" max-width="31%" @keydown.esc="close">
     <v-card>
       <v-card-title>¿Seguro que desea eliminar el registro?</v-card-title>
       <v-card-actions>

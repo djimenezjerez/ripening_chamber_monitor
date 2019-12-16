@@ -68,32 +68,32 @@ export default {
   data() {
     return {
       auth: {
-        username: "",
-        password: ""
+        username: '',
+        password: ''
       },
       error: null
-    };
+    }
   },
   methods: {
     focusPassword() {
-      this.$refs.password.focus();
+      this.$refs.password.focus()
     },
     async authenticate(auth) {
       try {
         if (await this.$validator.validateAll()) {
-          let res = await axios.post("/auth", auth);
-          this.$store.commit("login", res.data);
+          let res = await axios.post('auth', auth)
+          this.$store.commit('login', res.data)
           this.$router.go({
-            name: "dashboard"
-          });
+            name: 'dashboard'
+          })
         }
       } catch (e) {
-        auth.password = "";
-        this.focusPassword();
+        auth.password = ''
+        this.focusPassword()
       }
     }
   }
-};
+}
 </script>
 
 <style>

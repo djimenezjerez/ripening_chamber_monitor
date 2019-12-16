@@ -9,7 +9,6 @@
   >
     <template v-slot:item="props">
       <tr>
-
         <td class="text-center">{{ props.item.name }}</td>
         <td class="text-center">{{ props.item.username }}</td>
         <td class="text-center">{{ props.item.charge }}</td>
@@ -37,6 +36,14 @@
                 <v-icon color="danger" v-on="on">mdi-security</v-icon>
               </template>
               <span>Roles</span>
+            </v-tooltip>
+          </v-btn>
+          <v-btn icon text @click.native="bus.$emit('delete', `user/${props.item.id}`)" v-if="!enabled && $store.getters.permissions.includes('delete-user')">
+            <v-tooltip top>
+              <template v-slot:activator="{ on }">
+                <v-icon color="error" v-on="on">mdi-delete</v-icon>
+              </template>
+              <span>Eliminar</span>
             </v-tooltip>
           </v-btn>
         </td>
@@ -96,6 +103,9 @@ export default {
     this.bus.$on('refresh', () => {
       this.getUsers()
     })
+    this.bus.$on('deleted', () => {
+      this.getUsers()
+    })
     this.getUsers()
   },
   methods: {
@@ -126,7 +136,7 @@ export default {
     async resetPassword(item) {
       try {
         await axios.patch(`user/${item.id}`, {
-          newPassword: item.username
+          password: item.username
         })
         this.toast('Contraseña reiniciada', 'success')
       } catch(e) {
@@ -136,4 +146,3 @@ export default {
   }
 }
 </script>
-

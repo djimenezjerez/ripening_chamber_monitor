@@ -107,7 +107,7 @@ export default {
           } else {
             this.loading = true
             if (this.newPassword != this.oldPassword) {
-              await axios.patch(`user/${this.$store.getters.id}`, {
+              let res = await axios.patch(`user/${this.$store.getters.id}`, {
                 old_password: this.oldPassword,
                 password: this.newPassword
               })

@@ -41,6 +41,7 @@
     </v-card>
     <Edit :bus="bus"/>
     <Role :bus="bus"/>
+    <RemoveItem :bus="bus"/>
   </v-container>
 </template>
 
@@ -50,13 +51,15 @@ import Vue from 'vue'
 import List from '@/components/user/List'
 import Edit from '@/components/user/Edit'
 import Role from '@/components/user/Role'
+import RemoveItem from '@/components/shared/RemoveItem'
 
 export default {
   name: "userIndex",
   components: {
     List,
     Edit,
-    Role
+    Role,
+    RemoveItem
   },
   data: () => ({
     search: '',
