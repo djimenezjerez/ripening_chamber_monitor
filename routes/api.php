@@ -44,7 +44,6 @@ Route::group([
       Route::resource('device', 'Api\V1\DeviceController')->only(['store', 'update', 'destroy']);
       // Room
       Route::resource('room', 'Api\V1\RoomController')->only(['store', 'update', 'destroy']);
-      Route::post('room/{id}/magnitude', 'Api\V1\RoomController@set_magnitudes');
       // Magnitude
       Route::resource('magnitude', 'Api\V1\MagnitudeController')->only(['store', 'update', 'destroy']);
     });
@@ -59,6 +58,7 @@ Route::group([
       Route::post('user/{id}/role', 'Api\V1\UserController@set_roles');
       // Role
       Route::resource('role', 'Api\V1\RoleController')->only(['index', 'show']);
+      Route::post('room/{id}/magnitude', 'Api\V1\RoomController@set_magnitudes');
     });
   });
 });

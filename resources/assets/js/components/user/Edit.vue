@@ -102,14 +102,16 @@ export default {
     async save() {
       try {
         if (await this.$validator.validateAll()) {
+          let res
           if (this.user.id != null) {
-            await axios.patch(`user/${this.user.id}`, this.user)
+            res = await axios.patch(`user/${this.user.id}`, this.user)
           } else {
             this.user.password = this.user.username
-            await axios.post(`user`, this.user)
+            res = await axios.post(`user`, this.user)
           }
           this.toast('Usuario registrado', 'success')
           this.close()
+          if (this.title != 'Editar') this.bus.$emit('role', res.data)
         }
       } catch (e) {
         console.log(e)

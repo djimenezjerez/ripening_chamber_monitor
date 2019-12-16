@@ -18,6 +18,7 @@
             <v-layout wrap>
               <v-flex xs12>
                 <v-text-field
+                  v-if="$store.getters.roles.includes('admin')"
                   v-model="room.name"
                   label="Código"
                   v-validate="'required|min:4|max:4'"

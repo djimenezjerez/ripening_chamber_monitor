@@ -9,7 +9,6 @@
   >
     <template v-slot:item="props">
       <tr>
-
         <td class="text-center">{{ props.item.name }}</td>
         <td class="text-center">{{ props.item.display_name }}</td>
         <td class="text-center">{{ props.item.measure }}</td>

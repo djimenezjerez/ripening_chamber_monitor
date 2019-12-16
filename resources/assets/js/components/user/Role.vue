@@ -13,9 +13,15 @@
       </v-toolbar>
       <v-card-title></v-card-title>
       <v-card-text>
-        <template v-for="role in roles">
-          <v-checkbox :key="role.id" v-model="role.checked" :label="role.display_name"></v-checkbox>
-        </template>
+        <v-radio-group v-model="userRole">
+          <v-radio
+            v-for="role in roles"
+            :key="role.id"
+            :label="role.display_name"
+            :value="role.id"
+            @change="user.roles = [role.id]"
+          ></v-radio>
+        </v-radio-group>
       </v-card-text>
       <v-card-actions>
         <v-spacer></v-spacer>
@@ -37,18 +43,22 @@ export default {
     roles: [],
     user: {
       roles: []
-    }
+    },
+    userRole: null
   }),
   watch: {
     user: function(val) {
       if (val.hasOwnProperty('id')) this.getUserRoles()
     }
   },
-  mounted() {
+  beforeMount() {
     this.getRoles()
+  },
+  mounted() {
     this.bus.$on('role', val => {
       this.show = true
       this.user = val
+      this.getUserRoles()
     })
   },
   methods: {
@@ -56,12 +66,13 @@ export default {
       this.user = {
         roles: []
       }
+      this.userRole = null
       this.show = false
     },
     async save() {
       try {
         await axios.post(`user/${this.user.id}/role`, {
-          roles: this.roles.filter(o => o.checked).map(o => o.id)
+          roles: this.user.roles
         })
         this.toast('Actualizado correctamente', 'success')
         this.close()
@@ -81,13 +92,7 @@ export default {
       try {
         let res = await axios.get(`user/${this.user.id}/role`)
         this.user.roles = res.data
-        this.roles.forEach(role => {
-          if (res.data.find(o => o.id == role.id)) {
-            role.checked = true
-          } else {
-            role.checked = false
-          }
-        })
+        if (res.data.length > 0) this.userRole = res.data[0].id
         this.$forceUpdate()
       } catch (e) {
         console.log(e)

@@ -19,7 +19,7 @@ class UserController extends Controller
     */
     public function index(Request $request)
     {
-        $list = User::where('username', '!=', 'admin');
+        $list = User::where('username', '!=', 'admin')->where('username', '!=', Auth::user()->username);
         if ($request->has('enabled')) {
             $list = $list->whereEnabled(json_decode($request->input('enabled'), true));
         }
@@ -86,6 +86,13 @@ class UserController extends Controller
                         ],
                     ], 422);
                 }
+            } else {
+                return response()->json([
+                    'message' => 'No autorizado',
+                    'errors' => [
+                        'type' => ['Debe ingresar una contraseña nueva'],
+                    ],
+                ], 422);
             }
         } elseif (!$logged_user->hasPermission('update-user')) {
             unset($request['password']);

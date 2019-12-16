@@ -9,7 +9,7 @@
   >
     <template v-slot:item="props">
       <tr>
-        <td class="text-center">{{ props.item.name }}</td>
+        <td v-if="$store.getters.roles.includes('admin')" class="text-center">{{ props.item.name }}</td>
         <td class="text-center">{{ props.item.display_name }}</td>
         <td class="text-center" v-if="devices.length > 0">{{ devices.find(o => o.id == props.item.device_id).display_name }}</td>
         <td v-else></td>
@@ -54,13 +54,12 @@ export default {
     options: {
       page: 1,
       rowsPerPage: 10,
-      sortBy: ['name'],
+      sortBy: ['display_name'],
       sortDesc: [false]
     },
     rooms: [],
     totalItems: 0,
     headers: [
-      { text: 'Código', value: 'name', align: 'center', sortable: true, class: 'grey lighten-2' },
       { text: 'Nombre', value: 'display_name', align: 'center', sortable: true, class: 'grey lighten-2' },
       { text: 'Dispositivo', value: 'device_id', align: 'center', sortable: true, class: 'grey lighten-2' },
       { text: 'Acciones', value: 'id', align: 'center', sortable: false, class: 'grey lighten-2' }
@@ -79,6 +78,9 @@ export default {
     }
   },
   mounted() {
+    if (this.$store.getters.roles.includes('admin')) {
+      this.headers.unshift({ text: 'Código', value: 'name', align: 'center', sortable: true, class: 'grey lighten-2' })
+    }
     this.bus.$on('refresh', () => {
       this.getRooms()
     })
