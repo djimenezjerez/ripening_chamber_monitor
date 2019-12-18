@@ -52,7 +52,7 @@
                   :error-messages="errors.collect('Teléfono')"
                 ></v-text-field>
               </v-flex>
-              <v-flex xs12 v-if="user.id && $store.getters.permissions.includes('delete-user')">
+              <v-flex xs12 v-if="user.id">
                 <v-switch
                   v-model="user.enabled"
                   :label="user.enabled ? `Activo` : `Inactivo`"

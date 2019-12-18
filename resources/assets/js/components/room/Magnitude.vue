@@ -5,7 +5,7 @@
   >
     <v-card>
       <v-toolbar flat dense color="tertiary">
-        <v-toolbar-title>Magnitudes para el ambiente {{ room.name }}</v-toolbar-title>
+        <v-toolbar-title>Magnitudes para el ambiente {{ room.display_name }}</v-toolbar-title>
         <v-spacer></v-spacer>
         <v-btn icon @click.stop="close()">
           <v-icon>mdi-close</v-icon>

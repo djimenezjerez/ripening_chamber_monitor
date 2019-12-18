@@ -6,6 +6,7 @@
 * Node.js 10.16.0
 * NPM 6.9.0 or Yarn 1.17.3
 * PostgreSQL 11.4
+* Redis 5.0.5
 
 ## Install
 
@@ -54,13 +55,5 @@ yarn prod
 * To setup the admin user
 
 ```sh
-php artisan db:seed --class=DatabaseProductionSeeder
+php artisan db:seed --fresh
 ```
-
-* To generate the documentation
-
-```sh
-php artisan api:generate --output="public/docs" --routePrefix="api/*" --actAsUserId=1
-```
-
-* To view the documentation unput in your web browser URL: [http://server:port/docs/](http://localhost:8888/docs/)
