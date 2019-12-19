@@ -1,6 +1,6 @@
 # MANUAL DE USUARIO DE MONITOREO DE CÁMARAS DE MADURACIÓN
 
-## INGRESO AL SISTEMA.
+## INGRESO AL SISTEMA
 
 Este sistema es compatible con los navegadores Firefox y Chrome.
 La dirección provista por el personal de sistemas es: [http://192.168.1.78](192.168.1.78)
@@ -15,7 +15,7 @@ El sistema se compone de 3 partes:
 
 ![2_dashboard](./images/2_dashboard.png)
 
-1. Menu principal para navegar entre los módulos de Reportes, Parámetros y Usuarios.
+1. Menú principal para navegar entre los módulos de Reportes, Parámetros y Usuarios.
 2. Monitoreo de los sensores en tiempo real.
 3. Datos de usuario actual.
 
@@ -43,7 +43,7 @@ En esta sección se observa un histórico de los últimos diez valores de sensac
 
 ![6_device](./images/6_device.png)
 
-En esta sección se observa el estado de la conexión del dispositivo que captura los datos de los sensores instalados en las trés cámaras de maduración.
+En esta sección se observa el estado de la conexión del dispositivo que captura los datos de los sensores instalados en las tres cámaras de maduración.
 
 ## REPORTE HISTÓRICO DE DATOS
 
@@ -71,21 +71,21 @@ En caso de existir datos en este rango se habilitará el botón de descarga del 
 
 ![11_report_download](./images/11_report_download.png)
 
-Al hacer clic en este botón se descargará un archivo con el nombre de la cámara seguido del rango de fechas seleccionado.
+Al hacer clic en este botón se descargara un archivo con el nombre de la cámara seguido del rango de fechas seleccionado.
 
 ![12_report_excel](./images/12_report_excel.png)
 
-Este archivo contiene una los valores de cada mágnitud en un rango de fechas ordenado de manera ascendente y ubicado en una hoja diferente para cada magnitud.
+Este archivo contiene una los valores de cada magnitud en un rango de fechas ordenado de manera ascendente y ubicado en una hoja diferente para cada magnitud.
 
-## REPORTE HISTÓRICO DE DATOS
+## GESTIÓN DE AMBIENTES
 
 ![13_menu_chamber](./images/13_menu_chamber.png)
 
-En este módulo se visualizan lás cámaras de maduración registradas.
+En este módulo se visualizan las cámaras de maduración registradas.
 
-Se tienen dos opciones para cáda cámara registrada, edición de datos de la cámara y edición de parámetros de captura y límites de cada magnitud.
+Se tienen dos opciones para cada cámara registrada, edición de datos de la cámara y edición de parámetros de captura y límites de cada magnitud.
 
-## GESTIÓN DE AMBIENTES
+### LISTADO DE AMBIENTES
 
 ![14_chamber_list](./images/14_chamber_list.png)
 
@@ -95,7 +95,7 @@ Para cambiar el nombre con el que se visualizarán los datos de una cámara se d
 
 ![15_chamber_edit](./images/15_chamber_edit.png)
 
-Esta acción abrira una ventana de diálogo donde se puede observar cual es el dispositivo que captura los datos de la cámara y se puede cambiar el nombre de la misma.
+Esta acción abrirá una ventana de diálogo donde se puede observar cual es el dispositivo que captura los datos de la cámara y se puede cambiar el nombre de la misma.
 
 ![16_chamber_name](./images/16_chamber_name.png)
 
@@ -105,7 +105,7 @@ Para activar la captura de datos de una magnitud para cada cámara, cambiar el i
 
 ![17_magnitude_edit](./images/17_magnitude_edit.png)
 
-Esta acción abrira una ventana de diálogo donde se puede activar o desactivar la captura de datos de una o más magnitudes para cada cámara por separado.
+Esta acción abrirá una ventana de diálogo donde se puede activar o desactivar la captura de datos de una o más magnitudes para cada cámara por separado.
 
 ![18_magnitude_active](./images/18_magnitude_active.png)
 
@@ -121,7 +121,7 @@ Una vez editados los valores se debe **GUARDAR** el formulario mediante el botó
 
 ![21_magnitude_save](./images/21_magnitude_save.png)
 
-Los cambios se aplican instantaneamente en el dispositivo, por lo cual después de guardar los límites los colores de la pantalla del monitor en tiempo real serán idénticos a los colores de los LEDs del dispositivo instalado en las cámaras de maduración.
+Los cambios se aplican instantáneamente en el dispositivo, por lo cual después de guardar los límites los colores de la pantalla del monitor en tiempo real serán idénticos a los colores de los LEDs del dispositivo instalado en las cámaras de maduración.
 
 ## GESTIÓN DE USUARIOS
 
@@ -140,18 +140,18 @@ Se debe llenar el formulario y presionar el botón **Guardar**.
 
 Ahora se debe seleccionar uno de los dos roles:
 
-* RESPONSABLE: Puede cambiar parámetros del sistema como se mencionó anteriormente, además de gestionar usuarios y roles de usuario, reestablecer contraseñas de usuarios y realizar las acciones del rol MONITOR que se mencionan a continuación.
-* MONITOR: Solo puede monitorear la captura de datos en tiempo real y descargar reportes históricos.
+* RESPONSABLE: Puede cambiar parámetros del sistema como se mencionó anteriormente, además de gestionar usuarios y roles de usuario, restablecer contraseñas de usuarios y realizar las acciones del rol MONITOR que se mencionan a continuación.
+* MONITOR: Sólo puede monitorear la captura de datos en tiempo real y descargar reportes históricos.
 
 ![25_user_new_role](./images/25_user_new_role.png)
 
-### REESTABLECER CONTRASEÑA DE USUARIO
+### RESTABLECER CONTRASEÑA DE USUARIO
 
-Para reestablecer la contraseña de cualquier usuario en caso de olvido basta con hacer click en el botón de *llave* rojo que se encuentra en la columna de ACCIONES del listado de usuarios.
+Para restablecer la contraseña de cualquier usuario en caso de olvido basta con hacer click en el botón de *llave* rojo que se encuentra en la columna de ACCIONES del listado de usuarios.
 
 ![26_user_password](./images/26_user_password.png)
 
-Con ello el usuario reestablecido podrá ingresar al sistema con la contraseña por defecto, que es el mismo nombre de usuario que se muestra en el listado.
+Con ello el usuario restablecido podrá ingresar al sistema con la contraseña por defecto, que es el mismo nombre de usuario que se muestra en el listado.
 
 ![27_user_password](./images/27_user_password.png)
 
@@ -214,7 +214,5 @@ Para salir de la sesión actual bastará con hacer click en la opción *CERRAR S
 ## RECOMENDACIONES
 
 * La primera acción de un nuevo usuario debe ser el cambio de contraseña para evitar el uso indebido de la nueva cuenta.
-
 * Se debe cerrar la sesión cuando no se vaya a hacer uso del sistema.
-
 * Se deben desactivar los usuarios que ya no podrán ingresar al sistema lo antes posible para evitar errores por uso indebido.
