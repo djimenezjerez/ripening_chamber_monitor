@@ -4,6 +4,7 @@ Sistema de monitoreo de parámetros ambientales en cámaras de maduración.
 
 ### Documentación
 
+* [Manuales en PDF](./docs/MANUAL.pdf)
 * [Manual de usuario](./docs/MANUAL.md)
 * [Manual de instalación](./INSTALL.md)
 * [Despliegue con Docker](./docs/docker/README.md)
@@ -13,6 +14,8 @@ Sistema de monitoreo de parámetros ambientales en cámaras de maduración.
 [LPG-Bolivia v1](./LICENSE.txt)
 
 La licencia de software libre está amparada en la Licencia Pública General – Bolivia (LPG - Bolivia), lo que implica que la sola mención de condiciones establecidas es oponible a terceros exigiendo la obligatoriedad de que las obras derivadas o modificaciones que se realicen al software original se publicarán bajo los mismos términos y condiciones de la licencia original, conforme ésta lo establece.
+
+Las imágenes utilizadas en este proyecto podrían estar sujetas a derechos de autor, por lo cual solo deben utilizarse con el concentimiento explícito del o los dueños o representates de su autoría.
 
 ### License
 
