@@ -38,9 +38,10 @@ import '@/plugins/moment'
 import '@/plugins/mqtt'
 
 // JWT
+import '@/plugins/jwt'
 axios.defaults.headers.common['Accept'] = 'application/json'
 axios.defaults.headers.common['Content-Type'] = 'application/json'
-axios.defaults.headers.common['Authorization'] = `${store.getters.token.type} ${store.getters.token.value}`
+axios.defaults.headers.common['Authorization'] = `${store.getters.tokenType} ${store.getters.accessToken}`
 axios.interceptors.response.use(response => {
   return response
 }, error => {

@@ -1,4 +1,5 @@
-import moment from 'moment';
+import moment from 'moment'
+import Vue from 'vue'
 
 export default {
   state: {
@@ -7,10 +8,8 @@ export default {
     roles: localStorage.getItem('roles') || [],
     permissions: localStorage.getItem('permissions') || [],
     dateNow: moment().format('Y-MM-DD'),
-    token: {
-      type: localStorage.getItem('token_type') || null,
-      value: localStorage.getItem('token') || null
-    }
+    tokenType: localStorage.getItem('token_type') || null,
+    accessToken: localStorage.getItem('token') || null
   },
   getters: {
     id(state) {
@@ -28,27 +27,28 @@ export default {
     dateNow(state) {
       return state.dateNow
     },
-    token(state) {
-      return state.token
+    tokenType(state) {
+      return state.tokenType
+    },
+    accessToken(state) {
+      return state.accessToken
     },
     tokenExpired(state) {
-      let token = localStorage.getItem('token')
+      let token = Vue.$jwt.decode()
       if (token) {
         if (!state.roles.includes('monitor')) {
-          let base64 = token.split('.')[1]
-          return moment().isAfter(moment.unix(JSON.parse(decodeURIComponent(atob(base64).split('').map(c => {
-            return '%' + ('00' + c.charCodeAt(0).toString(16)).slice(-2)
-          }).join(''))).exp))
+          return moment().isAfter(moment.unix(token.exp))
         } else {
           return false
         }
       }
+      return false
     }
   },
   mutations: {
     'logout': function (state) {
       localStorage.removeItem('user')
-      localStorage.removeItem('token')
+      localStorage.removeItem('access_token')
       localStorage.removeItem('token_type')
       localStorage.removeItem('roles')
       localStorage.removeItem('id')
@@ -59,21 +59,20 @@ export default {
       state.permissions = []
     },
     'login': function (state, data) {
-      localStorage.setItem("token", data.token);
-      localStorage.setItem("token_type", data.token_type);
-      localStorage.setItem("id", JSON.stringify(data.id));
-      localStorage.setItem("user", JSON.stringify(data.user));
-      localStorage.setItem("roles", JSON.stringify(data.roles));
-      localStorage.setItem("permissions", JSON.stringify(data.permissions));
-      state.user = localStorage.getItem('id');
-      state.user = localStorage.getItem('user');
-      state.roles = localStorage.getItem('roles');
-      state.permissions = localStorage.getItem('permissions');
-      state.token = {
-        type: localStorage.getItem('token_type'),
-        value: localStorage.getItem('token')
-      }
-      axios.defaults.headers.common['Authorization'] = `${state.token.type} ${state.token.value}`
+      let token = Vue.$jwt.decode()
+      localStorage.setItem("access_token", data.access_token)
+      localStorage.setItem("token_type", data.token_type)
+      localStorage.setItem("id", JSON.stringify(token.id))
+      localStorage.setItem("user", JSON.stringify(token.name))
+      localStorage.setItem("roles", JSON.stringify(token.roles))
+      localStorage.setItem("permissions", JSON.stringify(token.permissions))
+      state.user = localStorage.getItem('id')
+      state.user = localStorage.getItem('user')
+      state.roles = localStorage.getItem('roles')
+      state.permissions = localStorage.getItem('permissions')
+      state.tokenType = localStorage.getItem('token_type')
+      state.accessToken = localStorage.getItem('access_token')
+      axios.defaults.headers.common['Authorization'] = `${state.tokenType} ${state.accessToken}`
     },
     'setDate': function(state, newValue) {
       state.dateNow = newValue;

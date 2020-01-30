@@ -29,6 +29,7 @@ class AuthController extends Controller
   {
     if ($request['username'] == 'admin') {
       $token = auth('api')->attempt(request(['username', 'password']));
+      return $token;
 
       if ($token) {
         return $this->respondWithToken($token);
@@ -124,7 +125,7 @@ class AuthController extends Controller
     return response()->json([
       'token' => $token,
       'token_type' => 'Bearer',
-      'expires_in' => auth('api')->factory()->getTTL(),
+      'expires_in' => auth('api')->getTTL(),
       'id' => $id,
       'user' => $username,
       'roles' => $roles,

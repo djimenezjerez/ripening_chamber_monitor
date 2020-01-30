@@ -21,7 +21,7 @@
     "maatwebsite/excel": "^3.1",
     "nesbot/carbon": "^2.14",
     "santigarcor/laratrust": "^5.2",
-    "tymon/jwt-auth": "dev-develop"
+    "tymon/jwt-auth": "^2"
   },
   "require-dev": {
     "beyondcode/laravel-dump-server": "^1.2",
