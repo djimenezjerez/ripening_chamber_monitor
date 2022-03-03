@@ -20,7 +20,9 @@
               </v-avatar>
               {{ device.display_name }}
             </v-chip>
-            <p class="mt-1 ml-1 overline">Actualizado el: {{ $moment(device.updated_at).format('LLL') }}</p>
+            <p class="mt-1 ml-1 overline">
+              Actualizado el: {{ $moment(device.updated_at).format("LLL") }}
+            </p>
           </v-flex>
         </v-layout>
       </v-card-text>
@@ -30,42 +32,7 @@
 
 <script>
 export default {
-  name: 'device-list',
-  props: ['devices'],
-  data() {
-    return {
-      topic: 'dev/+'
-    }
-  },
-  mounted() {
-    this.$mqtt.subscribe(this.topic)
-    console.log(`Subscribed to: ${this.topic}`)
-  },
-  beforeDestroy() {
-    this.$mqtt.unsubscribe(this.topic)
-    console.log(`Unsubscribed from: ${this.topic}`)
-  },
-  mqtt: {
-    'dev/+' (data, topic) {
-      this.verifyTopic(data, topic)
-    }
-  },
-  methods: {
-    verifyTopic(data, topic) {
-      let index = this.devices.findIndex(o => o.name == topic.split('/')[1])
-      if (index != -1) {
-        this.devices[index].updated_at = new Date()
-        let state = Number(String.fromCharCode.apply(null, data))
-        if (state != this.devices[index].online) {
-          this.devices[index].online = state
-          if (state) this.toast(`Sensor ${this.devices[index].name} conectado`, 'success')
-          else this.toast(`Sensor ${this.devices[index].name} desconectado`, 'error')
-        }
-      } else {
-        console.log(`Unknown device ${topic}`)
-      }
-    }
-  }
-}
+  name: "device-list",
+  props: ["devices"]
+};
 </script>
-

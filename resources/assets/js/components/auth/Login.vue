@@ -3,13 +3,11 @@
     <v-row align="center" justify="center" v-if="!$store.getters.user">
       <v-col cols="12" sm="8" md="4">
         <v-card class="elevation-12 pa-5">
-          <v-img
-            src="/img/logo.png"
-            aspect-ratio="3.6"
-            contain
-          ></v-img>
+          <v-img src="/img/logo.png" aspect-ratio="3.6" contain></v-img>
           <v-card-title primary-title class="justify-center">
-            <div class="display-1 font-weight-thin text-md-center text-uppercase">
+            <div
+              class="display-1 font-weight-thin text-md-center text-uppercase"
+            >
               <div>MONITOREO DE</div>
               <div>CÁMARAS</div>
               <div>DE MADURACIÓN</div>
@@ -54,7 +52,9 @@
               large
               block
               color="secondary"
-            > Ingresar </v-btn>
+            >
+              Ingresar
+            </v-btn>
           </v-card-actions>
         </v-card>
       </v-col>
@@ -76,20 +76,20 @@ export default {
   },
   methods: {
     focusPassword() {
-      this.$refs.password.focus()
+      this.$refs.password.focus();
     },
     async authenticate(auth) {
       try {
         if (await this.$validator.validateAll()) {
-          let res = await axios.post("/auth", auth)
-          this.$store.commit("login", res.data)
+          let res = await axios.post("/auth", auth);
+          this.$store.commit("login", res.data);
           this.$router.go({
             name: "dashboard"
-          })
+          });
         }
       } catch (e) {
-        auth.password = ""
-        this.focusPassword()
+        auth.password = "";
+        this.focusPassword();
       }
     }
   }

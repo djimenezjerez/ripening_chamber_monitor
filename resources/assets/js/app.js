@@ -1,82 +1,84 @@
 // Vue instance
-import '@/bootstrap'
-Vue.config.productionTip = false
-import App from '@/layout/App'
+import "@/bootstrap";
+Vue.config.productionTip = false;
+import App from "@/layout/App";
 
 // Toast notification
-import toast from '@/plugins/toast'
+import toast from "@/plugins/toast";
 Vue.mixin({
   methods: {
-    toast: toast
-  }
-})
+    toast: toast,
+  },
+});
 
 // Validator
-import '@/plugins/vee-validate'
+import "@/plugins/vee-validate";
 
 // Vuetify
-import vuetify from '@/plugins/vuetify'
+import vuetify from "@/plugins/vuetify";
 
 // Locale
-import VueI18n from 'vue-i18n'
+import VueI18n from "vue-i18n";
 const i18n = new VueI18n({
-  locale: 'es'
-})
+  locale: "es",
+});
 
 // Router
-import router from '@/plugins/router'
+import router from "@/plugins/router";
 
 // Vuex
-import Vuex from 'vuex'
-import StoreData from '@/store'
-const store = new Vuex.Store(StoreData)
+import Vuex from "vuex";
+import StoreData from "@/store";
+const store = new Vuex.Store(StoreData);
 
 // Moment
-import '@/plugins/moment'
-
-// MQTT
-import '@/plugins/mqtt'
+import "@/plugins/moment";
 
 // JWT
-import '@/plugins/jwt'
-axios.defaults.headers.common['Accept'] = 'application/json'
-axios.defaults.headers.common['Content-Type'] = 'application/json'
-axios.defaults.headers.common['Authorization'] = `${store.getters.tokenType} ${store.getters.accessToken}`
-axios.interceptors.response.use(response => {
-  return response
-}, error => {
-  if (error.response) {
-    if (error.response.status == 401) {
-      store.dispatch('logout')
-      router.push('login')
+import "@/plugins/jwt";
+axios.defaults.headers.common["Accept"] = "application/json";
+axios.defaults.headers.common["Content-Type"] = "application/json";
+axios.defaults.headers.common[
+  "Authorization"
+] = `${store.getters.tokenType} ${store.getters.accessToken}`;
+axios.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    if (error.response) {
+      if (error.response.status == 401) {
+        store.dispatch("logout");
+        router.push("login");
+      }
+      for (let key in error.response.data.errors) {
+        error.response.data.errors[key].forEach((error) => {
+          toast(error, "error");
+        });
+      }
     }
-    for (let key in error.response.data.errors) {
-      error.response.data.errors[key].forEach(error => {
-        toast(error, 'error')
-      })
-    }
+    return Promise.reject(error);
   }
-  return Promise.reject(error)
-})
+);
 router.beforeEach((to, from, next) => {
-  const requiresAuth = to.matched.some(record => record.meta.requiresAuth)
-  const user = store.state.user
+  const requiresAuth = to.matched.some((record) => record.meta.requiresAuth);
+  const user = store.state.user;
 
   if (requiresAuth && !user) {
     next({
-      path: '/login'
-    })
-  } else if (to.path == '/login' && user) {
+      path: "/login",
+    });
+  } else if (to.path == "/login" && user) {
     next({
-      path: '/'
-    })
+      path: "/",
+    });
   } else {
-    next()
+    next();
   }
-})
+});
 if (store.getters.tokenExpired) {
-  store.dispatch('logout')
-  router.go('login')
+  store.dispatch("logout");
+  router.go("login");
 }
 
 new Vue({
@@ -84,11 +86,11 @@ new Vue({
   i18n,
   store,
   vuetify,
-  render: h => h(App),
+  render: (h) => h(App),
   beforeCreate() {
     if (store.getters.tokenExpired) {
-      store.dispatch('logout')
-      router.go('login')
+      store.dispatch("logout");
+      router.go("login");
     }
-  }
-}).$mount('#app')
+  },
+}).$mount("#app");

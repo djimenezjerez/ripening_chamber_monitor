@@ -48,7 +48,11 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker :max="data.to" v-model="data.from" @input="showDate.from = false"></v-date-picker>
+            <v-date-picker
+              :max="data.to"
+              v-model="data.from"
+              @input="showDate.from = false"
+            ></v-date-picker>
           </v-menu>
         </v-flex>
         <v-flex xs2>
@@ -70,25 +74,29 @@
                 v-on="on"
               ></v-text-field>
             </template>
-            <v-date-picker :min="data.from" v-model="data.to" @input="showDate.to = false"></v-date-picker>
+            <v-date-picker
+              :min="data.from"
+              v-model="data.to"
+              @input="showDate.to = false"
+            ></v-date-picker>
           </v-menu>
         </v-flex>
         <v-flex xs1>
           <v-spacer></v-spacer>
-          <Export :bus="bus"/>
+          <Export :bus="bus" />
         </v-flex>
       </v-layout>
     </v-toolbar>
     <v-card>
-      <List :bus="bus"/>
+      <List :bus="bus" />
     </v-card>
   </v-container>
 </template>
 
 <script>
-import Vue from 'vue'
-import List from '@/components/report/List'
-import Export from '@/components/report/Export'
+import Vue from "vue";
+import List from "@/components/report/List";
+import Export from "@/components/report/Export";
 
 export default {
   name: "reportIndex",
@@ -102,12 +110,12 @@ export default {
       data: {
         room: null,
         magnitude: null,
-        from: this.$moment().format('YYYY-MM-DD'),
-        to: this.$moment().format('YYYY-MM-DD')
+        from: this.$moment().format("YYYY-MM-DD"),
+        to: this.$moment().format("YYYY-MM-DD")
       },
       formatted: {
-        from: this.$moment().format('DD/MM/YYYY'),
-        to: this.$moment().format('DD/MM/YYYY')
+        from: this.$moment().format("DD/MM/YYYY"),
+        to: this.$moment().format("DD/MM/YYYY")
       },
       showDate: {
         from: false,
@@ -116,47 +124,53 @@ export default {
       totalMeasurements: 0,
       rooms: [],
       magnitudes: []
-    }
+    };
   },
   watch: {
-    'data.room': function(newVal, oldVal) {
+    "data.room": function(newVal, oldVal) {
       if (newVal != oldVal) {
-        this.magnitudes = []
-        this.getRoomMagnitudes()
-      } else {
-        this.emitSearch()
+        this.magnitudes = [];
+        this.getRoomMagnitudes();
+      }
+      if (this.data.magnitude) {
+        this.emitSearch();
       }
     },
-    'data.from': function(newVal, oldVal) {
+    "data.from": function(newVal, oldVal) {
       if (newVal != oldVal) {
-        this.formatted.from = this.$moment(newVal).format('DD/MM/YYYY')
-        this.emitSearch()
+        this.formatted.from = this.$moment(newVal).format("DD/MM/YYYY");
+        this.emitSearch();
       }
     },
-    'data.to': function(newVal, oldVal) {
+    "data.to": function(newVal, oldVal) {
       if (newVal != oldVal) {
-        this.formatted.to = this.$moment(newVal).format('DD/MM/YYYY')
-        this.emitSearch()
+        this.formatted.to = this.$moment(newVal).format("DD/MM/YYYY");
+        this.emitSearch();
       }
     },
-    'data.magnitude': function(newVal, oldVal) {
-      if (newVal != oldVal) {
-        this.emitSearch()
+    "data.magnitude": function() {
+      if (this.data.room) {
+        this.emitSearch();
       }
     }
   },
   mounted() {
-    this.getRooms()
-    this.bus.$on('totalMeasurements', val => {
+    this.getRooms();
+    this.bus.$on("totalMeasurements", val => {
       if (val != this.totalMeasurements) {
-        this.totalMeasurements = val
+        this.totalMeasurements = val;
       }
-    })
+    });
   },
   methods: {
     emitSearch() {
-      if (this.data.room != null && this.data.magnitude != null && this.data.from != null && this.data.to != null) {
-        this.bus.$emit('search', this.data)
+      if (
+        this.data.room != null &&
+        this.data.magnitude != null &&
+        this.data.from != null &&
+        this.data.to != null
+      ) {
+        this.bus.$emit("search", this.data);
       }
     },
     async getRooms(params) {
@@ -165,25 +179,25 @@ export default {
           params: {
             page: 1,
             per_page: 1000,
-            sortBy: 'display_name',
-            direction: 'asc'
+            sortBy: "display_name",
+            direction: "asc"
           }
-        })
-        this.rooms = res.data.data
+        });
+        this.rooms = res.data.data;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       } finally {
-        this.loading = false
+        this.loading = false;
       }
     },
     async getRoomMagnitudes() {
       try {
-        let res = await axios.get(`room/${this.data.room}/magnitude`)
-        this.magnitudes = res.data
+        let res = await axios.get(`room/${this.data.room}/magnitude`);
+        this.magnitudes = res.data;
       } catch (e) {
-        console.log(e)
+        console.log(e);
       }
     }
   }
-}
+};
 </script>
